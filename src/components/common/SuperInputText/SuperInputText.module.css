@@ -1,0 +1,21 @@
+.superInput {
+    cursor: pointer;
+}
+
+
+
+
+.errorInput {
+    border: 2px solid black;
+    border-radius: 5px;
+    background:  #e8c886;
+    outline: none;
+}
+
+.errorInput:focus{
+    background-color: #F7CE68;
+}
+
+.error {
+    color: red;
+}

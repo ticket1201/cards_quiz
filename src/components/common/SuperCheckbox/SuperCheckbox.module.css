@@ -1,0 +1,10 @@
+.checkbox {
+    cursor: pointer;
+
+}
+
+.spanClassName {
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
