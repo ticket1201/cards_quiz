@@ -1,0 +1,23 @@
+.App{
+    background: dimgray;
+}
+
+.App-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 50px;
+}
+
+.content-wrapper{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+.template{
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    gap: 100px;
+}
