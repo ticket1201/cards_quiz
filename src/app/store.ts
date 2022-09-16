@@ -1,8 +1,10 @@
 import {combineReducers, legacy_createStore} from 'redux';
 import {authReducer} from '../features/Login/auth_reducer';
+import {appReducer} from './app_reducer';
 
 const rootReducer = combineReducers({
-    auth: authReducer
+    auth: authReducer,
+    app: appReducer
      /// some here
 })
 
