@@ -3,21 +3,20 @@
 }
 
 .App-header{
+    position: absolute;
+    bottom: 0;
+    left: 15px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: space-around;
-    height: 50px;
+    gap: 15px;
 }
 
 .content-wrapper{
     min-height: 100vh;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
-.template{
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 100px;
-}
