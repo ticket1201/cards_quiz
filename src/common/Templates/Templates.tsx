@@ -1,8 +1,8 @@
 import React from 'react';
-import SuperCheckbox from '../common/SuperCheckbox/SuperCheckbox';
-import SuperInputText from '../common/SuperInputText/SuperInputText';
-import SuperButton from '../common/SuperButton/SuperButton';
-import './../../App.css'
+import SuperCheckbox from '../SuperCheckbox/SuperCheckbox';
+import SuperInputText from '../SuperInputText/SuperInputText';
+import SuperButton from '../SuperButton/SuperButton';
+import '../../app/App.css'
 
 const Templates = () => {
     return (

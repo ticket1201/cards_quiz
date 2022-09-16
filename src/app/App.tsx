@@ -1,13 +1,13 @@
 import React from 'react';
 import './App.css';
 import {Link, Route, Routes} from 'react-router-dom';
-import Templates from './components/Templates/Templates';
-import Login from './components/Login/Login';
-import Error404 from './components/Error404/Error404';
-import Registration from './components/Registration/Registration';
-import ResetPassword from './components/ResetPassword/ResetPassword';
-import NewPassword from './components/ResetPassword/NewPassword/NewPassword';
-import Profile from './components/Profile/Profile';
+import Templates from '../common/Templates/Templates';
+import Login from '../features/Login/Login';
+import Error404 from '../features/Error404/Error404';
+import Registration from '../features/Login/Registration/Registration';
+import ResetPassword from '../features/Login/ResetPassword/ResetPassword';
+import NewPassword from '../features/Login/ResetPassword/NewPassword/NewPassword';
+import Profile from '../features/Profile/Profile';
 
 function App() {
     return (
