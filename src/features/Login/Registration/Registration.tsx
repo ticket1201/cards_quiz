@@ -10,7 +10,7 @@ type RegisterFormType = {
 }
 
 const Registration = () => {
-    const {register, handleSubmit} = useForm<RegisterFormType>();
+    const {register, handleSubmit, formState: {errors}} = useForm<RegisterFormType>();
 
     const onSubmit: SubmitHandler<RegisterFormType> = (data) => {
         console.log(data);
@@ -29,15 +29,25 @@ const Registration = () => {
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
-                    <input {...register('email', {required: true})}
+                    <input {...register('email', {
+                        required: 'email is required'
+                    })}
                            style={{color: 'black'}}
                     />
+                    {errors.email && errors.email.message}
                 </div>
                 <div>
                     <input type={'password'}
-                           {...register('password', {required: true, minLength: 8})}
+                           {...register('password', {
+                               required: 'password is required',
+                               minLength: {
+                                   value: 8,
+                                   message: 'Min length is 8'
+                               }
+                           })}
                            style={{color: 'black'}}
                     />
+                    {errors.password && errors.password.message}
                 </div>
                 <input type="submit" style={{color: 'black'}}/>
             </form>
