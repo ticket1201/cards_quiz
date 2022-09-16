@@ -14,7 +14,7 @@ export const authAPI = {
         return instance.post<ResponseType<AuthResponseType>, LoginParamsType>('/auth/login', data)
     },
     register(data: RegisterParamsType) {
-        return instance.post<ResponseType<RegisterResponseType>, RegisterParamsType>('/auth/register', data)
+        return instance.post<ResponseType<RegisterResponseType>>('/auth/register', data)
     },
     me() {
         return instance.post<ResponseType<AuthResponseType>, {}>('auth/me', {})

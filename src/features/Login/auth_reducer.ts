@@ -1,29 +1,50 @@
+import {RootDispatchType} from '../../app/store';
+import {RegisterFormType} from './Registration/Registration';
+import {authAPI} from '../../api/api';
 
-type InitialStateType = {
-    id: string
-}
-
-const initialState:InitialStateType = {
+const initialState = {
     id: ''
 }
 
-type AuthMeACType = ReturnType<typeof AuthMeAC>
-type ActionsType = AuthMeACType
+type InitialStateType = typeof initialState
 
-export const authReducer = (state = initialState, action: ActionsType): any => {
+type AuthMeACType = ReturnType<typeof AuthMeAC>
+type RegisterACType = ReturnType<typeof registerAC>
+type ActionsType = AuthMeACType | RegisterACType
+
+export const authReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case 'AUTH_ME':
+        case 'AUTH/AUTH_ME':
+            return state
+        case 'AUTH/REGISTER':
             return state
         default :
             return state
     }
 }
 
-const AuthMeAC = (id:string) => {
+export const AuthMeAC = (id: string) => {
     return {
-        type: 'AUTH_ME',
-        payload:{
+        type: 'AUTH/AUTH_ME',
+        payload: {
             id
         }
     } as const
+}
+
+export const registerAC = () => {
+    return {
+        type: 'AUTH/REGISTER',
+    } as const
+}
+
+export const registerTC = (data: RegisterFormType) => (dispatch: RootDispatchType) => {
+    // dispatch(registerAC)
+    authAPI.register(data)
+        .then(res => {
+            dispatch(registerAC())
+        })
+        .catch(e => {
+
+        })
 }

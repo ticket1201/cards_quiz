@@ -1,20 +1,24 @@
 import React from 'react';
 import {useForm, SubmitHandler} from 'react-hook-form';
+import {useAppDispatch} from '../../../common/hooks/hooks';
+import {registerTC} from '../auth_reducer';
 // import FormControl from '@mui/material/FormControl';
 // import Input from '@mui/material/Input';
 
 
-type RegisterFormType = {
+export type RegisterFormType = {
     email: string
     password: string
 }
 
 const Registration = () => {
     const {register, handleSubmit, formState: {errors}} = useForm<RegisterFormType>();
+    const dispatch = useAppDispatch()
 
     const onSubmit: SubmitHandler<RegisterFormType> = (data) => {
-        console.log(data);
-        alert('email = ' + data.email + ', pass = ' + data.password)
+        // console.log(data);
+        // alert('email = ' + data.email + ', pass = ' + data.password)
+        dispatch(registerTC(data))
     }
 
     return (
