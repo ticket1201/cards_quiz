@@ -1,4 +1,4 @@
-import {RootDispatchType} from '../../app/store';
+import {RootThunkType} from '../../app/store';
 import {RegisterFormType} from './Registration/Registration';
 import {authAPI} from '../../api/api';
 
@@ -38,13 +38,14 @@ export const registerAC = () => {
     } as const
 }
 
-export const registerTC = (data: RegisterFormType) => (dispatch: RootDispatchType) => {
+export const registerTC = (data: RegisterFormType): RootThunkType<Promise<any>> => (dispatch) => {
     // dispatch(registerAC)
-    authAPI.register(data)
+    return authAPI.register(data)
         .then(res => {
+            // console.log('register, ', res)
             dispatch(registerAC())
         })
-        .catch(e => {
-
-        })
+    /*.catch(e => {
+        console.log('register catch, e = ', e)
+    })*/
 }

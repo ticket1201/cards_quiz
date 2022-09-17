@@ -2,6 +2,7 @@ import React from 'react';
 import {useForm, SubmitHandler} from 'react-hook-form';
 import {useAppDispatch} from '../../../common/hooks/hooks';
 import {registerTC} from '../auth_reducer';
+import {useNavigate} from 'react-router-dom';
 // import FormControl from '@mui/material/FormControl';
 // import Input from '@mui/material/Input';
 
@@ -14,11 +15,20 @@ export type RegisterFormType = {
 const Registration = () => {
     const {register, handleSubmit, formState: {errors}} = useForm<RegisterFormType>();
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
 
     const onSubmit: SubmitHandler<RegisterFormType> = (data) => {
         // console.log(data);
         // alert('email = ' + data.email + ', pass = ' + data.password)
         dispatch(registerTC(data))
+            .then((res) => {
+                // console.log('ok, res = ', res);
+                navigate('/profile')
+            })
+            .catch((e) => {
+                // console.log('not ok, e = ', e)
+                console.log(e.response.data.error)
+            })
     }
 
     return (
@@ -34,7 +44,11 @@ const Registration = () => {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
                     <input {...register('email', {
-                        required: 'email is required'
+                        required: 'Email is required',
+                        pattern: {
+                            value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                            message: 'Write correct email'
+                        }
                     })}
                            style={{color: 'black'}}
                     />
@@ -43,7 +57,7 @@ const Registration = () => {
                 <div>
                     <input type={'password'}
                            {...register('password', {
-                               required: 'password is required',
+                               required: 'Password is required',
                                minLength: {
                                    value: 8,
                                    message: 'Min length is 8'
