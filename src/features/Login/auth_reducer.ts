@@ -1,10 +1,18 @@
 
 type InitialStateType = {
-    id: string
+    _id: string | null;
+    email: string | null;
+    name: string | null;
+    avatar?: string | null;
+    publicCardPacksCount: number | null;
 }
 
 const initialState:InitialStateType = {
-    id: ''
+    _id: null,
+    email: 'null',
+    name: 'null',
+    avatar: 'null',
+    publicCardPacksCount: null
 }
 
 type AuthMeACType = ReturnType<typeof AuthMeAC>
