@@ -3,6 +3,8 @@ import {useForm, SubmitHandler} from 'react-hook-form';
 import {useAppDispatch} from '../../../common/hooks/hooks';
 import {registerTC} from '../auth_reducer';
 import {useNavigate} from 'react-router-dom';
+import {setAppStatusAC} from '../../../app/app_reducer';
+import {errorUtils} from '../../../common/utils/error-utils';
 // import FormControl from '@mui/material/FormControl';
 // import Input from '@mui/material/Input';
 
@@ -21,13 +23,16 @@ const Registration = () => {
         // console.log(data);
         // alert('email = ' + data.email + ', pass = ' + data.password)
         dispatch(registerTC(data))
-            .then((res) => {
+            .then(() => {
                 // console.log('ok, res = ', res);
+                dispatch(setAppStatusAC('succeeded'))
                 navigate('/profile')
             })
             .catch((e) => {
                 // console.log('not ok, e = ', e)
-                console.log(e.response.data.error)
+                // console.log(e.response.data.error)
+                dispatch(setAppStatusAC('failed'))
+                errorUtils(e, dispatch)
             })
     }
 
