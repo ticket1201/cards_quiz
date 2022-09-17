@@ -1,5 +1,5 @@
 .App{
-    background: dimgray;
+    background: dimgray; /*f9f9fa*/
 }
 
 .App-header{
@@ -20,3 +20,11 @@
     align-items: center;
 }
 
+.defaultPop{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 33px;
+    background: #ffffff;
+}
