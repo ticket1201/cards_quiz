@@ -1,0 +1,23 @@
+.ava{
+    position: relative;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background-position: center;
+    background-size: contain;
+}
+
+.buttonWrapper{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    color: white;
+    border: 1px  #ffffff solid;
+    border-radius: 50%;
+    background-color: #808080;
+}
+
+.button{
+    width: 30px;
+    height: 30px;
+}
