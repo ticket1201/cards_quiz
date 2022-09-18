@@ -7,7 +7,7 @@ const initialState = {
     id: ''
 }
 
-type InitialStateType = typeof initialState
+export type InitialStateType = typeof initialState
 
 type AuthMeACType = ReturnType<typeof AuthMeAC>
 type RegisterACType = ReturnType<typeof registerAC>
@@ -16,7 +16,10 @@ type ActionsType = AuthMeACType | RegisterACType
 export const authReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case 'AUTH/AUTH_ME':
-            return state
+            return {
+                ...state,
+                ...action.payload
+            }
         case 'AUTH/REGISTER':
             return state
         default :
