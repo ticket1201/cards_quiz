@@ -2,6 +2,7 @@ import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
+import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
 import s from './EditableSpan.module.css'
 
 type EditableSpanPropsType = {
@@ -18,12 +19,10 @@ export const EditableSpan = memo(({value, onChange, disabled}: EditableSpanProps
     const activateEditMode = () => {
         if (!disabled) {
             setEditMode(true);
-            setTitle(value);
         }
     }
     const activateViewMode = () => {
         setEditMode(false);
-        onChange(title);
     }
     const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
@@ -35,6 +34,11 @@ export const EditableSpan = memo(({value, onChange, disabled}: EditableSpanProps
         }
     }
 
+    const saveHandler = () => {
+        onChange(title)
+        activateViewMode()
+    }
+
 
 
     return editMode
@@ -44,7 +48,6 @@ export const EditableSpan = memo(({value, onChange, disabled}: EditableSpanProps
                 size={'small'}
                 variant={'standard'}
                 onChange={changeTitle}
-                onBlur={activateViewMode}
                 onKeyDown={onKeyPressHandler}
                 fullWidth={true}
                 label={'Nickname'}
@@ -55,12 +58,15 @@ export const EditableSpan = memo(({value, onChange, disabled}: EditableSpanProps
                 className={s.button}
                 style={{position: 'absolute'}}
                 disableElevation
+                onClick={saveHandler}
             >
                 Save
             </Button>
         </h3>
         : <h3 onDoubleClick={activateEditMode} >
             {value}
-            <IconButton className={s.icon}>+</IconButton>
+            <IconButton className={s.icon} onClick={activateEditMode}>
+                <BorderColorOutlinedIcon/>
+            </IconButton>
         </h3>
 })
