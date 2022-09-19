@@ -2,6 +2,7 @@ import {RootThunkType} from '../../app/store';
 import {RegisterFormType} from './Registration/Registration';
 import {authAPI} from '../../api/api';
 import {setAppStatusAC} from '../../app/app_reducer';
+import {errorUtils} from '../../common/utils/error-utils';
 
 const initialState = {
     id: ''
@@ -42,15 +43,19 @@ export const registerAC = () => {
     } as const
 }
 
-export const registerTC = (data: RegisterFormType): RootThunkType<Promise<any>> => (dispatch) => {
+export const registerTC = (data: RegisterFormType): RootThunkType<Promise<boolean>> => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     return authAPI.register(data)
         .then(() => {
             // console.log('register, ', res)
             dispatch(setAppStatusAC('succeeded'))
             dispatch(registerAC())
+            return true
         })
-    /*.catch(e => {
-        console.log('register catch, e = ', e)
-    })*/
+        .catch(e => {
+            dispatch(setAppStatusAC('failed'))
+            errorUtils(e, dispatch)
+            return false
+        })
+
 }

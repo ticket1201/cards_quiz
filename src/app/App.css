@@ -1,8 +1,8 @@
-.App{
+.App {
     background: dimgray;
 }
 
-.App-header{
+.App-header {
     position: absolute;
     bottom: 0;
     left: 15px;
@@ -13,10 +13,18 @@
     gap: 15px;
 }
 
-.content-wrapper{
+.content-wrapper {
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+.defaultPop {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 33px;
+    background: #ffffff;
+}
