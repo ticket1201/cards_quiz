@@ -44,56 +44,60 @@ const Login = () => {
     }
 
     return (
-        <Paper className={s.defaultPop} elevation={2}>
-            <FormControl>
-                <FormLabel>
-                    <h2 className={s.title}>Sign in</h2>
-                </FormLabel>
+        <div className={'base-wrapper'}>
+            <Paper className={'defaultPop'} elevation={2}>
+                <FormControl className={s.FormControl}>
+                    <FormLabel>
+                        <h2 className={s.title}>Sign in</h2>
+                    </FormLabel>
 
 
-                <form onSubmit={handleSubmit(onSubmit)} className={s.wrapper} onKeyDown={(e) => onEnterPress(e.key)}>
-                    <FormGroup>
+                    <form onSubmit={handleSubmit(onSubmit)} className={s.wrapper}
+                          onKeyDown={(e) => onEnterPress(e.key)}>
+                        <FormGroup>
 
-                        <TextField label="Email"
-                                   margin="normal"
-                                   variant="standard"
-                                   {...register('email', {
-                                       required: 'Email is required',
-                                       pattern: {
-                                           value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                                           message: 'Enter valid email please'
-                                       }
-                                   })}
-                        />
-                        {errors.email && <div style={{color: 'red'}}>{errors.email.message}</div>}
+                            <TextField label="Email"
+                                       margin="normal"
+                                       variant="standard"
+                                       {...register('email', {
+                                           required: 'Email is required',
+                                           pattern: {
+                                               value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                                               message: 'Enter valid email please'
+                                           }
+                                       })}
+                            />
+                            {errors.email && <div style={{color: 'red'}}>{errors.email.message}</div>}
 
-                        <TextField type="password"
-                                   label="Password"
-                                   margin="normal"
-                                   variant="standard"
-                                   {...register('password', {
-                                       required: 'Password is required', minLength: {
-                                           value: 8, message: 'Password must be more than 8 characters'
-                                       }
-                                   })}
-                        />
-                        {errors.password && <div style={{color: 'red'}}>{errors.password.message}</div>}
+                            <TextField type="password"
+                                       label="Password"
+                                       margin="normal"
+                                       variant="standard"
+                                       {...register('password', {
+                                           required: 'Password is required', minLength: {
+                                               value: 8, message: 'Password must be more than 8 characters'
+                                           }
+                                       })}
+                            />
+                            {errors.password && <div style={{color: 'red'}}>{errors.password.message}</div>}
 
-                        <FormControlLabel label={'Remember me'} style={{marginTop: '8px'}}
-                                          control={<Controller name="rememberMe" control={control}
-                                                               render={({field}) => <Checkbox {...field}
-                                                                                              checked={!!field.value}/>}/>}/>
+                            <FormControlLabel label={'Remember me'} style={{marginTop: '8px'}}
+                                              control={<Controller name="rememberMe" control={control}
+                                                                   render={({field}) => <Checkbox {...field}
+                                                                                                  checked={!!field.value}/>}/>}/>
 
-                        <NavLink to={'/reset'} className={s.forgotPass}>Forgot password ?</NavLink>
-                        <Button type={'submit'} variant={'contained'} color={'primary'} style={{marginTop: '70px'}}>
-                            Sign in
-                        </Button>
-                    </FormGroup>
-                </form>
-            </FormControl>
-            <p className={s.text}>Already have an account ?</p>
-            <NavLink to={'/registration'} className={s.signUpLink}>Sing up</NavLink>
-        </Paper>
+                            <NavLink to={'/reset'} className={s.forgotPass}>Forgot password ?</NavLink>
+                            <Button type={'submit'} variant={'contained'} color={'primary'} style={{marginTop: '70px'}}
+                                    fullWidth>
+                                Sign in
+                            </Button>
+                        </FormGroup>
+                    </form>
+                </FormControl>
+                <p className={s.text}>Already have an account ?</p>
+                <NavLink to={'/registration'} className={s.signUpLink}>Sing up</NavLink>
+            </Paper>
+        </div>
     );
 };
 
