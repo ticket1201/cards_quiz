@@ -14,7 +14,7 @@ const Success = () => {
             <Paper className={'defaultPop'} elevation={2}>
                 <h2>Check Email</h2>
                 <img src={img} alt="envelope" className={s.img}/>
-                <p className={s.text}>We’ve sent an Email with instructions to {email!.slice(1)}</p>
+                <p className={s.text}>We’ve sent an Email with instructions to {email}</p>
                 <Button variant={'contained'} onClick={() => navigate('/')} fullWidth>Back to login</Button>
             </Paper>
         </div>
