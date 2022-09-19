@@ -11,6 +11,7 @@ import Header from '../common/components/Header/Header';
 import {ErrorSnackbar} from '../common/components/ErrorSnackbar/ErrorSnackbar';
 import Grid from '@mui/material/Grid';
 import Templates from '../common/Templates/Templates';
+import Success from '../features/Login/Success/Success';
 
 function App() {
     return (
@@ -23,7 +24,8 @@ function App() {
                     <Route path="profile" element={<Profile/>}/>
                     <Route path="registration" element={<Registration/>}/>
                     <Route path="reset" element={<ResetPassword/>}/>
-                    <Route path="reset/new" element={<NewPassword/>}/>
+                    <Route path="reset/success:email" element={<Success/>}/>
+                    <Route path="set-new-password/:token" element={<NewPassword/>}/>
                     <Route path="templates" element={<Templates/>}/>
                     <Route path='*' element={<Error404/>}/>
                 </Routes>
@@ -36,7 +38,8 @@ function App() {
                 <Link to={'/profile'}>Profile</Link>
                 <Link to={'/Error404'}>404</Link>
                 <Link to={'/reset'}>Reset pass</Link>
-                <Link to={'/reset/new'}>New pass</Link>
+                <Link to={'/reset/success:email'}>Rest success</Link>
+                <Link to={'/set-new-password/:token'}>New pass</Link>
                 <Link to={'/templates'}>Templates</Link>
             </div>
         </div>
