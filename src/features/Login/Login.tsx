@@ -32,12 +32,12 @@ const Login = () => {
     const onEnterPress = (key: string) => {
         key === 'Enter' && handleSubmit(onSubmit)
     }
-
+/*
     useEffect(() => {
         if (isSubmitSuccessful) {
             reset()
         }
-    }, [isSubmitSuccessful, reset])
+    }, [isSubmitSuccessful, reset])*/
 
     if (userId) {
         return <Navigate to={'/profile'}/>
@@ -50,8 +50,6 @@ const Login = () => {
                     <FormLabel>
                         <h2 className={s.title}>Sign in</h2>
                     </FormLabel>
-
-
                     <form onSubmit={handleSubmit(onSubmit)} className={s.wrapper}
                           onKeyDown={(e) => onEnterPress(e.key)}>
                         <FormGroup>
