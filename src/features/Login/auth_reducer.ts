@@ -1,8 +1,7 @@
-import {authAPI, AuthResponseType, LoginParamsType, SetPasswordDataType} from '../../api/api';
+import {authAPI, AuthResponseType, LoginParamsType, SetPasswordDataType, UpdateProfileDataType} from '../../api/api';
 import {RootThunkType} from '../../app/store';
-import axios, {AxiosError} from 'axios';
 import {RegisterFormType} from './Registration/Registration';
-import {setAppIsInitializedAC, setAppStatusAC} from '../../app/app_reducer';
+import {setAppIsInitializedAC, setAppStatusAC, setAppSuccessAC} from '../../app/app_reducer';
 import {errorUtils} from '../../common/utils/error-utils';
 
 type InitialStateType = {
@@ -22,13 +21,14 @@ const initialState = {
 type AuthMeACType = ReturnType<typeof AuthMeAC>
 type SetLoginDataACType = ReturnType<typeof SetLoginDataAC>
 type LogoutACType = ReturnType<typeof LogoutAC>
-export type ActionsType = AuthMeACType | SetLoginDataACType | LogoutACType
+type UpdateProfileACType = ReturnType<typeof UpdateProfileAC>
+export type ActionsType = AuthMeACType | SetLoginDataACType | LogoutACType | UpdateProfileACType
 
 export const authReducer = (state = initialState, action: ActionsType): any => {
     switch (action.type) {
         case 'auth/AUTH_ME':
-            return {...state, ...action.payload}
         case 'auth/SET_LOGIN_DATA':
+        case 'auth/UPDATE_PROFILE':
             return {...state, ...action.payload}
         case 'auth/LOG_OUT':
             return {_id: '', email: '', name: '', avatar: null, publicCardPacksCount: null}
@@ -54,60 +54,72 @@ const LogoutAC = () => {
         type: 'auth/LOG_OUT'
     } as const
 }
+export const UpdateProfileAC = (payload: AuthResponseType) => {
+    return {
+        type: 'auth/UPDATE_PROFILE',
+        payload
+    } as const
+}
 
 export const AuthMeTC = (): RootThunkType => async (dispatch) => {
     setAppStatusAC('loading')
     try {
         const res = await authAPI.me()
-        dispatch(setAppIsInitializedAC(true))
         dispatch(AuthMeAC(res.data))
-    } catch (e:any) {
-        errorUtils(e, dispatch)
-    }
-    finally {
+    } finally {
         setAppStatusAC('idle')
+        dispatch(setAppIsInitializedAC(true))
     }
 }
 
 export const loginTC = (data: LoginParamsType): RootThunkType => async (dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     try {
         const res = await authAPI.login(data)
         dispatch(SetLoginDataAC(res.data))
-    } catch (e:any) {
+    } catch (e: any) {
         errorUtils(e, dispatch)
+    } finally {
+        dispatch(setAppStatusAC('idle'))
     }
 }
 
 export const logoutTC = (): RootThunkType => async (dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     try {
         await authAPI.logout()
         dispatch(LogoutAC())
-    } catch (e) {
-        const err = e as Error | AxiosError<{ error: string }>
-        if (axios.isAxiosError(err)) {
-            const error = err.response?.data
-                ? (err.response.data as { error: string }).error
-                : err.message
-            console.log(error)
-        }
+    } catch (e: any) {
+        errorUtils(e, dispatch)
+    } finally {
+        dispatch(setAppStatusAC('idle'))
     }
 }
 
-export const ForgotPassTC = ({email}:{email:string}):RootThunkType => async (dispatch) => {
+export const ForgotPassTC = ({email}: { email: string }): RootThunkType => async (dispatch) => {
+
+    const message = {'message': '<div style="padding: 15px; font-weight: bold">\n Trouble signing in? <br>\n Resetting your password is easy. <br>\n Just click on link below and follow the instructions. We’ll have you up and running in no time.  <br>\n \n <a href="http://localhost:3000/#/set-new-password/$token$">Link</a><br>\n If you did not make this request then please ignore this email.\n</div>'}
+
+    dispatch(setAppStatusAC('loading'))
+
     try {
-        let res = await authAPI.forgotPassword({email, ...{"message":"<div style=\"padding: 15px\">\npassword recovery link: \n<a href='http://localhost:3000/#/set-new-password/$token$'>\nlink</a>\n</div>"}})
-    }
-    catch (e){
-        console.log(e)
+        await authAPI.forgotPassword({email, ...message})
+    } catch (e: any) {
+        errorUtils(e, dispatch)
+    } finally {
+        dispatch(setAppStatusAC('idle'))
     }
 }
 
-export const setNewPassTC = (data: SetPasswordDataType):RootThunkType => async (dispatch) => {
+export const setNewPassTC = (data: SetPasswordDataType): RootThunkType => async (dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     try {
-        let res = await authAPI.setNewPassword(data)
-    }
-    catch (e){
-        console.log(e)
+        await authAPI.setNewPassword(data)
+        dispatch(setAppSuccessAC('SUCCESS'))
+    } catch (e: any) {
+        errorUtils(e, dispatch)
+    } finally {
+        dispatch(setAppStatusAC('idle'))
     }
 }
 
@@ -125,4 +137,19 @@ export const registerTC = (data: RegisterFormType): RootThunkType<Promise<boolea
             return false
         })
 
+}
+
+export const updateProfileTC = (data: UpdateProfileDataType):RootThunkType => async (dispatch) => {
+    dispatch(setAppStatusAC('loading'))
+    try{
+        let res = await authAPI.updateProfile(data)
+        dispatch(UpdateProfileAC(res.data.updatedUser))
+        dispatch(setAppSuccessAC('SUCCESS'))
+    }
+    catch (e:any){
+        errorUtils(e, dispatch)
+    }
+    finally {
+        dispatch(setAppStatusAC('idle'))
+    }
 }
