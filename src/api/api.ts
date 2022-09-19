@@ -14,10 +14,10 @@ export const authAPI = {
         return instance.post<'', AxiosResponse<AuthResponseType>, LoginParamsType>('/auth/login', data)
     },
     me() {
-        return instance.post<ResponseType<AuthResponseType>, {}>('auth/me', {})
+        return instance.post<'', AxiosResponse<AuthResponseType>, {}>('auth/me', {})
     },
     logout() {
-        return instance.delete<ResponseType<DefaultResponseType>>('/auth/me')
+        return instance.delete<'', AxiosResponse<DefaultResponseType>>('/auth/me')
     },
     updateProfile(data: UpdateProfileDataType) {
         return instance.put<ResponseType<AuthResponseType>>('/auth/me', data)
