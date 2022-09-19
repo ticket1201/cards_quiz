@@ -1,9 +1,9 @@
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 
 export const instance = axios.create({
-     baseURL: process.env.NODE_ENV === 'development'
-         ? 'http://localhost:7542/2.0/'
-         : 'https://neko-back.herokuapp.com/2.0/',
+    baseURL: process.env.NODE_ENV === 'development'
+        ? 'http://localhost:7542/2.0/'
+        : 'https://neko-back.herokuapp.com/2.0/',
     withCredentials: true,
 })
 
@@ -11,24 +11,24 @@ export const instance = axios.create({
 
 export const authAPI = {
     login(data: LoginParamsType) {
-        return instance.post<ResponseType<AuthResponseType>, LoginParamsType>('/auth/login', data)
+        return instance.post<'', AxiosResponse<AuthResponseType>, LoginParamsType>('/auth/login', data)
     },
     me() {
-        return instance.post<ResponseType<AuthResponseType>, {}>('auth/me', {})
+        return instance.post<'', AxiosResponse<AuthResponseType>, {}>('auth/me', {})
     },
     logout() {
-        return instance.delete<ResponseType<DefaultResponseType>>('/auth/me')
+        return instance.delete<'', AxiosResponse<DefaultResponseType>>('/auth/me')
     },
-    updateProfile(data: UpdateProfileDataType){
+    updateProfile(data: UpdateProfileDataType) {
         return instance.put<ResponseType<AuthResponseType>>('/auth/me', data)
     },
-    forgotPassword(data: ForgotPasswordDataType){
+    forgotPassword(data: ForgotPasswordDataType) {
         return instance.post<ResponseType<DefaultResponseType>>('/auth/forgot', data)
     },
-    setNewPassword(data: SetPasswordDataType){
+    setNewPassword(data: SetPasswordDataType) {
         return instance.post<ResponseType<DefaultResponseType>>('/auth/set-new-password', data)
     },
-    blockContent(data: BlockContentDataType){
+    blockContent(data: BlockContentDataType) {
         return instance.post<ResponseType<BlockContentResponseType>>('/auth/block', data)
     }
 }

@@ -1,0 +1,39 @@
+.defaultPop {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 33px;
+    background: #ffffff;
+}
+
+.title {
+    text-align: center;
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 32px;
+}
+
+.wrapper {
+    width: inherit;
+}
+
+.forgotPass {
+    font-weight: 500;
+    margin-top: 30px;
+    text-decoration: none;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.text {
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+.signUpLink {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+    color: #366EFF;
+}
