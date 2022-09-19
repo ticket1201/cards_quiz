@@ -6,16 +6,21 @@ import {useAppDispatch, useAppSelector} from '../../common/hooks/hooks';
 import s from './Profile.module.css'
 import ava from '../../assets/images/avatar.jpg'
 import {EditableSpan} from '../../common/components/EditableSpan/EditableSpan';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import {Navigate} from 'react-router-dom';
-import {logoutTC} from '../Login/auth_reducer';
+import {logoutTC, updateProfileTC} from '../Login/auth_reducer';
 
 
 const Profile = () => {
-    const {_id, name,email, /*avatar*/} = useAppSelector(state => state.auth)
+    const {_id, name,email, avatar} = useAppSelector(state => state.auth)
     const dispatch = useAppDispatch()
 
     const HandlerLogOut = () => {
         dispatch(logoutTC())
+    }
+
+    const HandlerUpdateData = (name: string) => {
+        dispatch(updateProfileTC({name, avatar}))
     }
 
     if(!_id){
@@ -26,14 +31,14 @@ const Profile = () => {
         <div className={'base-wrapper'}>
             <Paper className={'defaultPop'} elevation={2}>
                 <h2>Personal Information</h2>
-                <div className={s.ava} style={{backgroundImage:`url(${ava})`}}>
+                <div className={s.ava} style={{backgroundImage:`url(${avatar || ava})`}}>
                     <div className={s.buttonWrapper}>
                         <IconButton className={s.button}>+</IconButton>
                     </div>
                 </div>
-                <EditableSpan value={name} disabled={false} onChange={()=>{}}/>
+                <EditableSpan value={name} disabled={false} onChange={HandlerUpdateData}/>
                 <p className={s.email}>{email}</p>
-                <Button variant={'outlined'} className={s.logOut} startIcon={'+'} onClick={()=>HandlerLogOut()}>Log Out</Button>
+                <Button variant={'outlined'} className={s.logOut} sx={{    borderRadius: '18px'}} startIcon={<LogoutOutlinedIcon/>} onClick={()=>HandlerLogOut()} >Log Out</Button>
             </Paper>
         </div>
     );
