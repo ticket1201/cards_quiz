@@ -1,6 +1,9 @@
-import {authAPI, AuthResponseType, LoginParamsType} from '../../api/api';
+import {authAPI, AuthResponseType, LoginParamsType, SetPasswordDataType} from '../../api/api';
 import {RootThunkType} from '../../app/store';
 import axios, {AxiosError} from 'axios';
+import {RegisterFormType} from './Registration/Registration';
+import {setAppIsInitializedAC, setAppStatusAC} from '../../app/app_reducer';
+import {errorUtils} from '../../common/utils/error-utils';
 
 type InitialStateType = {
     _id: string | null
@@ -34,7 +37,7 @@ export const authReducer = (state = initialState, action: ActionsType): any => {
     }
 }
 
-const AuthMeAC = (payload: AuthResponseType) => {
+export const AuthMeAC = (payload: AuthResponseType) => {
     return {
         type: 'auth/AUTH_ME',
         payload
@@ -53,17 +56,16 @@ const LogoutAC = () => {
 }
 
 export const AuthMeTC = (): RootThunkType => async (dispatch) => {
+    setAppStatusAC('loading')
     try {
         const res = await authAPI.me()
+        dispatch(setAppIsInitializedAC(true))
         dispatch(AuthMeAC(res.data))
-    } catch (e) {
-        const err = e as Error | AxiosError<{ error: string }>
-        if (axios.isAxiosError(err)) {
-            const error = err.response?.data
-                ? (err.response.data as { error: string }).error
-                : err.message
-            console.log(error)
-        }
+    } catch (e:any) {
+        errorUtils(e, dispatch)
+    }
+    finally {
+        setAppStatusAC('idle')
     }
 }
 
@@ -71,14 +73,8 @@ export const loginTC = (data: LoginParamsType): RootThunkType => async (dispatch
     try {
         const res = await authAPI.login(data)
         dispatch(SetLoginDataAC(res.data))
-    } catch (e) {
-        const err = e as Error | AxiosError<{ error: string }>
-        if (axios.isAxiosError(err)) {
-            const error = err.response?.data
-                ? (err.response.data as { error: string }).error
-                : err.message
-            console.log(error)
-        }
+    } catch (e:any) {
+        errorUtils(e, dispatch)
     }
 }
 

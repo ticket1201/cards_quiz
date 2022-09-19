@@ -1,4 +1,5 @@
-import {AuthMeAC, authReducer, InitialStateType} from './auth_reducer';
+/*
+import {AuthMeAC, authReducer} from './auth_reducer';
 
 let startState: InitialStateType, endState: InitialStateType;
 const oldId = ''
@@ -16,4 +17,6 @@ test('set new id into the state', () => {
 
     expect(startState.id).toBe(oldId)
     expect(endState.id).toBe(newId)
-})
+})*/
+
+export default 123
