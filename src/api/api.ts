@@ -13,6 +13,9 @@ export const authAPI = {
     login(data: LoginParamsType) {
         return instance.post<'', AxiosResponse<AuthResponseType>, LoginParamsType>('/auth/login', data)
     },
+    register(data: RegisterParamsType) {
+        return instance.post<ResponseType<RegisterResponseType>>('/auth/register', data)
+    },
     me() {
         return instance.post<'', AxiosResponse<AuthResponseType>, {}>('auth/me', {})
     },
@@ -40,6 +43,13 @@ export type LoginParamsType = {
     password: string
     rememberMe: boolean
 }
+
+export type RegisterParamsType = {
+    email: string
+    password: string
+}
+
+
 export type UpdateProfileDataType = {
     name: string
     avatar: string
@@ -83,9 +93,28 @@ export type AuthResponseType = {
     verified: boolean; // подтвердил ли почту
     rememberMe: boolean;
     error?: string;
+
+    /* ????????
+    "__v": 0,
+    "token": "f1081d00-3614-11ed-b186-bb9b23e58d65",
+    "tokenDeathTime": 1663380708944
+     */
 }
 
 export type BlockContentResponseType = {
     user: string
     blockedCardPacksCount: number
 }
+
+export type AddedUserType = AuthResponseType & {
+    __v: number
+}
+
+export type RegisterResponseType = {
+    'addedUser': AddedUserType
+}
+/*
+    error: string,
+    email: string,
+    in: string
+ */

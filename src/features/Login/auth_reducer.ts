@@ -114,3 +114,19 @@ export const setNewPassTC = (data: SetPasswordDataType):RootThunkType => async (
         console.log(e)
     }
 }
+
+export const registerTC = (data: RegisterFormType): RootThunkType<Promise<boolean>> => (dispatch) => {
+    dispatch(setAppStatusAC('loading'))
+    return authAPI.register(data)
+        .then(() => {
+            // console.log('register, ', res)
+            dispatch(setAppStatusAC('succeeded'))
+            return true
+        })
+        .catch(e => {
+            dispatch(setAppStatusAC('failed'))
+            errorUtils(e, dispatch)
+            return false
+        })
+
+}
