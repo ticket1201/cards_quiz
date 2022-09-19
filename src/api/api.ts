@@ -23,7 +23,7 @@ export const authAPI = {
         return instance.delete<'', AxiosResponse<DefaultResponseType>>('/auth/me')
     },
     updateProfile(data: UpdateProfileDataType) {
-        return instance.put<'', AxiosResponse<AuthResponseType>, UpdateProfileDataType>('/auth/me', data)
+        return instance.put<'', AxiosResponse<UpdatedUserResponseType>, UpdateProfileDataType>('/auth/me', data)
     },
     forgotPassword(data: ForgotPasswordDataType) {
         return instance.post<'',AxiosResponse<DefaultResponseType>, ForgotPasswordDataType>('/auth/forgot', data)
@@ -111,3 +111,7 @@ export type RegisterResponseType = {
     email: string,
     in: string
  */
+
+export type UpdatedUserResponseType = {
+    updatedUser: AuthResponseType
+}
