@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import {Link, Route, Routes} from 'react-router-dom';
 import Login from '../features/Login/Login';
@@ -12,8 +12,17 @@ import {ErrorSnackbar} from '../common/components/ErrorSnackbar/ErrorSnackbar';
 import Grid from '@mui/material/Grid';
 import Templates from '../common/Templates/Templates';
 import Success from '../features/Login/Success/Success';
+import {useAppDispatch} from '../common/hooks/hooks';
+import {AuthMeTC} from '../features/Login/auth_reducer';
 
 function App() {
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(AuthMeTC())
+    }, [dispatch])
+
+
     return (
         <div className="App">
             <Header/>
