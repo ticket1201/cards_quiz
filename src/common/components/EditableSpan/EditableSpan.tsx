@@ -59,7 +59,7 @@ export const EditableSpan = memo(({value, onChange, disabled}: EditableSpanProps
                 Save
             </Button>
         </h3>
-        : <h3 onDoubleClick={activateEditMode} className={s.text}>
+        : <h3 onDoubleClick={activateEditMode} >
             {value}
             <IconButton className={s.icon}>+</IconButton>
         </h3>
