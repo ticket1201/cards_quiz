@@ -46,7 +46,6 @@ export type UpdateProfileDataType = {
 }
 export type ForgotPasswordDataType = {
     email: string
-    from: string
     message: string
 }
 export type SetPasswordDataType = {
