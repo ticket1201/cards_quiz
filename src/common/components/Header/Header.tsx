@@ -27,7 +27,6 @@ const Header = () => {
                       justifyContent="space-between"
                       alignItems="center"
                 >
-                    <div className={s.logo}></div>
                     <NavLink className={s.logo} to={'/'}></NavLink>
                     {name
                         ? <div className={s.avaWrapper}>
