@@ -14,7 +14,7 @@ export const authAPI = {
         return instance.post<'', AxiosResponse<AuthResponseType>, LoginParamsType>('/auth/login', data)
     },
     register(data: RegisterParamsType) {
-        return instance.post<ResponseType<RegisterResponseType>>('/auth/register', data)
+        return instance.post<'', AxiosResponse<RegisterResponseType>, RegisterParamsType>('/auth/register', data)
     },
     me() {
         return instance.post<'', AxiosResponse<AuthResponseType>, {}>('auth/me', {})
@@ -23,16 +23,16 @@ export const authAPI = {
         return instance.delete<'', AxiosResponse<DefaultResponseType>>('/auth/me')
     },
     updateProfile(data: UpdateProfileDataType) {
-        return instance.put<ResponseType<AuthResponseType>>('/auth/me', data)
+        return instance.put<'', AxiosResponse<AuthResponseType>, UpdateProfileDataType>('/auth/me', data)
     },
     forgotPassword(data: ForgotPasswordDataType) {
-        return instance.post<ResponseType<DefaultResponseType>>('/auth/forgot', data)
+        return instance.post<'',AxiosResponse<DefaultResponseType>, ForgotPasswordDataType>('/auth/forgot', data)
     },
     setNewPassword(data: SetPasswordDataType) {
-        return instance.post<ResponseType<DefaultResponseType>>('/auth/set-new-password', data)
+        return instance.post<'', AxiosResponse<DefaultResponseType>, SetPasswordDataType>('/auth/set-new-password', data)
     },
     blockContent(data: BlockContentDataType) {
-        return instance.post<ResponseType<BlockContentResponseType>>('/auth/block', data)
+        return instance.post<'', AxiosResponse<BlockContentResponseType>, BlockContentDataType>('/auth/block', data)
     }
 }
 
@@ -68,13 +68,6 @@ export type BlockContentDataType = {
 }
 
 // response types
-
-export type ResponseType<T = {}> = {
-    data: T
-    messages: string[]
-    fieldsErrors: string[]
-    resultCode: number
-}
 
 export type DefaultResponseType = {
     info: string
