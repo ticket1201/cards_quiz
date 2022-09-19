@@ -2,7 +2,7 @@ import {authAPI, AuthResponseType, LoginParamsType, SetPasswordDataType} from '.
 import {RootThunkType} from '../../app/store';
 import axios, {AxiosError} from 'axios';
 import {RegisterFormType} from './Registration/Registration';
-import {setAppIsInitializedAC, setAppStatusAC} from '../../app/app_reducer';
+import {setAppIsInitializedAC, setAppStatusAC, setAppSuccessAC} from '../../app/app_reducer';
 import {errorUtils} from '../../common/utils/error-utils';
 
 type InitialStateType = {
@@ -61,10 +61,9 @@ export const AuthMeTC = (): RootThunkType => async (dispatch) => {
         const res = await authAPI.me()
         dispatch(setAppIsInitializedAC(true))
         dispatch(AuthMeAC(res.data))
-    } catch (e:any) {
+    } catch (e: any) {
         errorUtils(e, dispatch)
-    }
-    finally {
+    } finally {
         setAppStatusAC('idle')
     }
 }
@@ -73,7 +72,7 @@ export const loginTC = (data: LoginParamsType): RootThunkType => async (dispatch
     try {
         const res = await authAPI.login(data)
         dispatch(SetLoginDataAC(res.data))
-    } catch (e:any) {
+    } catch (e: any) {
         errorUtils(e, dispatch)
     }
 }
@@ -93,20 +92,18 @@ export const logoutTC = (): RootThunkType => async (dispatch) => {
     }
 }
 
-export const ForgotPassTC = ({email}:{email:string}):RootThunkType => async (dispatch) => {
+export const ForgotPassTC = ({email}: { email: string }): RootThunkType => async (dispatch) => {
     try {
-        let res = await authAPI.forgotPassword({email, ...{"message":"<div style=\"padding: 15px\">\npassword recovery link: \n<a href='http://localhost:3000/#/set-new-password/$token$'>\nlink</a>\n</div>"}})
-    }
-    catch (e){
+        let res = await authAPI.forgotPassword({email, ...{'message': '<div style="padding: 15px">\npassword recovery link: \n<a href=\'http://localhost:3000/#/set-new-password/$token$\'>\nlink</a>\n</div>'}})
+    } catch (e) {
         console.log(e)
     }
 }
 
-export const setNewPassTC = (data: SetPasswordDataType):RootThunkType => async (dispatch) => {
+export const setNewPassTC = (data: SetPasswordDataType): RootThunkType => async (dispatch) => {
     try {
         let res = await authAPI.setNewPassword(data)
-    }
-    catch (e){
+    } catch (e) {
         console.log(e)
     }
 }
@@ -117,6 +114,7 @@ export const registerTC = (data: RegisterFormType): RootThunkType<Promise<boolea
         .then(() => {
             // console.log('register, ', res)
             dispatch(setAppStatusAC('succeeded'))
+            dispatch(setAppSuccessAC('You are successfully registered'))
             return true
         })
         .catch(e => {

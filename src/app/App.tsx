@@ -8,7 +8,7 @@ import ResetPassword from '../features/Login/ResetPassword/ResetPassword';
 import NewPassword from '../features/Login/ResetPassword/NewPassword/NewPassword';
 import Profile from '../features/Profile/Profile';
 import Header from '../common/components/Header/Header';
-import CustomSnackbar from '../common/components/CustomSnackbar/CustomSnackbar';
+import {UniversalSnackbar} from '../common/components/CustomSnackbar/CustomSnackbar';
 import Grid from '@mui/material/Grid';
 import Templates from '../common/Templates/Templates';
 import Success from '../features/Login/Success/Success';
@@ -26,7 +26,7 @@ function App() {
     return (
         <div className="App">
             <Header/>
-            <CustomSnackbar/>
+            <UniversalSnackbar/>
             <Grid container className={'content-wrapper'}>
                 <Routes>
                     <Route path="/" element={<Login/>}/>
