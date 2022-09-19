@@ -12,20 +12,30 @@ import CustomSnackbar from '../common/components/CustomSnackbar/CustomSnackbar';
 import Grid from '@mui/material/Grid';
 import Templates from '../common/Templates/Templates';
 import Success from '../features/Login/Success/Success';
-import {useAppDispatch} from '../common/hooks/hooks';
+import {useAppDispatch, useAppSelector} from '../common/hooks/hooks';
 import {AuthMeTC} from '../features/Login/auth_reducer';
+import LinearProgress from '@mui/material/LinearProgress';
+import {Preloader} from '../common/components/Preloader/Preloader';
+
 
 function App() {
     const dispatch = useAppDispatch()
+    let status = useAppSelector(state => state.app.status)
+    let isInitialized = useAppSelector(state => state.app.isInitialized)
 
     useEffect(() => {
         dispatch(AuthMeTC())
-    }, [dispatch])
+    }, [])
 
+
+    if(!isInitialized){
+        return (<Preloader/>)
+    }
 
     return (
         <div className="App">
             <Header/>
+            {status === 'loading' && <LinearProgress color={'inherit'} sx={{top:'60px', left:'0', right:'0', position:'absolute'}}/>}
             <CustomSnackbar/>
             <Grid container className={'content-wrapper'}>
                 <Routes>
