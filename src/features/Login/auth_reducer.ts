@@ -50,6 +50,7 @@ export const registerTC = (data: RegisterFormType): RootThunkType<Promise<boolea
             // console.log('register, ', res)
             dispatch(setAppStatusAC('succeeded'))
             dispatch(registerAC())
+            // dispatch(setAppSuccessAC('You are successfully registered'))
             return true
         })
         .catch(e => {

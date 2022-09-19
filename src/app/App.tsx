@@ -8,7 +8,7 @@ import ResetPassword from '../features/Login/ResetPassword/ResetPassword';
 import NewPassword from '../features/Login/ResetPassword/NewPassword/NewPassword';
 import Profile from '../features/Profile/Profile';
 import Header from '../common/components/Header/Header';
-import {ErrorSnackbar} from '../common/components/ErrorSnackbar/ErrorSnackbar';
+import CustomSnackbar from '../common/components/CustomSnackbar/CustomSnackbar';
 import Grid from '@mui/material/Grid';
 import Templates from '../common/Templates/Templates';
 
@@ -16,7 +16,7 @@ function App() {
     return (
         <div className="App">
             <Header/>
-            <ErrorSnackbar/>
+            <CustomSnackbar/>
             <Grid container className={'content-wrapper'}>
                 <Routes>
                     <Route path="/" element={<Login/>}/>
@@ -25,7 +25,7 @@ function App() {
                     <Route path="reset" element={<ResetPassword/>}/>
                     <Route path="reset/new" element={<NewPassword/>}/>
                     <Route path="templates" element={<Templates/>}/>
-                    <Route path='*' element={<Error404/>}/>
+                    <Route path="*" element={<Error404/>}/>
                 </Routes>
             </Grid>
 
