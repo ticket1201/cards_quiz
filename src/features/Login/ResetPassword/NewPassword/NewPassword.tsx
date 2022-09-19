@@ -1,5 +1,5 @@
-import React from 'react';
-import {useParams} from 'react-router-dom';
+import React, {useState} from 'react';
+import {Navigate, useParams} from 'react-router-dom';
 import {useAppDispatch} from '../../../../common/hooks/hooks';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {setNewPassTC} from '../../auth_reducer';
@@ -16,18 +16,33 @@ type InputsType = {
 const NewPassword = () => {
     const {token} = useParams()
     const dispatch = useAppDispatch()
-    const { register, handleSubmit, formState: { errors } } = useForm<InputsType>();
-    const onSubmit:SubmitHandler<InputsType> = (data:{password:string}) => dispatch(setNewPassTC({
-        ...data,
-        resetPasswordToken: token!.slice(1)
-    }))
+    const [isSuccess, setIsSuccess] = useState<boolean>(false)
+
+    const {register, handleSubmit, formState: {errors}} = useForm<InputsType>();
+
+    const onSubmit: SubmitHandler<InputsType> = async (data: { password: string }) => {
+        try {
+            await dispatch(setNewPassTC({
+                ...data,
+                resetPasswordToken: token!
+            }))
+            setIsSuccess(true)
+        } catch (e) {
+            setIsSuccess(false)
+        }
+    }
+
+    if (isSuccess) {
+        return <Navigate to={'/'}/>
+    }
 
     return (
         <div className={'base-wrapper'}>
             <Paper className={'defaultPop'} elevation={2}>
-                <h2>Forgot your password?</h2>
+                <h2>Create new password</h2>
                 <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
-                    <TextField fullWidth type={'password'} variant={'standard'} label={'Password'} {...register("password", { required: true })} />
+                    <TextField fullWidth type={'password'} variant={'standard'}
+                               label={'Password'} {...register('password', {required: true})} />
                     {errors.password && <span className={s.error}>This field is required</span>}
                     <p>Create new password and we will send you further instructions to email</p>
                     <Button type={'submit'} variant={'contained'} fullWidth>
