@@ -6,8 +6,8 @@ import {useAppDispatch, useAppSelector} from '../../common/hooks/hooks';
 import s from './Profile.module.css'
 import ava from '../../assets/images/avatar.jpg'
 import {EditableSpan} from '../../common/components/EditableSpan/EditableSpan';
-import {LogoutTC} from '../Login/auth_reducer';
 import {Navigate} from 'react-router-dom';
+import {logoutTC} from '../Login/auth_reducer';
 
 
 const Profile = () => {
@@ -15,7 +15,7 @@ const Profile = () => {
     const dispatch = useAppDispatch()
 
     const HandlerLogOut = () => {
-        dispatch(LogoutTC())
+        dispatch(logoutTC())
     }
 
     if(!_id){
