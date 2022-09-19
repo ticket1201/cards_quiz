@@ -1,27 +1,36 @@
-import React, {ButtonHTMLAttributes, DetailedHTMLProps} from 'react'
 import s from './SuperButton.module.css'
+import Button from '@mui/material/Button';
+import React from 'react';
 
-// тип пропсов обычной кнопки, children в котором храниться название кнопки там уже описан
-type DefaultButtonPropsType = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
 
-type SuperButtonPropsType = DefaultButtonPropsType & {
-    red?: boolean
+type SuperButtonPropsType = {
+    text: string
+    variant: "text" | "outlined" | "contained"
+    isRounded?: boolean
+    disabled?: boolean
+    disableElevation?: boolean
+    size:  "small" | "medium" | "large"
 }
 
-const SuperButton: React.FC<SuperButtonPropsType> = (
+export const SuperButton: React.FC<SuperButtonPropsType> = (
     {
-        red, className,
-        ...restProps // все остальные пропсы попадут в объект restProps, там же будет children
+         variant, isRounded, disabled, size,text,
+          disableElevation
     }
 ) => {
-    const finalClassName = `${red ? s.red : s.default} ${className? className : ''}`
+
+    const finalClassName = isRounded ? `${s.rounded} ${s.default}` : `${s.default}`
 
     return (
-        <button
+        <Button
             className={finalClassName}
-            {...restProps} // отдаём кнопке остальные пропсы если они есть (children там внутри)
-        />
+            variant={variant}
+            disabled={disabled || false}
+            size={size}
+            disableElevation={disableElevation}
+        >
+            {text}
+        </Button>
     )
 }
 
-export default SuperButton
