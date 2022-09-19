@@ -10,7 +10,6 @@ import Profile from '../features/Profile/Profile';
 import Header from '../common/components/Header/Header';
 import CustomSnackbar from '../common/components/CustomSnackbar/CustomSnackbar';
 import Grid from '@mui/material/Grid';
-import Templates from '../common/Templates/Templates';
 import Success from '../features/Login/Success/Success';
 import {useAppDispatch, useAppSelector} from '../common/hooks/hooks';
 import {AuthMeTC} from '../features/Login/auth_reducer';
@@ -45,7 +44,6 @@ function App() {
                     <Route path="reset" element={<ResetPassword/>}/>
                     <Route path="reset/success:email" element={<Success/>}/>
                     <Route path="set-new-password/:token" element={<NewPassword/>}/>
-                    <Route path="templates" element={<Templates/>}/>
                     <Route path="*" element={<Error404/>}/>
                 </Routes>
             </Grid>
@@ -59,7 +57,6 @@ function App() {
                 <Link to={'/reset'}>Reset pass</Link>
                 <Link to={'/reset/success:email'}>Rest success</Link>
                 <Link to={'/set-new-password/:token'}>New pass</Link>
-                <Link to={'/templates'}>Templates</Link>
             </div>
         </div>
     );
