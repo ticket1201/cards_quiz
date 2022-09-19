@@ -1,5 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
-import {TextField} from '@mui/material';
+import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import s from './EditableSpan.module.css'
@@ -11,11 +11,12 @@ type EditableSpanPropsType = {
 }
 
 export const EditableSpan = memo(({value, onChange, disabled}: EditableSpanPropsType) => {
-    let [editMode, setEditMode] = useState(true);
+    let [editMode, setEditMode] = useState(false);
     let [title, setTitle] = useState(value);
 
+
     const activateEditMode = () => {
-        if(!disabled){
+        if (!disabled) {
             setEditMode(true);
             setTitle(value);
         }
@@ -34,10 +35,32 @@ export const EditableSpan = memo(({value, onChange, disabled}: EditableSpanProps
         }
     }
 
+
+
     return editMode
-        ?  <h3 className={s.text}>
-            <TextField value={title} onChange={changeTitle} autoFocus onBlur={activateViewMode} size={'small'} onKeyDown={onKeyPressHandler}></TextField>
-            <Button variant={'contained'} className={s.button}>Save</Button>
+        ? <h3 className={s.textWrapper}>
+            <TextField
+                value={title}
+                size={'small'}
+                variant={'standard'}
+                onChange={changeTitle}
+                onBlur={activateViewMode}
+                onKeyDown={onKeyPressHandler}
+                fullWidth={true}
+                label={'Nickname'}
+            ></TextField>
+            <Button
+                size={'small'}
+                variant={'contained'}
+                className={s.button}
+                style={{position: 'absolute'}}
+                disableElevation
+            >
+                Save
+            </Button>
         </h3>
-        : <h3 onDoubleClick={activateEditMode} className={s.text}>{value} <IconButton>+</IconButton></h3>
+        : <h3 onDoubleClick={activateEditMode} className={s.text}>
+            {value}
+            <IconButton className={s.icon}>+</IconButton>
+        </h3>
 })

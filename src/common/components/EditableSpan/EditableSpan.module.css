@@ -1,8 +1,21 @@
 .button{
+    height: 30px;
+    width: 30px;
     position: absolute;
-    left: 0;
+    bottom: 4px;
+    right: 4px;
+}
+
+.textWrapper{
+    width: 100%;
+    position: relative;
 }
 
 .text{
-    position: relative;
+    width: inherit;
+}
+
+.icon{
+    width: 30px;
+    height: 30px;
 }
