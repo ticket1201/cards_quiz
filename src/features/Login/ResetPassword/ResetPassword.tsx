@@ -3,7 +3,7 @@ import Paper from '@mui/material/Paper';
 import {SubmitHandler, useForm} from 'react-hook-form';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import {NavLink} from 'react-router-dom';
+import {NavLink, useNavigate} from 'react-router-dom';
 import s from './ResetPassword.module.css'
 import {useAppDispatch} from '../../../common/hooks/hooks';
 import {ForgotPassTC} from '../auth_reducer';
@@ -14,8 +14,12 @@ type InputsType = {
 
 const ResetPassword = () => {
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
     const { register, handleSubmit, formState: { errors } } = useForm<InputsType>();
-    const onSubmit:SubmitHandler<InputsType> = (data:{email:string}) => dispatch(ForgotPassTC(data))
+    const onSubmit:SubmitHandler<InputsType> = (data:{email:string}) => {
+        dispatch(ForgotPassTC(data))
+        navigate(`/reset/success:${data.email}`)
+    }
 
     return (
         <div className={'base-wrapper'}>
