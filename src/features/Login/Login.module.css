@@ -1,12 +1,3 @@
-.defaultPop {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 33px;
-    background: #ffffff;
-}
-
 .title {
     text-align: center;
     font-weight: 600;
@@ -16,6 +7,10 @@
 
 .wrapper {
     width: inherit;
+}
+
+.FormControl{
+    width: 100%;
 }
 
 .forgotPass {
