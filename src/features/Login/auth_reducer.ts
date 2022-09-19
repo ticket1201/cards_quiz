@@ -3,56 +3,33 @@ import {RootThunkType} from '../../app/store';
 import axios, {AxiosError} from 'axios';
 
 type InitialStateType = {
-    _id: string
-    email: string
-    name: string
-    avatar?: string
-    publicCardPacksCount: number // количество колод
-
-    created: Date | null
-    updated: Date | null
-    isAdmin: boolean
-    verified: boolean   // подтвердил ли почту
-    rememberMe: boolean
-
-    error?: string
-    isLoggedIn: boolean
+    _id: string | null
 }
 
-const initialState: InitialStateType = {
-    _id: '',
-    email: '',
-    name: '',
-    publicCardPacksCount: 0,
-    created: null,
-    updated: null,
-    isAdmin: false,
-    verified: false,
-    rememberMe: false,
-    isLoggedIn: false
-}
+const initialState = {} as InitialStateType
 
 type AuthMeACType = ReturnType<typeof AuthMeAC>
 type SetLoginDataACType = ReturnType<typeof SetLoginDataAC>
-export type ActionsType = AuthMeACType | SetLoginDataACType
+type LogoutACType = ReturnType<typeof LogoutAC>
+export type ActionsType = AuthMeACType | SetLoginDataACType | LogoutACType
 
 export const authReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case 'AUTH_ME':
-            return state
+        case 'auth/AUTH_ME':
+            return {...state, ...action.payload}
         case 'auth/SET_LOGIN_DATA':
-            return {...state, ...action.payload, isLoggedIn: true}
+            return {...state, ...action.payload}
+        case 'auth/LOG_OUT':
+            return {_id: null}
         default :
             return state
     }
 }
 
-const AuthMeAC = (id: string) => {
+const AuthMeAC = (payload: AuthResponseType) => {
     return {
-        type: 'AUTH_ME',
-        payload: {
-            id
-        }
+        type: 'auth/AUTH_ME',
+        payload
     } as const
 }
 const SetLoginDataAC = (payload: AuthResponseType) => {
@@ -61,11 +38,46 @@ const SetLoginDataAC = (payload: AuthResponseType) => {
         payload
     } as const
 }
+const LogoutAC = () => {
+    return {
+        type: 'auth/LOG_OUT'
+    } as const
+}
+
+export const AuthMeTC = (): RootThunkType => async (dispatch) => {
+    try {
+        const res = await authAPI.me()
+        dispatch(AuthMeAC(res.data))
+    } catch (e) {
+        const err = e as Error | AxiosError<{ error: string }>
+        if (axios.isAxiosError(err)) {
+            const error = err.response?.data
+                ? (err.response.data as { error: string }).error
+                : err.message
+            console.log(error)
+        }
+    }
+}
 
 export const loginTC = (data: LoginParamsType): RootThunkType => async (dispatch) => {
     try {
         const res = await authAPI.login(data)
         dispatch(SetLoginDataAC(res.data))
+    } catch (e) {
+        const err = e as Error | AxiosError<{ error: string }>
+        if (axios.isAxiosError(err)) {
+            const error = err.response?.data
+                ? (err.response.data as { error: string }).error
+                : err.message
+            console.log(error)
+        }
+    }
+}
+
+export const logoutTC = (): RootThunkType => async (dispatch) => {
+    try {
+        await authAPI.logout()
+        dispatch(LogoutAC())
     } catch (e) {
         const err = e as Error | AxiosError<{ error: string }>
         if (axios.isAxiosError(err)) {
