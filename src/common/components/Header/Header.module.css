@@ -30,3 +30,8 @@ header.bar{
     background-size: contain;
     border-radius: 50%;
 }
+
+.progress{
+    width: 100%;
+    height: 5px;
+}
