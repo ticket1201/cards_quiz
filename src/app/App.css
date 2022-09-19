@@ -26,7 +26,7 @@
 }
 
 .defaultPop{
-    max-width: 410px;
+    width: 410px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
