@@ -1,8 +1,7 @@
-import {authAPI, AuthResponseType, LoginParamsType, SetPasswordDataType} from '../../api/api';
+import {authAPI, AuthResponseType, LoginParamsType, RegisterParamsType, SetPasswordDataType} from '../../api/api';
 import {RootThunkType} from '../../app/store';
 import axios, {AxiosError} from 'axios';
-import {RegisterFormType} from './Registration/Registration';
-import {setAppIsInitializedAC, setAppStatusAC} from '../../app/app_reducer';
+import {setAppIsInitializedAC, setAppStatusAC, setAppSuccessAC} from '../../app/app_reducer';
 import {errorUtils} from '../../common/utils/error-utils';
 
 type InitialStateType = {
@@ -123,12 +122,13 @@ export const setNewPassTC = (data: SetPasswordDataType): RootThunkType => async 
     }
 }
 
-export const registerTC = (data: RegisterFormType): RootThunkType<Promise<boolean>> => (dispatch) => {
+export const registerTC = (data: RegisterParamsType): RootThunkType<Promise<boolean>> => (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     return authAPI.register(data)
         .then(() => {
             // console.log('register, ', res)
             dispatch(setAppStatusAC('succeeded'))
+            dispatch(setAppSuccessAC('You are successfully registered'))
             return true
         })
         .catch(e => {

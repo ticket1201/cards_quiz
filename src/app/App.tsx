@@ -1,14 +1,13 @@
 import React, {useEffect} from 'react';
 import './App.css';
 import {Link, Route, Routes} from 'react-router-dom';
-import Login from '../features/Login/Login/Login';
 import Error404 from '../features/Error404/Error404';
 import Registration from '../features/Login/Registration/Registration';
 import ResetPassword from '../features/Login/ResetPassword/ResetPassword';
 import NewPassword from '../features/Login/ResetPassword/NewPassword/NewPassword';
 import Profile from '../features/Profile/Profile';
 import Header from '../common/components/Header/Header';
-import CustomSnackbar from '../common/components/CustomSnackbar/CustomSnackbar';
+import {UniversalSnackbar} from '../common/components/CustomSnackbar/CustomSnackbar';
 import Grid from '@mui/material/Grid';
 import Success from '../features/Login/Success/Success';
 import {useAppDispatch, useAppSelector} from '../common/hooks/hooks';
@@ -35,7 +34,7 @@ function App() {
         <div className="App">
             <Header/>
             {status === 'loading' && <LinearProgress color={'inherit'} sx={{top:'60px', left:'0', right:'0', position:'absolute'}}/>}
-            <CustomSnackbar/>
+            <UniversalSnackbar/>
             <Grid container className={'content-wrapper'}>
                 <Routes>
                     <Route path="/" element={<Login/>}/>
