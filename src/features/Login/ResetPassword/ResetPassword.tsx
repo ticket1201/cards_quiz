@@ -18,7 +18,7 @@ const ResetPassword = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<InputsType>();
     const onSubmit:SubmitHandler<InputsType> = (data:{email:string}) => {
         dispatch(ForgotPassTC(data))
-        navigate(`/reset/success:${data.email}`)
+        navigate(`/reset/success/${data.email}`)
     }
 
     return (

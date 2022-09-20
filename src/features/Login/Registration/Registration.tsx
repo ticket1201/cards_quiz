@@ -8,7 +8,7 @@ import FormControl from '@mui/material/FormControl';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import s from '../Login.module.css';
+import s from '../Login/Login.module.css';
 import FormLabel from '@mui/material/FormLabel';
 import FormGroup from '@mui/material/FormGroup';
 // import {setAppErrorAC, setAppStatusAC} from '../../../app/app_reducer';
