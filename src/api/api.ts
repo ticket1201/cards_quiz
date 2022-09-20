@@ -1,4 +1,4 @@
-import axios, {AxiosResponse} from 'axios';
+import axios from 'axios';
 
 export const instance = axios.create({
     baseURL: process.env.NODE_ENV === 'development'
@@ -11,28 +11,28 @@ export const instance = axios.create({
 
 export const authAPI = {
     login(data: LoginParamsType) {
-        return instance.post<'', AxiosResponse<AuthResponseType>, LoginParamsType>('/auth/login', data)
+        return instance.post<AuthResponseType>('/auth/login', data)
     },
     register(data: RegisterParamsType) {
-        return instance.post<'', AxiosResponse<RegisterResponseType>, RegisterParamsType>('/auth/register', data)
+        return instance.post<RegisterResponseType>('/auth/register', data)
     },
     me() {
-        return instance.post<'', AxiosResponse<AuthResponseType>, {}>('auth/me', {})
+        return instance.post<AuthResponseType>('auth/me', {})
     },
     logout() {
-        return instance.delete<'', AxiosResponse<DefaultResponseType>>('/auth/me')
+        return instance.delete<DefaultResponseType>('/auth/me')
     },
     updateProfile(data: UpdateProfileDataType) {
-        return instance.put<'', AxiosResponse<UpdatedUserResponseType>, UpdateProfileDataType>('/auth/me', data)
+        return instance.put<UpdatedUserResponseType>('/auth/me', data)
     },
     forgotPassword(data: ForgotPasswordDataType) {
-        return instance.post<'',AxiosResponse<DefaultResponseType>, ForgotPasswordDataType>('/auth/forgot', data)
+        return instance.post<DefaultResponseType>('/auth/forgot', data)
     },
     setNewPassword(data: SetPasswordDataType) {
-        return instance.post<'', AxiosResponse<DefaultResponseType>, SetPasswordDataType>('/auth/set-new-password', data)
+        return instance.post<DefaultResponseType>('/auth/set-new-password', data)
     },
     blockContent(data: BlockContentDataType) {
-        return instance.post<'', AxiosResponse<BlockContentResponseType>, BlockContentDataType>('/auth/block', data)
+        return instance.post<BlockContentResponseType>('/auth/block', data)
     }
 }
 
@@ -43,13 +43,10 @@ export type LoginParamsType = {
     password: string
     rememberMe: boolean
 }
-
 export type RegisterParamsType = {
     email: string
     password: string
 }
-
-
 export type UpdateProfileDataType = {
     name: string
     avatar: string
@@ -106,11 +103,6 @@ export type AddedUserType = AuthResponseType & {
 export type RegisterResponseType = {
     'addedUser': AddedUserType
 }
-/*
-    error: string,
-    email: string,
-    in: string
- */
 
 export type UpdatedUserResponseType = {
     updatedUser: AuthResponseType
