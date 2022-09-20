@@ -94,7 +94,7 @@ const Login = () => {
                         </FormGroup>
                     </form>
                 </FormControl>
-                <p className={s.text}>Already have an account ?</p>
+                <p className={s.text}>Do not have an account ?</p>
                 <NavLink to={'/registration'} className={s.signUpLink}>Sing up</NavLink>
             </Paper>
         </div>
