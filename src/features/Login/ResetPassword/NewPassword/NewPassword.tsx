@@ -21,15 +21,16 @@ const NewPassword = () => {
     const {register, handleSubmit, formState: {errors}} = useForm<InputsType>();
 
     const onSubmit: SubmitHandler<InputsType> = async (data: { password: string }) => {
-        try {
-            await dispatch(setNewPassTC({
-                ...data,
-                resetPasswordToken: token!
-            }))
+
+        let res = await dispatch(setNewPassTC({
+            ...data,
+            resetPasswordToken: token!
+        }))
+
+        if (res) {
             setIsSuccess(true)
-        } catch (e) {
-            setIsSuccess(false)
         }
+
     }
 
     if (isSuccess) {
