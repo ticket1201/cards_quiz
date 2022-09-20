@@ -4,16 +4,14 @@ import AppBar from '@mui/material/AppBar';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Toolbar from '@mui/material/Toolbar';
-
 import {useAppSelector} from '../../hooks/hooks';
-import {NavLink, useNavigate} from 'react-router-dom';
+import {Navigate, NavLink} from 'react-router-dom';
 import ava from '../../../assets/images/avatar.jpg'
 
 const Header = () => {
     const {name, avatar} = useAppSelector(state => state.auth)
-    const navigate = useNavigate()
     const HandlerClick = () => {
-        return navigate('/')
+        return <Navigate to={'/'}/>
     }
 
     return (
