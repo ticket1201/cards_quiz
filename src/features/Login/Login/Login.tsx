@@ -1,23 +1,33 @@
-import React, {useEffect} from 'react';
-import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Paper, TextField} from '@mui/material';
-import Button from '@mui/material/Button';
+import React from 'react';
 import {Navigate, NavLink} from 'react-router-dom';
-import {SubmitHandler, useForm, Controller} from 'react-hook-form';
-import {loginTC} from './auth_reducer';
-import {useAppDispatch, useAppSelector} from '../../common/hooks/hooks';
+import {Controller, SubmitHandler, useForm} from 'react-hook-form';
+import {loginTC} from '../auth_reducer';
+import {useAppDispatch, useAppSelector} from '../../../common/hooks/hooks';
 import s from './Login.module.css';
+import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
+import FormLabel from '@mui/material/FormLabel';
+import TextField from '@mui/material/TextField';
+import Checkbox from '@mui/material/Checkbox';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
+import {PasswordInput} from '../../../common/components/PasswordInput/PasswordInput';
 
-type LoginFormType = {
+export type LoginFormType = {
     email: string
     password: string
     rememberMe: boolean
 }
 
 const Login = () => {
-    const dispatch = useAppDispatch()
-    const userId = useAppSelector(state => state.auth._id)
 
-    const {register, reset, control, handleSubmit, formState: {errors, isSubmitSuccessful}} = useForm<LoginFormType>({
+    // form handling logic
+    const userId = useAppSelector(state => state.auth._id)
+    const requestStatus = useAppSelector(state => state.app.status)
+    const dispatch = useAppDispatch()
+
+    const {register, control, handleSubmit, formState: {errors}} = useForm<LoginFormType>({
         defaultValues: {
             email: '',
             password: '',
@@ -32,12 +42,6 @@ const Login = () => {
     const onEnterPress = (key: string) => {
         key === 'Enter' && handleSubmit(onSubmit)
     }
-/*
-    useEffect(() => {
-        if (isSubmitSuccessful) {
-            reset()
-        }
-    }, [isSubmitSuccessful, reset])*/
 
     if (userId) {
         return <Navigate to={'/profile'}/>
@@ -67,16 +71,7 @@ const Login = () => {
                             />
                             {errors.email && <div style={{color: 'red'}}>{errors.email.message}</div>}
 
-                            <TextField type="password"
-                                       label="Password"
-                                       margin="normal"
-                                       variant="standard"
-                                       {...register('password', {
-                                           required: 'Password is required', minLength: {
-                                               value: 8, message: 'Password must be more than 8 characters'
-                                           }
-                                       })}
-                            />
+                            <PasswordInput register={register} label={'Password'}/>
                             {errors.password && <div style={{color: 'red'}}>{errors.password.message}</div>}
 
                             <FormControlLabel label={'Remember me'} style={{marginTop: '8px'}}
@@ -85,7 +80,11 @@ const Login = () => {
                                                                                                   checked={!!field.value}/>}/>}/>
 
                             <NavLink to={'/reset'} className={s.forgotPass}>Forgot password ?</NavLink>
-                            <Button type={'submit'} variant={'contained'} color={'primary'} style={{marginTop: '70px'}}
+                            <Button type={'submit'}
+                                    variant={'contained'}
+                                    color={'primary'}
+                                    style={{marginTop: '70px'}}
+                                    disabled={requestStatus === 'loading'}
                                     fullWidth>
                                 Sign in
                             </Button>

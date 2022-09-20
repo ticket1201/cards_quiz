@@ -1,7 +1,8 @@
-import {authAPI, AuthResponseType, LoginParamsType, SetPasswordDataType, UpdateProfileDataType} from '../../api/api';
+import {authAPI, AuthResponseType, LoginParamsType, SetPasswordDataType} from '../../api/api';
 import {RootThunkType} from '../../app/store';
+import axios, {AxiosError} from 'axios';
 import {RegisterFormType} from './Registration/Registration';
-import {setAppIsInitializedAC, setAppStatusAC, setAppSuccessAC} from '../../app/app_reducer';
+import {setAppIsInitializedAC, setAppStatusAC} from '../../app/app_reducer';
 import {errorUtils} from '../../common/utils/error-utils';
 
 type InitialStateType = {
@@ -21,8 +22,7 @@ const initialState = {
 type AuthMeACType = ReturnType<typeof AuthMeAC>
 type SetLoginDataACType = ReturnType<typeof SetLoginDataAC>
 type LogoutACType = ReturnType<typeof LogoutAC>
-type UpdateProfileACType = ReturnType<typeof UpdateProfileAC>
-export type ActionsType = AuthMeACType | SetLoginDataACType | LogoutACType | UpdateProfileACType
+export type ActionsType = AuthMeACType | SetLoginDataACType | LogoutACType
 
 export const authReducer = (state = initialState, action: ActionsType): any => {
     switch (action.type) {
