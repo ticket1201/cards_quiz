@@ -38,7 +38,9 @@ const Profile = () => {
                 </div>
                 <EditableSpan value={name} disabled={false} onChange={HandlerUpdateData}/>
                 <p className={s.email}>{email}</p>
-                <Button variant={'outlined'} className={s.logOut} sx={{    borderRadius: '18px'}} startIcon={<LogoutOutlinedIcon/>} onClick={()=>HandlerLogOut()} >Log Out</Button>
+                <Button variant={'outlined'} className={s.logOut} sx={{    borderRadius: '18px'}} startIcon={<LogoutOutlinedIcon/>} onClick={()=>HandlerLogOut()} >
+                    <span className={s.text}>Log Out</span>
+                </Button>
             </Paper>
         </div>
     );
