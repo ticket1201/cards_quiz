@@ -1,22 +1,68 @@
-/*
-import {AuthMeAC, authReducer} from './auth_reducer';
+import {AuthMeAC, authReducer, InitialStateType, LogoutAC, SetLoginDataAC} from './auth_reducer';
+import {AuthResponseType} from '../../api/api';
 
 let startState: InitialStateType, endState: InitialStateType;
-const oldId = ''
 
 beforeEach(() => {
     startState = {
-        id: oldId
+        _id: null,
+        email: '',
+        name: '',
+        avatar: 'https//avatar-url.img',
+        publicCardPacksCount: null
     }
 })
 
 
-test('set new id into the state', () => {
-    const newId = '134'
-    endState = authReducer(startState, AuthMeAC(newId))
+test('set user data into the state wia auth me request', () => {
+    const user = {
+        _id: '124',
+        email: 'someMail@gmail.com',
+        name: 'Alex',
+        avatar: 'https//avatar1-url.img',
+        publicCardPacksCount: 24
+    } as AuthResponseType
+    endState = authReducer(startState, AuthMeAC(user))
 
-    expect(startState.id).toBe(oldId)
-    expect(endState.id).toBe(newId)
-})*/
+    expect(startState._id).toBe(null)
+    expect(startState.publicCardPacksCount).toBe(null)
+    expect(endState._id).toBe('124')
+    expect(endState.publicCardPacksCount).toBe(24)
+})
 
-export default 123
+test('set user data into the state wia login request', () => {
+    const user = {
+        _id: '125',
+        email: 'randomMail@gmail.com',
+        name: 'Kate',
+        avatar: 'https//avatar2-url.img',
+        publicCardPacksCount: 5
+    } as AuthResponseType
+    endState = authReducer(startState, SetLoginDataAC(user))
+
+    expect(startState.name).toBe('')
+    expect(startState.email).toBe('')
+    expect(endState.name).toBe('Kate')
+    expect(endState.email).toBe('randomMail@gmail.com')
+})
+
+test('update user data in the state', () => {
+    const user = {
+        _id: '352',
+        email: 'oneMoreMail@gmail.com',
+        name: 'Mike',
+        avatar: 'https//avatar3-url.img',
+        publicCardPacksCount: 26
+    } as AuthResponseType
+    endState = authReducer(startState, SetLoginDataAC(user))
+
+    expect(startState.name).toBe('')
+    expect(endState.name).toBe('Mike')
+})
+
+test('user data should be removed from the state', () => {
+    endState = authReducer(startState, LogoutAC())
+
+    expect(startState.avatar).toBe('https//avatar-url.img')
+    expect(endState.avatar).toBe(null)
+})

@@ -10,7 +10,7 @@ import {RootThunkType} from '../../app/store';
 import {setAppIsInitializedAC, setAppStatusAC, setAppSuccessAC} from '../../app/app_reducer';
 import {errorUtils} from '../../common/utils/error-utils';
 
-type InitialStateType = {
+export type InitialStateType = {
     _id: string | null
     email: string;
     name: string;
@@ -49,21 +49,21 @@ export const AuthMeAC = (payload: AuthResponseType) => {
         payload
     } as const
 }
-const SetLoginDataAC = (payload: AuthResponseType) => {
+export const SetLoginDataAC = (payload: AuthResponseType) => {
     return {
         type: 'auth/SET_LOGIN_DATA',
         payload
-    } as const
-}
-const LogoutAC = () => {
-    return {
-        type: 'auth/LOG_OUT'
     } as const
 }
 export const UpdateProfileAC = (payload: AuthResponseType) => {
     return {
         type: 'auth/UPDATE_PROFILE',
         payload
+    } as const
+}
+export const LogoutAC = () => {
+    return {
+        type: 'auth/LOG_OUT'
     } as const
 }
 
