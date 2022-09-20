@@ -117,13 +117,15 @@ export const ForgotPassTC = ({email}: { email: string }): RootThunkType => async
     }
 }
 
-export const setNewPassTC = (data: SetPasswordDataType): RootThunkType => async (dispatch) => {
+export const setNewPassTC = (data: SetPasswordDataType): RootThunkType<Promise<boolean>> => async (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     try {
         await authAPI.setNewPassword(data)
         dispatch(setAppSuccessAC('SUCCESS'))
+        return true
     } catch (e: any) {
         errorUtils(e, dispatch)
+        return false
     } finally {
         dispatch(setAppStatusAC('idle'))
     }
