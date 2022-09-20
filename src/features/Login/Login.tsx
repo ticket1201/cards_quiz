@@ -1,14 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Paper, TextField} from '@mui/material';
-import Button from '@mui/material/Button';
+import React, {useState} from 'react';
 import {Navigate, NavLink} from 'react-router-dom';
-import {SubmitHandler, useForm, Controller} from 'react-hook-form';
+import {Controller, SubmitHandler, useForm} from 'react-hook-form';
 import {loginTC} from './auth_reducer';
 import {useAppDispatch, useAppSelector} from '../../common/hooks/hooks';
 import s from './Login.module.css';
+import Button from '@mui/material/Button';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
-import {Visibility, VisibilityOff} from '@mui/icons-material';
+import Paper from '@mui/material/Paper';
+import FormLabel from '@mui/material/FormLabel';
+import TextField from '@mui/material/TextField';
+import Checkbox from '@mui/material/Checkbox';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 type LoginFormType = {
     email: string
@@ -18,6 +25,7 @@ type LoginFormType = {
 
 const Login = () => {
 
+    // show-hide password logic
     const [values, setValues] = useState({
         password: '',
         showPassword: false
@@ -36,10 +44,12 @@ const Login = () => {
         })
     };
 
-    const dispatch = useAppDispatch()
+    // form handling logic
     const userId = useAppSelector(state => state.auth._id)
+    const requestStatus = useAppSelector(state => state.app.status)
+    const dispatch = useAppDispatch()
 
-    const {register, reset, control, handleSubmit, formState: {errors, isSubmitSuccessful}} = useForm<LoginFormType>({
+    const {register, control, handleSubmit, formState: {errors}} = useForm<LoginFormType>({
         defaultValues: {
             email: '',
             password: '',
@@ -55,17 +65,10 @@ const Login = () => {
         key === 'Enter' && handleSubmit(onSubmit)
     }
 
-    useEffect(() => {
-        if (isSubmitSuccessful) {
-            reset()
-        }
-    }, [isSubmitSuccessful, reset])
-
     if (userId) {
         return <Navigate to={'/profile'}/>
     }
 
-    // @ts-ignore
     return (
         <div className={'base-wrapper'}>
             <Paper className={'defaultPop'} elevation={2}>
@@ -122,7 +125,11 @@ const Login = () => {
                                                                                                   checked={!!field.value}/>}/>}/>
 
                             <NavLink to={'/reset'} className={s.forgotPass}>Forgot password ?</NavLink>
-                            <Button type={'submit'} variant={'contained'} color={'primary'} style={{marginTop: '70px'}}
+                            <Button type={'submit'}
+                                    variant={'contained'}
+                                    color={'primary'}
+                                    style={{marginTop: '70px'}}
+                                    disabled={requestStatus === 'loading'}
                                     fullWidth>
                                 Sign in
                             </Button>
