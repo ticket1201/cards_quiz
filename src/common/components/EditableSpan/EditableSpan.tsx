@@ -60,7 +60,7 @@ export const EditableSpan = memo(({value, onChange, disabled}: EditableSpanProps
                 disableElevation
                 onClick={saveHandler}
             >
-                Save
+                <p>SAVE</p>
             </Button>
         </h3>
         : <h3 onDoubleClick={activateEditMode} >
