@@ -43,11 +43,8 @@ export const PasswordInput: FC<PasswordInputPropsType> = ({register, label}) => 
                               </IconButton>
                           </InputAdornment>
                       }}
-                      {...register('password', {
-                          value: values.password, onChange: handleChange,
-                          required: 'Password is required', minLength: {
-                              value: 8, message: 'Password must be more than 8 characters'
-                          }
-                      })}
+                      {...register}
+                      value={values.password}
+                      onChange={handleChange}
     />
 }
