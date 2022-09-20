@@ -4,12 +4,13 @@ import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
+import {RegisterOptions} from 'react-hook-form';
 
 type PasswordInputPropsType = {
     register: any
     label: string
     name: string
-    options: any
+    options: RegisterOptions
 }
 export const PasswordInput: FC<PasswordInputPropsType> = ({register, label, name, options}) => {
 

@@ -106,7 +106,7 @@ const RegisterForm = () => {
                                label={'Confirm password'}
                                register={register}
                                options={{
-                                   validate: (value: string) =>
+                                   validate: value =>
                                        value === password || 'The passwords do not match'
                                }}
                 />
