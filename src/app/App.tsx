@@ -14,6 +14,7 @@ import {useAppDispatch, useAppSelector} from '../common/hooks/hooks';
 import {AuthMeTC} from '../features/Login/auth_reducer';
 import LinearProgress from '@mui/material/LinearProgress';
 import {Preloader} from '../common/components/Preloader/Preloader';
+import Login from '../features/Login/Login/Login';
 
 
 function App() {
@@ -23,7 +24,7 @@ function App() {
 
     useEffect(() => {
         dispatch(AuthMeTC())
-    }, [])
+    }, [dispatch])
 
 
     if(!isInitialized){
@@ -41,7 +42,7 @@ function App() {
                     <Route path="profile" element={<Profile/>}/>
                     <Route path="registration" element={<Registration/>}/>
                     <Route path="reset" element={<ResetPassword/>}/>
-                    <Route path="reset/success:email" element={<Success/>}/>
+                    <Route path="reset/success/:email" element={<Success/>}/>
                     <Route path="set-new-password/:token" element={<NewPassword/>}/>
                     <Route path="*" element={<Error404/>}/>
                 </Routes>
@@ -54,8 +55,8 @@ function App() {
                 <Link to={'/profile'}>Profile</Link>
                 <Link to={'/Error404'}>404</Link>
                 <Link to={'/reset'}>Reset pass</Link>
-                <Link to={'/reset/success:email'}>Rest success</Link>
-                <Link to={'/set-new-password/:token'}>New pass</Link>
+                <Link to={'/reset/success/email@example.com'}>Rest success</Link>
+                <Link to={'/set-new-password/token'}>New pass</Link>
             </div>
         </div>
     );
