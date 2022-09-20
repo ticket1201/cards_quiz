@@ -30,7 +30,7 @@ const Login = () => {
         <div className={'base-wrapper'}>
             <Paper className={'defaultPop'} elevation={2}>
                 <FormControl className={s.FormControl}>
-                    <FormLabel>
+                    <FormLabel style={{color: 'inherit'}}>
                         <h2 className={s.title}>Sign in</h2>
                     </FormLabel>
                     <LoginForm/>
