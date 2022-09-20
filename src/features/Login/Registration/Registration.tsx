@@ -90,17 +90,26 @@ const RegisterForm = () => {
                 />
                 {errors.email && <div style={{color: 'red'}}>{errors.email.message}</div>}
 
-                <PasswordInput register={register('password', {
-                    required: 'Password is required', minLength: {
-                        value: 8, message: 'Password must be more than 8 characters'
-                    }
-                })} label={'Password'}/>
+                <PasswordInput
+                    name="password"
+                    label={'Password'}
+                    register={register}
+                    options={{
+                        required: 'Password is required', minLength: {
+                            value: 8, message: 'Password must be more than 8 characters'
+                        }
+                    }}
+                />
                 {errors.password && <div style={{color: 'red'}}>{errors.password.message}</div>}
 
-                <PasswordInput register={register('confirmPassword', {
-                    validate: value =>
-                        value === password || 'The passwords do not match'
-                })} label={'Confirm password'}/>
+                <PasswordInput name="confirmPassword"
+                               label={'Confirm password'}
+                               register={register}
+                               options={{
+                                   validate: (value: string) =>
+                                       value === password || 'The passwords do not match'
+                               }}
+                />
                 {errors.confirmPassword &&
                     <div style={{color: 'red'}}>{errors.confirmPassword.message}</div>}
 

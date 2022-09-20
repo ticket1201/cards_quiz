@@ -8,8 +8,10 @@ import Visibility from '@mui/icons-material/Visibility';
 type PasswordInputPropsType = {
     register: any
     label: string
+    name: string
+    options: any
 }
-export const PasswordInput: FC<PasswordInputPropsType> = ({register, label}) => {
+export const PasswordInput: FC<PasswordInputPropsType> = ({register, label, name, options}) => {
 
     const [values, setValues] = useState({
         password: '',
@@ -43,8 +45,10 @@ export const PasswordInput: FC<PasswordInputPropsType> = ({register, label}) => 
                               </IconButton>
                           </InputAdornment>
                       }}
-                      {...register}
-                      value={values.password}
-                      onChange={handleChange}
+                      {...register(name, {
+                          value: values.password,
+                          onChange: handleChange,
+                          ...options
+                      })}
     />
 }

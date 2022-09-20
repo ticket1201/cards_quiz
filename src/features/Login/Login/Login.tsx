@@ -71,7 +71,16 @@ const Login = () => {
                             />
                             {errors.email && <div style={{color: 'red'}}>{errors.email.message}</div>}
 
-                            <PasswordInput register={register} label={'Password'}/>
+                            <PasswordInput
+                                name="password"
+                                label={'Password'}
+                                register={register}
+                                options={{
+                                    required: 'Password is required', minLength: {
+                                        value: 8, message: 'Password must be more than 8 characters'
+                                    }
+                                }}
+                            />
                             {errors.password && <div style={{color: 'red'}}>{errors.password.message}</div>}
 
                             <FormControlLabel label={'Remember me'} style={{marginTop: '8px'}}
