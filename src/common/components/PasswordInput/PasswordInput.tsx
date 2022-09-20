@@ -11,8 +11,9 @@ type PasswordInputPropsType = {
     label: string
     name: string
     options: RegisterOptions
+    isFullWidth?: boolean
 }
-export const PasswordInput: FC<PasswordInputPropsType> = ({register, label, name, options}) => {
+export const PasswordInput: FC<PasswordInputPropsType> = ({register, label, name, options, isFullWidth}) => {
 
     const [values, setValues] = useState({
         password: '',
@@ -35,6 +36,7 @@ export const PasswordInput: FC<PasswordInputPropsType> = ({register, label, name
                       label={label}
                       margin="normal"
                       variant="standard"
+                      fullWidth={isFullWidth}
                       InputProps={{
                           endAdornment: <InputAdornment position={'end'}>
                               <IconButton
