@@ -4,12 +4,15 @@ import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Visibility from '@mui/icons-material/Visibility';
+import {RegisterOptions} from 'react-hook-form';
 
 type PasswordInputPropsType = {
     register: any
     label: string
+    name: string
+    options: RegisterOptions
 }
-export const PasswordInput: FC<PasswordInputPropsType> = ({register, label}) => {
+export const PasswordInput: FC<PasswordInputPropsType> = ({register, label, name, options}) => {
 
     const [values, setValues] = useState({
         password: '',
@@ -43,11 +46,9 @@ export const PasswordInput: FC<PasswordInputPropsType> = ({register, label}) => 
                               </IconButton>
                           </InputAdornment>
                       }}
-                      {...register('password', {
+                      {...register(name, {
                           value: values.password, onChange: handleChange,
-                          required: 'Password is required', minLength: {
-                              value: 8, message: 'Password must be more than 8 characters'
-                          }
+                          ...options
                       })}
     />
 }
