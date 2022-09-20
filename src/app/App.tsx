@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import './App.css';
 import {Link, Route, Routes} from 'react-router-dom';
-import Login from '../features/Login/Login';
+import Login from '../features/Login/Login/Login';
 import Error404 from '../features/Error404/Error404';
 import Registration from '../features/Login/Registration/Registration';
 import ResetPassword from '../features/Login/ResetPassword/ResetPassword';

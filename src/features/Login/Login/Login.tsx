@@ -1,12 +1,10 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Navigate, NavLink} from 'react-router-dom';
 import {Controller, SubmitHandler, useForm} from 'react-hook-form';
-import {loginTC} from './auth_reducer';
-import {useAppDispatch, useAppSelector} from '../../common/hooks/hooks';
+import {loginTC} from '../auth_reducer';
+import {useAppDispatch, useAppSelector} from '../../../common/hooks/hooks';
 import s from './Login.module.css';
 import Button from '@mui/material/Button';
-import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
@@ -14,35 +12,15 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import {PasswordInput} from '../../../common/components/PasswordInput/PasswordInput';
 
-type LoginFormType = {
+export type LoginFormType = {
     email: string
     password: string
     rememberMe: boolean
 }
 
 const Login = () => {
-
-    // show-hide password logic
-    const [values, setValues] = useState({
-        password: '',
-        showPassword: false
-    })
-    const handleClickShowPassword = () => {
-        setValues({
-            ...values, showPassword: !values.showPassword
-        })
-    }
-    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-    };
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValues({
-            ...values, password: event.currentTarget.value
-        })
-    };
 
     // form handling logic
     const userId = useAppSelector(state => state.auth._id)
@@ -95,28 +73,7 @@ const Login = () => {
                             />
                             {errors.email && <div style={{color: 'red'}}>{errors.email.message}</div>}
 
-                            <TextField type={values.showPassword ? 'text' : 'password'}
-                                       label="Password"
-                                       margin="normal"
-                                       variant="standard"
-                                       InputProps={{
-                                           endAdornment: <InputAdornment position={'end'}>
-                                               <IconButton
-                                                   aria-label="toggle password visibility"
-                                                   onClick={handleClickShowPassword}
-                                                   onMouseDown={handleMouseDownPassword}
-                                               >
-                                                   {values.showPassword ? <VisibilityOff/> : <Visibility/>}
-                                               </IconButton>
-                                           </InputAdornment>
-                                       }}
-                                       {...register('password', {
-                                           value: values.password, onChange: handleChange,
-                                           required: 'Password is required', minLength: {
-                                               value: 8, message: 'Password must be more than 8 characters'
-                                           }
-                                       })}
-                            />
+                            <PasswordInput register={register} label={'Password'}/>
                             {errors.password && <div style={{color: 'red'}}>{errors.password.message}</div>}
 
                             <FormControlLabel label={'Remember me'} style={{marginTop: '8px'}}
