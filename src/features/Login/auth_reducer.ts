@@ -27,7 +27,6 @@ export type ActionsType = AuthMeACType | SetLoginDataACType | LogoutACType
 export const authReducer = (state = initialState, action: ActionsType): any => {
     switch (action.type) {
         case 'auth/AUTH_ME':
-            return {...state, ...action.payload}
         case 'auth/SET_LOGIN_DATA':
             return {...state, ...action.payload}
         case 'auth/LOG_OUT':
@@ -56,57 +55,57 @@ const LogoutAC = () => {
 }
 
 export const AuthMeTC = (): RootThunkType => async (dispatch) => {
-    setAppStatusAC('loading')
+    dispatch(setAppStatusAC('loading'))
     try {
         const res = await authAPI.me()
         dispatch(setAppIsInitializedAC(true))
         dispatch(AuthMeAC(res.data))
-    } catch (e:any) {
-        errorUtils(e, dispatch)
-    }
-    finally {
-        setAppStatusAC('idle')
+        dispatch(setAppStatusAC('succeeded'))
+    } catch (e) {
+        const err = e as Error | AxiosError<{ error: string }>
+        errorUtils(err, dispatch)
+        dispatch(setAppStatusAC('failed'))
     }
 }
 
 export const loginTC = (data: LoginParamsType): RootThunkType => async (dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     try {
         const res = await authAPI.login(data)
         dispatch(SetLoginDataAC(res.data))
-    } catch (e:any) {
-        errorUtils(e, dispatch)
+        dispatch(setAppStatusAC('succeeded'))
+    } catch (e) {
+        const err = e as Error | AxiosError<{ error: string }>
+        errorUtils(err, dispatch)
+        dispatch(setAppStatusAC('failed'))
     }
 }
 
 export const logoutTC = (): RootThunkType => async (dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     try {
         await authAPI.logout()
         dispatch(LogoutAC())
+        dispatch(setAppStatusAC('succeeded'))
     } catch (e) {
         const err = e as Error | AxiosError<{ error: string }>
-        if (axios.isAxiosError(err)) {
-            const error = err.response?.data
-                ? (err.response.data as { error: string }).error
-                : err.message
-            console.log(error)
-        }
+        errorUtils(err, dispatch)
+        dispatch(setAppStatusAC('failed'))
     }
 }
 
-export const ForgotPassTC = ({email}:{email:string}):RootThunkType => async (dispatch) => {
+export const ForgotPassTC = ({email}: { email: string }): RootThunkType => async (dispatch) => {
     try {
-        let res = await authAPI.forgotPassword({email, ...{"message":"<div style=\"padding: 15px\">\npassword recovery link: \n<a href='http://localhost:3000/#/set-new-password/$token$'>\nlink</a>\n</div>"}})
-    }
-    catch (e){
+        let res = await authAPI.forgotPassword({email, ...{'message': '<div style="padding: 15px">\npassword recovery link: \n<a href=\'http://localhost:3000/#/set-new-password/$token$\'>\nlink</a>\n</div>'}})
+    } catch (e) {
         console.log(e)
     }
 }
 
-export const setNewPassTC = (data: SetPasswordDataType):RootThunkType => async (dispatch) => {
+export const setNewPassTC = (data: SetPasswordDataType): RootThunkType => async (dispatch) => {
     try {
         let res = await authAPI.setNewPassword(data)
-    }
-    catch (e){
+    } catch (e) {
         console.log(e)
     }
 }
