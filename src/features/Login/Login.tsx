@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Paper, TextField} from '@mui/material';
 import Button from '@mui/material/Button';
 import {Navigate, NavLink} from 'react-router-dom';
@@ -6,6 +6,9 @@ import {SubmitHandler, useForm, Controller} from 'react-hook-form';
 import {loginTC} from './auth_reducer';
 import {useAppDispatch, useAppSelector} from '../../common/hooks/hooks';
 import s from './Login.module.css';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import {Visibility, VisibilityOff} from '@mui/icons-material';
 
 type LoginFormType = {
     email: string
@@ -14,6 +17,25 @@ type LoginFormType = {
 }
 
 const Login = () => {
+
+    const [values, setValues] = useState({
+        password: '',
+        showPassword: false
+    })
+    const handleClickShowPassword = () => {
+        setValues({
+            ...values, showPassword: !values.showPassword
+        })
+    }
+    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+    };
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setValues({
+            ...values, password: event.currentTarget.value
+        })
+    };
+
     const dispatch = useAppDispatch()
     const userId = useAppSelector(state => state.auth._id)
 
@@ -43,6 +65,7 @@ const Login = () => {
         return <Navigate to={'/profile'}/>
     }
 
+    // @ts-ignore
     return (
         <div className={'base-wrapper'}>
             <Paper className={'defaultPop'} elevation={2}>
@@ -69,11 +92,23 @@ const Login = () => {
                             />
                             {errors.email && <div style={{color: 'red'}}>{errors.email.message}</div>}
 
-                            <TextField type="password"
+                            <TextField type={values.showPassword ? 'text' : 'password'}
                                        label="Password"
                                        margin="normal"
                                        variant="standard"
+                                       InputProps={{
+                                           endAdornment: <InputAdornment position={'end'}>
+                                               <IconButton
+                                                   aria-label="toggle password visibility"
+                                                   onClick={handleClickShowPassword}
+                                                   onMouseDown={handleMouseDownPassword}
+                                               >
+                                                   {values.showPassword ? <VisibilityOff/> : <Visibility/>}
+                                               </IconButton>
+                                           </InputAdornment>
+                                       }}
                                        {...register('password', {
+                                           value: values.password, onChange: handleChange,
                                            required: 'Password is required', minLength: {
                                                value: 8, message: 'Password must be more than 8 characters'
                                            }
