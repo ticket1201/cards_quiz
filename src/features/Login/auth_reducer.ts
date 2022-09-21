@@ -83,6 +83,7 @@ export const loginTC = (data: LoginParamsType): RootThunkType => async (dispatch
     try {
         const res = await authAPI.login(data)
         dispatch(SetLoginDataAC(res.data))
+        dispatch(setAppSuccessAC('You are sign in successfully'))
     } catch (e: any) {
         errorUtils(e, dispatch)
     } finally {
@@ -95,6 +96,7 @@ export const logoutTC = (): RootThunkType => async (dispatch) => {
     try {
         await authAPI.logout()
         dispatch(LogoutAC())
+        dispatch(setAppSuccessAC('You are log out successfully'))
     } catch (e: any) {
         errorUtils(e, dispatch)
     } finally {
@@ -121,7 +123,7 @@ export const setNewPassTC = (data: SetPasswordDataType): RootThunkType<Promise<b
     dispatch(setAppStatusAC('loading'))
     try {
         await authAPI.setNewPassword(data)
-        dispatch(setAppSuccessAC('SUCCESS'))
+        dispatch(setAppSuccessAC('You are successfully reset password'))
         return true
     } catch (e: any) {
         errorUtils(e, dispatch)
@@ -153,7 +155,7 @@ export const updateProfileTC = (data: UpdateProfileDataType):RootThunkType => as
     try{
         let res = await authAPI.updateProfile(data)
         dispatch(UpdateProfileAC(res.data.updatedUser))
-        dispatch(setAppSuccessAC('SUCCESS'))
+        dispatch(setAppSuccessAC('Profile updated successfully'))
     }
     catch (e:any){
         errorUtils(e, dispatch)
