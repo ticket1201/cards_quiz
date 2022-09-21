@@ -30,8 +30,14 @@ export const EditableSpan = memo(({value, onChange, disabled}: EditableSpanProps
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            activateViewMode()
+            if(checkLength(title)){
+                saveHandler()
+            }
         }
+    }
+
+    const checkLength = (str:string) => {
+        return str.length > 0
     }
 
     const saveHandler = () => {
@@ -57,6 +63,7 @@ export const EditableSpan = memo(({value, onChange, disabled}: EditableSpanProps
                 variant={'contained'}
                 className={s.button}
                 style={{position: 'absolute'}}
+                disabled={!checkLength(title)}
                 disableElevation
                 onClick={saveHandler}
             >
