@@ -14,11 +14,11 @@ export const Pages = () => {
     return <Routes>
         <Route element={<PrivateRoutes/>}>
             <Route path={Path.Profile} element={<Profile/>}/>
-            <Route path={`${Path.ResetSuccess}/:email`} element={<Success/>}/>
         </Route>
         <Route path={Path.Login} element={<Login/>}/>
         <Route path={Path.Registration} element={<Registration/>}/>
         <Route path={Path.ResetPassword} element={<ResetPassword/>}/>
+        <Route path={`${Path.ResetSuccess}/:email`} element={<Success/>}/>
         <Route path={`${Path.NewPassword}/:token`} element={<NewPassword/>}/>
         <Route path={Path.Error404} element={<Error404/>}/>
         <Route path={Path.Other} element={<Navigate to={Path.Error404}/>}/>
