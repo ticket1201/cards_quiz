@@ -1,4 +1,4 @@
-import {Navigate, Route, Routes} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import {Login} from '../../../features/Login/Login/Login';
 import React from 'react';
 import Profile from '../../../features/Profile/Profile';
@@ -20,7 +20,6 @@ export const Pages = () => {
         <Route path={Path.ResetPassword} element={<ResetPassword/>}/>
         <Route path={`${Path.ResetSuccess}/:email`} element={<Success/>}/>
         <Route path={`${Path.NewPassword}/:token`} element={<NewPassword/>}/>
-        <Route path={Path.Error404} element={<Error404/>}/>
-        <Route path={Path.Other} element={<Navigate to={Path.Error404}/>}/>
+        <Route path={Path.Other} element={<Error404/>}/>
     </Routes>
 };
