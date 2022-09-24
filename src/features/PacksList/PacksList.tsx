@@ -1,10 +1,12 @@
 import React from 'react';
+import UniversalTable from '../../common/components/Table/UniversalTable';
 
 const PacksList = () => {
     return (
-        <div>
+        <>
             Packs list
-        </div>
+            <UniversalTable/>
+        </>
     );
 };
 
