@@ -6,5 +6,7 @@ export enum Path {
     ResetSuccess = '/reset/success',
     NewPassword = 'set-new-password',
     Error404 = '404',
-    Other = '*'
+    Other = '*',
+    PacksList = 'packs',
+    PackPage = 'pack'
 }

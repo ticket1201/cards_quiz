@@ -1,4 +1,4 @@
-import {Navigate, Route, Routes} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import {Login} from '../../../features/Login/Login/Login';
 import React from 'react';
 import Profile from '../../../features/Profile/Profile';
@@ -9,6 +9,8 @@ import NewPassword from '../../../features/Login/ResetPassword/NewPassword/NewPa
 import Error404 from '../../../features/Error404/Error404';
 import {Path} from '../../enums/path';
 import {PrivateRoutes} from '../PrivateRoutes/PrivateRoutes';
+import PacksList from '../../../features/PacksList/PacksList';
+import PackPage from '../../../features/PackPage/PackPage';
 
 export const Pages = () => {
     return <Routes>
@@ -20,7 +22,8 @@ export const Pages = () => {
         <Route path={Path.ResetPassword} element={<ResetPassword/>}/>
         <Route path={`${Path.ResetSuccess}/:email`} element={<Success/>}/>
         <Route path={`${Path.NewPassword}/:token`} element={<NewPassword/>}/>
-        <Route path={Path.Error404} element={<Error404/>}/>
-        <Route path={Path.Other} element={<Navigate to={Path.Error404}/>}/>
+        <Route path={`${Path.PacksList}`} element={<PacksList/>}/>
+        <Route path={`${Path.PackPage}`} element={<PackPage/>}/>
+        <Route path={Path.Other} element={<Error404/>}/>
     </Routes>
 };
