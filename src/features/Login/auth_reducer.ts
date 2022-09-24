@@ -75,6 +75,8 @@ export const authMeTC = (): RootThunkType => async (dispatch) => {
     try {
         const res = await authAPI.me()
         dispatch(authMeAC(res.data))
+    } catch (e) {
+        //Ignore auth me errors
     } finally {
         setAppStatusAC('idle')
         dispatch(setAppIsInitializedAC(true))
