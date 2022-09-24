@@ -22,14 +22,15 @@ function App() {
     }, [dispatch])
 
 
-    if(!isInitialized){
+    if (!isInitialized) {
         return (<Preloader/>)
     }
 
     return (
         <div className="App">
             <Header/>
-            {status === 'loading' && <LinearProgress color={'inherit'} sx={{top:'60px', left:'0', right:'0', position:'absolute'}}/>}
+            {status === 'loading' &&
+                <LinearProgress color={'inherit'} sx={{top: '60px', left: '0', right: '0', position: 'absolute'}}/>}
             <UniversalSnackbar/>
             <Grid container className={'content-wrapper'}>
                 <Pages/>
@@ -44,6 +45,8 @@ function App() {
                 <Link to={Path.ResetPassword}>Reset pass</Link>
                 <Link to={`${Path.ResetSuccess}/email@example.com`}>Rest success</Link>
                 <Link to={`${Path.NewPassword}/token`}>New pass</Link>
+                <Link to={`${Path.PacksList}`}>Packs list</Link>
+                <Link to={`${Path.PackPage}`}>Pack page</Link>
             </div>
         </div>
     );
