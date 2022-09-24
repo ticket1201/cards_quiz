@@ -11,10 +11,10 @@ import {UniversalSnackbar} from '../common/components/CustomSnackbar/CustomSnack
 import Grid from '@mui/material/Grid';
 import Success from '../features/Login/Success/Success';
 import {useAppDispatch, useAppSelector} from '../common/hooks/hooks';
-import {AuthMeTC} from '../features/Login/auth_reducer';
+import {authMeTC} from '../features/Login/auth_reducer';
 import LinearProgress from '@mui/material/LinearProgress';
 import {Preloader} from '../common/components/Preloader/Preloader';
-import Login from '../features/Login/Login/Login';
+import {Login} from '../features/Login/Login/Login';
 
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
     let isInitialized = useAppSelector(state => state.app.isInitialized)
 
     useEffect(() => {
-        dispatch(AuthMeTC())
+        dispatch(authMeTC())
     }, [dispatch])
 
 

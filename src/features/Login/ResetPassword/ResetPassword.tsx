@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import {NavLink, useNavigate} from 'react-router-dom';
 import s from './ResetPassword.module.css'
 import {useAppDispatch} from '../../../common/hooks/hooks';
-import {ForgotPassTC} from '../auth_reducer';
+import {forgotPassTC} from '../auth_reducer';
 
 type InputsType = {
     email: string
@@ -17,7 +17,7 @@ const ResetPassword = () => {
     const navigate = useNavigate()
     const { register, handleSubmit, formState: { errors } } = useForm<InputsType>();
     const onSubmit:SubmitHandler<InputsType> = async (data:{email:string}) => {
-       let res = await dispatch(ForgotPassTC(data))
+       let res = await dispatch(forgotPassTC(data))
        if (res){
            navigate(`/reset/success/${data.email}`)
        }

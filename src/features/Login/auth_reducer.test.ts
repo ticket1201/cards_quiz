@@ -1,7 +1,7 @@
-import {AuthMeAC, authReducer, InitialStateType, LogoutAC, SetLoginDataAC} from './auth_reducer';
+import {authMeAC, authReducer, AuthInitialStateType, logoutAC, setLoginDataAC} from './auth_reducer';
 import {AuthResponseType} from '../../api/api';
 
-let startState: InitialStateType, endState: InitialStateType;
+let startState: AuthInitialStateType, endState: AuthInitialStateType;
 
 beforeEach(() => {
     startState = {
@@ -22,7 +22,7 @@ test('set user data into the state wia auth me request', () => {
         avatar: 'https//avatar1-url.img',
         publicCardPacksCount: 24
     } as AuthResponseType
-    endState = authReducer(startState, AuthMeAC(user))
+    endState = authReducer(startState, authMeAC(user))
 
     expect(startState._id).toBe(null)
     expect(startState.publicCardPacksCount).toBe(null)
@@ -38,7 +38,7 @@ test('set user data into the state wia login request', () => {
         avatar: 'https//avatar2-url.img',
         publicCardPacksCount: 5
     } as AuthResponseType
-    endState = authReducer(startState, SetLoginDataAC(user))
+    endState = authReducer(startState, setLoginDataAC(user))
 
     expect(startState.name).toBe('')
     expect(startState.email).toBe('')
@@ -54,14 +54,14 @@ test('update user data in the state', () => {
         avatar: 'https//avatar3-url.img',
         publicCardPacksCount: 26
     } as AuthResponseType
-    endState = authReducer(startState, SetLoginDataAC(user))
+    endState = authReducer(startState, setLoginDataAC(user))
 
     expect(startState.name).toBe('')
     expect(endState.name).toBe('Mike')
 })
 
 test('user data should be removed from the state', () => {
-    endState = authReducer(startState, LogoutAC())
+    endState = authReducer(startState, logoutAC())
 
     expect(startState.avatar).toBe('https//avatar-url.img')
     expect(endState.avatar).toBe(null)
