@@ -3,7 +3,7 @@ export enum Path {
     Profile = 'profile',
     Registration = 'registration',
     ResetPassword = 'reset',
-    ResetSuccess = 'reset/success',
+    ResetSuccess = '/reset/success',
     NewPassword = 'set-new-password',
     Error404 = '404',
     Other = '*'
