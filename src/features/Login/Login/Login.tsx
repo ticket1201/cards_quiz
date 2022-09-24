@@ -6,11 +6,12 @@ import Paper from '@mui/material/Paper';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
 import {LoginForm} from './LoginForm/LoginForm';
+import {Path} from '../../../common/enums/path';
 
 export const Login = () => {
     const userId = useAppSelector(state => state.auth._id)
     if (userId) {
-        return <Navigate to={'/profile'}/>
+        return <Navigate to={Path.Profile}/>
     }
 
     return (
@@ -23,7 +24,7 @@ export const Login = () => {
                     <LoginForm/>
                 </FormControl>
                 <p className={s.text}>Do not have an account ?</p>
-                <NavLink to={'/registration'} className={s.signUpLink}>Sing up</NavLink>
+                <NavLink to={Path.Registration} className={s.signUpLink}>Sing up</NavLink>
             </Paper>
         </div>
     );

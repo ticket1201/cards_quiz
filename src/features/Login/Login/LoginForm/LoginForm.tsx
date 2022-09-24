@@ -10,6 +10,7 @@ import Checkbox from '@mui/material/Checkbox';
 import {NavLink} from 'react-router-dom';
 import Button from '@mui/material/Button';
 import React from 'react';
+import {Path} from '../../../../common/enums/path';
 
 type LoginFormType = {
     email: string
@@ -65,7 +66,7 @@ export const LoginForm = () => {
                                                    render={({field}) => <Checkbox {...field}
                                                                                   checked={!!field.value}/>}/>}/>
 
-            <NavLink to={'/reset'} className={s.forgotPass}>Forgot password ?</NavLink>
+            <NavLink to={Path.ResetPassword} className={s.forgotPass}>Forgot password ?</NavLink>
             <Button type={'submit'}
                     variant={'contained'}
                     color={'primary'}

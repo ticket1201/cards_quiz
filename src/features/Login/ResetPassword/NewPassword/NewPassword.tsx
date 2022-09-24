@@ -7,6 +7,7 @@ import Paper from '@mui/material/Paper';
 import s from '../ResetPassword.module.css';
 import Button from '@mui/material/Button';
 import {PasswordInput} from '../../../../common/components/PasswordInput/PasswordInput';
+import {Path} from '../../../../common/enums/path';
 
 type InputsType = {
     password: string
@@ -34,7 +35,7 @@ const NewPassword = () => {
     }
 
     if (isSuccess) {
-        return <Navigate to={'/'}/>
+        return <Navigate to={Path.Login}/>
     }
 
     return (

@@ -7,6 +7,7 @@ import {NavLink, useNavigate} from 'react-router-dom';
 import s from './ResetPassword.module.css'
 import {useAppDispatch} from '../../../common/hooks/hooks';
 import {forgotPassTC} from '../auth_reducer';
+import {Path} from '../../../common/enums/path';
 
 type InputsType = {
     email: string
@@ -19,7 +20,7 @@ const ResetPassword = () => {
     const onSubmit:SubmitHandler<InputsType> = async (data:{email:string}) => {
        let res = await dispatch(forgotPassTC(data))
        if (res){
-           navigate(`/reset/success/${data.email}`)
+           navigate(`${Path.ResetSuccess}/${data.email}`)
        }
     }
 
@@ -36,7 +37,7 @@ const ResetPassword = () => {
                     </Button>
                 </form>
                 <p>Did you remember your password?</p>
-                <NavLink to={'/'}>Try logging in</NavLink>
+                <NavLink to={Path.Login}>Try logging in</NavLink>
             </Paper>
         </div>
     );

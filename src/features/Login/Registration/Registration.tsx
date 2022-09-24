@@ -12,6 +12,7 @@ import s from '../Login/Login.module.css';
 import FormLabel from '@mui/material/FormLabel';
 import FormGroup from '@mui/material/FormGroup';
 import {PasswordInput} from '../../../common/components/PasswordInput/PasswordInput';
+import {Path} from '../../../common/enums/path';
 // import {setAppErrorAC, setAppStatusAC} from '../../../app/app_reducer';
 // import PasswordInput from '../../../common/components/PasswordInput/PasswordInput';
 
@@ -35,7 +36,7 @@ const Registration = () => {
 
                 </FormControl>
                 <p className={s.text}>Already have an account ?</p>
-                <NavLink to={'/login'} className={s.signUpLink}>Sing in</NavLink>
+                <NavLink to={Path.Login} className={s.signUpLink}>Sing in</NavLink>
             </Paper>
         </div>
     );
@@ -69,7 +70,7 @@ const RegisterForm = () => {
     }
 
     if (redirect) {
-        return <Navigate to={'/'}/>
+        return <Navigate to={Path.Login}/>
     }
 
     return (

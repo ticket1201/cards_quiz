@@ -7,12 +7,11 @@ import s from './Profile.module.css'
 import ava from '../../assets/images/avatar.jpg'
 import {EditableSpan} from '../../common/components/EditableSpan/EditableSpan';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import {Navigate} from 'react-router-dom';
 import {logoutTC, updateProfileTC} from '../Login/auth_reducer';
 
 
 const Profile = () => {
-    const {_id, name,email, avatar} = useAppSelector(state => state.auth)
+    const {name,email, avatar} = useAppSelector(state => state.auth)
     const dispatch = useAppDispatch()
 
     const HandlerLogOut = () => {
@@ -21,10 +20,6 @@ const Profile = () => {
 
     const HandlerUpdateData = (name: string) => {
         dispatch(updateProfileTC({name, avatar}))
-    }
-
-    if(!_id){
-      return <Navigate to={'/'}/>
     }
 
     return (
