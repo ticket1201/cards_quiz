@@ -36,6 +36,7 @@ export const PasswordInput: FC<PasswordInputPropsType> = ({register, label, name
                       label={label}
                       margin="normal"
                       variant="standard"
+                      autoComplete="on"
                       fullWidth={isFullWidth}
                       InputProps={{
                           endAdornment: <InputAdornment position={'end'}>
