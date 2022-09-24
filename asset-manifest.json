@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/cards_quiz/static/css/main.431edbe1.css",
-    "main.js": "/cards_quiz/static/js/main.0025071b.js",
+    "main.css": "/cards_quiz/static/css/main.c95bf4f1.css",
+    "main.js": "/cards_quiz/static/js/main.64ad7938.js",
     "static/js/787.d52304ad.chunk.js": "/cards_quiz/static/js/787.d52304ad.chunk.js",
     "static/media/envelope.svg": "/cards_quiz/static/media/envelope.cdfba66fde5a43fa07de20848a33be02.svg",
     "index.html": "/cards_quiz/index.html",
-    "main.431edbe1.css.map": "/cards_quiz/static/css/main.431edbe1.css.map",
-    "main.0025071b.js.map": "/cards_quiz/static/js/main.0025071b.js.map",
+    "main.c95bf4f1.css.map": "/cards_quiz/static/css/main.c95bf4f1.css.map",
+    "main.64ad7938.js.map": "/cards_quiz/static/js/main.64ad7938.js.map",
     "787.d52304ad.chunk.js.map": "/cards_quiz/static/js/787.d52304ad.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.431edbe1.css",
-    "static/js/main.0025071b.js"
+    "static/css/main.c95bf4f1.css",
+    "static/js/main.64ad7938.js"
   ]
 }
