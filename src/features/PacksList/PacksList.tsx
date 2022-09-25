@@ -3,11 +3,11 @@ import UniversalTable from '../../common/components/Table/UniversalTable';
 import {GridColDef} from '@mui/x-data-grid';
 
 const columns: GridColDef[] = [
-    {field: 'name', headerName: 'Name'},
-    {field: 'cards', headerName: 'Cards'},
-    {field: 'lastUpdated', headerName: 'Last updated'},
-    {field: 'createdBy', headerName: 'Created by'},
-    {field: 'actions', headerName: 'Actions', sortable: false}
+    {field: 'name', headerName: 'Name', flex: 1},
+    {field: 'cards', headerName: 'Cards', flex: 1},
+    {field: 'lastUpdated', headerName: 'Last updated', flex: 1},
+    {field: 'createdBy', headerName: 'Created by', flex: 1},
+    {field: 'actions', headerName: 'Actions', sortable: false, width: 100}
     /*{
         field: 'fullName',
         headerName: 'Full name',

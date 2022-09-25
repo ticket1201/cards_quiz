@@ -14,9 +14,10 @@ const columns: GridColDef[] = [
         </span>
             </strong>
         ),
+        flex: 1
     },
-    {field: 'answer', headerName: 'Answer'},
-    {field: 'lastUpdated', headerName: 'Last updated'},
+    {field: 'answer', headerName: 'Answer', flex: 1},
+    {field: 'lastUpdated', headerName: 'Last updated', flex: 1},
     {
         field: 'grade',
         headerName: 'Grade',
@@ -25,7 +26,7 @@ const columns: GridColDef[] = [
         ),
         width: 140
     },
-    {field: 'actions', headerName: 'Actions', sortable: false}
+    {field: 'actions', headerName: 'Actions', sortable: false, width: 100}
 ];
 
 const rows = [
@@ -58,7 +59,7 @@ const PackPage = () => {
         <>
             <div><Rating name="half-rating-read6" defaultValue={1.7} precision={0.1} readOnly/></div>
             Pack page
-            <UniversalTable columns={columns} rows={rows}/>
+            <UniversalTable columns={columns} rows={rows} pageSize={10}/>
         </>
     );
 };
