@@ -53,7 +53,24 @@ export const CardsAPI = {
     },
     updatePack(data: UpdatePackDataType) {
         return instance.put('/cards/pack', data)
-    }
+    },
+
+    getCards(data: GetCardParamsType) {
+        return instance.get<getCardsResponseType>('/cards/card', {
+            params: {
+                ...data
+            }
+        })
+    },
+    createCard(data: CreateCardDataType) {
+        return instance.post('/cards/card', data)
+    },
+    deleteCard(id: string) {
+        return instance.delete(`/cards/card?id=${id}`)
+    },
+    updateCard(data: UpdateCardDataType) {
+        return instance.put('/cards/card', data)
+    },
 }
 
 // request types
@@ -111,6 +128,35 @@ export type UpdatePackDataType = RequestPacksType<{
     private?: boolean
 }>
 
+export type GetCardParamsType = {
+    cardsPack_id: string
+    cardAnswer?: string
+    cardQuestion?: string
+    min?: number
+    max?: number
+    sortCards?: string
+    page?: number
+    pageCount?: number
+}
+
+export type RequestCardType<T> = {
+    card: T
+}
+
+export type CardType = {
+    _id: string
+    question?: string
+    answer?: string
+    grade?: number
+    shots?: number
+    answerImg?: string
+    questionImg?: string
+    questionVideo?: string
+    answerVideo?: string
+}
+
+export type CreateCardDataType = RequestCardType<CardType>
+export type UpdateCardDataType = RequestCardType<CardType>
 
 // response types
 
@@ -160,7 +206,7 @@ export type getPacksResponseType = {
 }
 
 export type PackDataType = {
-    _id: string
+    _id: string  //pack id
     user_id: string
     user_name: string
     private: boolean
@@ -169,4 +215,32 @@ export type PackDataType = {
     cardsCount: 0
     created: string
     updated: string
+}
+
+export type getCardsResponseType = {
+    cards: Array<CardDataType>
+    cardsTotalCount: number
+    maxGrade: number
+    minGrade: number
+    page: number
+    pageCount: number
+    packUserId: string
+}
+
+export type CardDataType = {
+    cardsPack_id: string
+    user_id: string
+
+    answer: string
+    question: string
+    comments: string
+    grade: number
+    shots: number
+    created: string
+    updated: string
+
+    answerImg: string
+    answerVideo: string
+    questionImg: string
+    questionVideo: string
 }
