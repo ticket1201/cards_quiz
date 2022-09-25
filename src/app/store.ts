@@ -2,10 +2,12 @@ import {AnyAction, applyMiddleware, combineReducers, legacy_createStore} from 'r
 import {authReducer} from '../features/Login/auth_reducer';
 import {appReducer} from './app_reducer';
 import thunk, {ThunkAction, ThunkDispatch} from 'redux-thunk';
+import {packReducer} from '../features/PacksList/pack_reducer';
 
 const rootReducer = combineReducers({
     auth: authReducer,
-    app: appReducer
+    app: appReducer,
+    packs: packReducer
      /// add your reducer here
 })
 
