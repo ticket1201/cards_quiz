@@ -1,0 +1,21 @@
+.grid {
+    display: grid;
+    grid-template-columns: 230px 1fr;
+    grid-template-rows: 1fr;
+    align-items: center;
+    gap: 13px;
+}
+
+img {
+    width: inherit;
+}
+
+@media screen and (max-width: 768px){
+    .grid{
+        grid-auto-flow: row dense;
+        grid-template-columns: 1fr;
+    }
+    .text{
+        text-align: center;
+    }
+}

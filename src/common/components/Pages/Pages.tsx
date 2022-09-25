@@ -6,7 +6,7 @@ import Registration from '../../../features/Login/Registration/Registration';
 import ResetPassword from '../../../features/Login/ResetPassword/ResetPassword';
 import Success from '../../../features/Login/Success/Success';
 import NewPassword from '../../../features/Login/ResetPassword/NewPassword/NewPassword';
-import Error404 from '../../../features/Error404/Error404';
+import Error404 from '../Error404/Error404';
 import {Path} from '../../enums/path';
 import {PrivateRoutes} from '../PrivateRoutes/PrivateRoutes';
 import PacksList from '../../../features/PacksList/PacksList';
