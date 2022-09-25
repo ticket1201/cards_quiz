@@ -37,7 +37,7 @@ export const authAPI = {
 }
 
 
-export const CardsAPI = {
+export const cardsAPI = {
     getPacks(data: GetPacksParamsType) {
         return instance.get<getPacksResponseType>('/cards/pack', {
             params: {
@@ -197,7 +197,7 @@ export type UpdatedUserResponseType = {
 }
 
 export type getPacksResponseType = {
-    cardsPacks: Array<PackDataType>
+    cardPacks: Array<PackDataType>
     page: number
     pageCount: number
     cardPacksTotalCount: number
