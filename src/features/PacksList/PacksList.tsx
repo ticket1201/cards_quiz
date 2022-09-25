@@ -3,11 +3,11 @@ import UniversalTable from '../../common/components/Table/UniversalTable';
 import {GridColDef} from '@mui/x-data-grid';
 
 const columns: GridColDef[] = [
-    {field: 'id', headerName: 'ID'},
-    {field: 'firstName', headerName: 'First name'},
-    {field: 'lastName', headerName: 'Last name'},
-    {field: 'age', headerName: 'Age', type: 'number'},
-    {field: 'test', headerName: 'Test', type: 'string', sortable: false},
+    {field: 'name', headerName: 'Name'},
+    {field: 'cards', headerName: 'Cards'},
+    {field: 'lastUpdated', headerName: 'Last updated'},
+    {field: 'createdBy', headerName: 'Created by'},
+    {field: 'actions', headerName: 'Actions', sortable: false}
     /*{
         field: 'fullName',
         headerName: 'Full name',
@@ -20,22 +20,29 @@ const columns: GridColDef[] = [
 ];
 
 const rows = [
-    {id: 1, lastName: 'Snow', firstName: 'Jon', age: 35, test: 'tralala'},
-    {id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42},
-    {id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45},
-    {id: 4, lastName: 'Stark', firstName: 'Arya', age: 16, test: 'weeeee'},
-    {id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null},
-    {id: 6, lastName: 'Melisandre', firstName: null, age: 150},
-    {id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44},
-    {id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36},
-    {id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65},
+    {id: 1, name: 'Anton\'s pack', cards: '4', lastUpdated: '18.02.2019', createdBy: 'Anton', actions: '1 2 3'},
+    {id: 2, name: 'Artem\'s pack', cards: '7', lastUpdated: '09.04.2020', createdBy: 'Artem', actions: '1 2 3'},
+    {id: 3, name: 'Siarhei\'s pack', cards: '1', lastUpdated: '21.01.2017', createdBy: 'Siarhei', actions: '1 2 3'},
+    {id: 4, name: 'Anton\'s pack', cards: '4', lastUpdated: '18.02.2019', createdBy: 'Anton', actions: '1 2 3'},
+    {id: 5, name: 'Artem\'s pack', cards: '7', lastUpdated: '09.04.2020', createdBy: 'Artem', actions: '1 2 3'},
+    {id: 6, name: 'Siarhei\'s pack', cards: '1', lastUpdated: '21.01.2017', createdBy: 'Siarhei', actions: '1 2 3'},
+    {id: 7, name: 'Anton\'s pack', cards: '4', lastUpdated: '18.02.2019', createdBy: 'Anton', actions: '1 2 3'},
+    {id: 8, name: 'Artem\'s pack', cards: '7', lastUpdated: '09.04.2020', createdBy: 'Artem', actions: '1 2 3'},
+    {id: 9, name: 'Siarhei\'s pack', cards: '1', lastUpdated: '21.01.2017', createdBy: 'Siarhei', actions: '1 2 3'},
+    {id: 10, name: 'Anton\'s pack', cards: '4', lastUpdated: '18.02.2019', createdBy: 'Anton', actions: '1 2 3'},
+    {id: 11, name: 'Artem\'s pack', cards: '7', lastUpdated: '09.04.2020', createdBy: 'Artem', actions: '1 2 3'},
+    {id: 12, name: 'Siarhei\'s pack', cards: '1', lastUpdated: '21.01.2017', createdBy: 'Siarhei', actions: '1 2 3'},
+    {id: 13, name: 'Anton\'s pack', cards: '4', lastUpdated: '18.02.2019', createdBy: 'Anton', actions: '1 2 3'},
+    {id: 14, name: 'Artem\'s pack', cards: '7', lastUpdated: '09.04.2020', createdBy: 'Artem', actions: '1 2 3'},
+    {id: 15, name: 'Siarhei\'s pack', cards: '1', lastUpdated: '21.01.2017', createdBy: 'Siarhei', actions: '1 2 3'},
+
 ];
 
 const PacksList = () => {
     return (
         <>
             Packs list
-            <UniversalTable columns={columns} rows={rows} pageSize={10} />
+            <UniversalTable columns={columns} rows={rows} pageSize={10}/>
         </>
     );
 };

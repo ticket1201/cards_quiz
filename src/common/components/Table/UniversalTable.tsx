@@ -10,11 +10,11 @@ import {DataGrid, DataGridProps} from '@mui/x-data-grid';
 
 const UniversalTable = ({rows, columns, pageSize, loading, ...restProps}: DataGridProps) => {
     return (
-        <div style={{height: 500, width: '100%'}}>
+        <div style={{height: 400, width: '100%'}}>
             <DataGrid
                 rows={rows}
                 columns={columns}
-                pageSize={10}
+                pageSize={pageSize}
                 density={'comfortable'}
                 disableColumnMenu={true}
                 // disableColumnFilter={true}
