@@ -14,13 +14,15 @@ const UniversalTable = ({rows, columns, pageSize, loading, ...restProps}: DataGr
             <DataGrid
                 rows={rows}
                 columns={columns}
-                pageSize={pageSize}
+                pageSize={10}
                 density={'comfortable'}
                 disableColumnMenu={true}
+                // autoHeight
                 // disableColumnFilter={true}
                 // autoPageSize
-                // disableExtendRowFullWidth
-                // rowsPerPageOptions={[5, 25]}
+                rowsPerPageOptions={[5, 10, 25, 50, 100, 8]}
+                rowSpacingType={'margin'}
+                // pageSize={5}
                 loading={loading}
                 {...restProps}
             />
