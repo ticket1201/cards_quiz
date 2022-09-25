@@ -45,19 +45,8 @@ const rows = [
 
 const PackPage = () => {
 
-
-    /*const newRows = rows.map(e => ({
-        ...e,
-        grade: {
-            renderCell: () => (
-                <Rating name={e.id} defaultValue={e.grade} precision={0.1} readOnly/>
-            )
-        }
-    }))*/
-
     return (
         <>
-            <div><Rating name="half-rating-read6" defaultValue={1.7} precision={0.1} readOnly/></div>
             Pack page
             <UniversalTable columns={columns} rows={rows} pageSize={10}/>
         </>
