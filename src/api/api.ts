@@ -36,6 +36,26 @@ export const authAPI = {
     }
 }
 
+
+export const CardsAPI = {
+    getPacks(data: GetPacksParamsType) {
+        return instance.get<getPacksResponseType>('/cards/pack', {
+            params: {
+                ...data
+            }
+        })
+    },
+    createPack(data: CreatePackDataType) {
+        return instance.post('/cards/pack', data)
+    },
+    deletePack(id: string) {
+        return instance.delete(`/cards/pack?id=${id}`)
+    },
+    updatePack(data: UpdatePackDataType) {
+        return instance.put('/cards/pack', data)
+    }
+}
+
 // request types
 
 export type LoginParamsType = {
@@ -63,6 +83,34 @@ export type BlockContentDataType = {
     id: string
     blockReason: string
 }
+export type GetPacksParamsType = {
+    packName?: string
+    min?: number
+    max?: number
+    sortPacks?: string
+    page?: number
+    pageCount?: number
+    user_id?: string
+    block?: boolean
+}
+
+export type RequestPacksType<T> = {
+    cardsPack: T
+}
+
+export type CreatePackDataType = RequestPacksType<{
+    name?: string
+    deckCover?: string
+    private?: boolean
+}>
+
+export type UpdatePackDataType = RequestPacksType<{
+    _id: string
+    name: string
+    deckCover?: string
+    private?: boolean
+}>
+
 
 // response types
 
@@ -83,12 +131,6 @@ export type AuthResponseType = {
     verified: boolean; // подтвердил ли почту
     rememberMe: boolean;
     error?: string;
-
-    /* ????????
-    "__v": 0,
-    "token": "f1081d00-3614-11ed-b186-bb9b23e58d65",
-    "tokenDeathTime": 1663380708944
-     */
 }
 
 export type BlockContentResponseType = {
@@ -106,4 +148,25 @@ export type RegisterResponseType = {
 
 export type UpdatedUserResponseType = {
     updatedUser: AuthResponseType
+}
+
+export type getPacksResponseType = {
+    cardsPacks: Array<PackDataType>
+    page: number
+    pageCount: number
+    cardPacksTotalCount: number
+    minCardsCount: number
+    maxCardsCount: number
+}
+
+export type PackDataType = {
+    _id: string
+    user_id: string
+    user_name: string
+    private: boolean
+    name: string
+    deckCover: string
+    cardsCount: 0
+    created: string
+    updated: string
 }
