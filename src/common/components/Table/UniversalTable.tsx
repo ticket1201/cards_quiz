@@ -23,6 +23,7 @@ const UniversalTable = ({rows, columns, pageSize, loading, ...restProps}: DataGr
                 columns={columns}
                 density={'comfortable'}
                 disableColumnMenu={true}
+                // disableExtendRowFullWidth={false}
                 // autoHeight
                 // disableColumnFilter={true}
                 // autoPageSize
