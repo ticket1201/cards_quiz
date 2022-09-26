@@ -46,13 +46,21 @@ export const cardsAPI = {
         })
     },
     createPack(data: CreatePackDataType) {
-        return instance.post('/cards/pack', data)
+        return instance.post('/cards/pack', {
+            cardsPack: {
+                ...data
+            }
+        })
     },
     deletePack(id: string) {
         return instance.delete(`/cards/pack?id=${id}`)
     },
     updatePack(data: UpdatePackDataType) {
-        return instance.put('/cards/pack', data)
+        return instance.put('/cards/pack', {
+            cardsPack: {
+                ...data
+            }
+        })
     },
 
     getCards(data: GetCardParamsType) {
@@ -62,14 +70,22 @@ export const cardsAPI = {
             }
         })
     },
-    createCard(data: CreateCardDataType) {
-        return instance.post('/cards/card', data)
+    createCard(data: CardRequestType) {
+        return instance.post('/cards/card', {
+            card: {
+                ...data
+            }
+        })
     },
     deleteCard(id: string) {
         return instance.delete(`/cards/card?id=${id}`)
     },
-    updateCard(data: UpdateCardDataType) {
-        return instance.put('/cards/card', data)
+    updateCard(data: UpdateCardRequestType) {
+        return instance.put('/cards/card', {
+            card: {
+                ...data
+            }
+        })
     },
 }
 
@@ -111,22 +127,18 @@ export type GetPacksParamsType = {
     block?: boolean
 }
 
-export type RequestPacksType<T> = {
-    cardsPack: T
-}
-
-export type CreatePackDataType = RequestPacksType<{
+export type CreatePackDataType = {
     name?: string
     deckCover?: string
     private?: boolean
-}>
+}
 
-export type UpdatePackDataType = RequestPacksType<{
+export type UpdatePackDataType = {
     _id: string
     name: string
     deckCover?: string
     private?: boolean
-}>
+}
 
 export type GetCardParamsType = {
     cardsPack_id: string
@@ -139,12 +151,8 @@ export type GetCardParamsType = {
     pageCount?: number
 }
 
-export type RequestCardType<T> = {
-    card: T
-}
-
-export type CardType = {
-    _id: string
+export type CardRequestType = {
+    cardsPack_id: string // pack id
     question?: string
     answer?: string
     grade?: number
@@ -155,8 +163,7 @@ export type CardType = {
     answerVideo?: string
 }
 
-export type CreateCardDataType = RequestCardType<CardType>
-export type UpdateCardDataType = RequestCardType<CardType>
+export type UpdateCardRequestType = CardRequestType & {_id: string}
 
 // response types
 
@@ -219,6 +226,7 @@ export type PackDataType = {
 
 export type getCardsResponseType = {
     cards: Array<CardDataType>
+    packName: string
     cardsTotalCount: number
     maxGrade: number
     minGrade: number
@@ -230,6 +238,7 @@ export type getCardsResponseType = {
 export type CardDataType = {
     cardsPack_id: string
     user_id: string
+    _id: string
 
     answer: string
     question: string
