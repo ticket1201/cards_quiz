@@ -1,7 +1,15 @@
-import {cardsAPI, CreatePackDataType, GetPacksParamsType, getPacksResponseType, PackDataType} from '../../api/api';
-import {RootStateType, RootThunkType} from '../../app/store';
+import {
+    cardsAPI,
+    CreatePackDataType,
+    GetPacksParamsType,
+    getPacksResponseType,
+    PackDataType,
+    UpdatePackDataType
+} from '../../api/api';
+import {RootThunkType} from '../../app/store';
 import {setAppStatusAC} from '../../app/app_reducer';
 import {errorUtils} from '../../common/utils/error-utils';
+import {universalPacksCardsTC} from '../../common/utils/universalPacksCardsTC';
 
 
 const initialState = {
@@ -36,7 +44,6 @@ export const setPacksAC = (payload: getPacksResponseType) => {
 }
 
 //TCs
-
 export const getPacksTC = (data:GetPacksParamsType): RootThunkType => async (dispatch) => {
     setAppStatusAC('loading')
     try {
@@ -49,17 +56,9 @@ export const getPacksTC = (data:GetPacksParamsType): RootThunkType => async (dis
     }
 }
 
-export const createPackTC = (data:CreatePackDataType): RootThunkType => async (dispatch,getState: () => RootStateType) => {
-    setAppStatusAC('loading')
-    try {
-        debugger
-        await cardsAPI.createPack(data)
-        dispatch(setPacksAC({
-            ...getState().packs, cardPacksTotalCount: getState().packs.cardPacksTotalCount + 1
-        }))
-    } catch (e:any) {
-        errorUtils(e, dispatch)
-    } finally {
-        setAppStatusAC('idle')
-    }
-}
+export const createPackTC = (data:CreatePackDataType) => universalPacksCardsTC('packs', cardsAPI.createPack, data)
+
+export const updatePackTC = (data:UpdatePackDataType) => universalPacksCardsTC('packs', cardsAPI.updatePack, data)
+
+export const deletePackTC = (id: string) => universalPacksCardsTC('packs', cardsAPI.deletePack, id)
+
