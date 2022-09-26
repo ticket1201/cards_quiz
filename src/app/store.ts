@@ -3,11 +3,13 @@ import {authReducer} from '../features/Login/auth_reducer';
 import {appReducer} from './app_reducer';
 import thunk, {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {packReducer} from '../features/PacksList/pack_reducer';
+import {cardsReducer} from '../features/PackPage/cards_reducer';
 
 const rootReducer = combineReducers({
     auth: authReducer,
     app: appReducer,
-    packs: packReducer
+    packs: packReducer,
+    cards: cardsReducer
      /// add your reducer here
 })
 
