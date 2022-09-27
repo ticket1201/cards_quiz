@@ -8,7 +8,7 @@ import {getPacksTC} from '../../../features/PacksList/pack_reducer';
 import {AnyAction} from 'redux';
 
 type SearchPropsType = {
-    searchValue: string
+    searchValue: string | undefined
     searchAC: (value: string) => AnyAction
     isFullWidth?: boolean
 }
@@ -23,7 +23,7 @@ export const Search: FC<SearchPropsType> = ({searchValue, searchAC, isFullWidth}
     }
 
     useEffect(() => {
-        dispatch(getPacksTC())
+        dispatch(getPacksTC({packName: debouncedValue}))
     }, [debouncedValue])
 
     return <div>
