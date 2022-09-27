@@ -11,7 +11,7 @@ import {setAppIsInitializedAC, setAppStatusAC, setAppSuccessAC} from '../../app/
 import {errorUtils} from '../../common/utils/error-utils';
 
 const initialState = {
-    _id: '' as string | null,
+    _id: '' as string | undefined,
     email: '',
     name: '',
     avatar: '',
