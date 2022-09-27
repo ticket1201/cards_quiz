@@ -1,25 +1,21 @@
-import {RootStateType, RootThunkType} from '../../app/store';
+import {RootThunkType} from '../../app/store';
 import {setAppStatusAC} from '../../app/app_reducer';
 import {errorUtils} from './error-utils';
-import {setCardsAC} from '../../features/PackPage/cards_reducer';
-import {setPacksAC} from '../../features/PacksList/pack_reducer';
+import {setCardsIsChangedAC} from '../../features/PackPage/cards_reducer';
+import {setPacksIsChangedAC} from '../../features/PacksList/pack_reducer';
 
 type ReducerNameType = 'packs' | 'cards'
 
 
-export const universalPacksCardsTC = <T>(reducerName: ReducerNameType, method: (model: T) => void, model: T): RootThunkType => async (dispatch, getState: () => RootStateType) => {
+export const universalPacksCardsTC = <T>(reducerName: ReducerNameType, method: (model: T) => void, model: T): RootThunkType => async (dispatch) => {
     let ActionCreator
 
     switch (reducerName){
         case 'packs':
-            ActionCreator = () => setPacksAC({
-                ...getState().packs, cardPacksTotalCount: getState().packs.cardPacksTotalCount + 1
-            })
+            ActionCreator = () => setPacksIsChangedAC({isChanged: true})
             break
         case 'cards':
-            ActionCreator = () => setCardsAC({
-                ...getState().cards, cardsTotalCount: getState().cards.cardsTotalCount + 1
-            })
+            ActionCreator = () => setCardsIsChangedAC({isChanged: true})
             break
     }
 
