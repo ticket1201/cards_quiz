@@ -15,12 +15,13 @@ function valuetext(value: number) {
 type RangeSliderType = {
     minValue: number
     maxValue: number
+    isReset: boolean
     rangeAC: (min: number, max: number) => AnyAction
 }
 
-export const RangeSlider: FC<RangeSliderType> = ({minValue, maxValue, rangeAC}) => {
+export const RangeSlider: FC<RangeSliderType> = ({minValue, maxValue, isReset, rangeAC}) => {
 
-    const {min, max} = useAppSelector(state => state.packs)
+    const {min, max} = useAppSelector(state => state.search)
     const dispatch = useAppDispatch()
     const [value, setValue] = React.useState<number[]>([]);
 
@@ -29,7 +30,7 @@ export const RangeSlider: FC<RangeSliderType> = ({minValue, maxValue, rangeAC}) 
     }, [minValue, maxValue])
 
     useEffect(() => {
-        dispatch(getPacksTC())
+        dispatch(getPacksTC({min, max}))
     }, [min, max, dispatch])
 
     const handleChange = (event: React.SyntheticEvent | Event, newValue: number | number[]) => {
@@ -54,6 +55,10 @@ export const RangeSlider: FC<RangeSliderType> = ({minValue, maxValue, rangeAC}) 
         }
     }
 
+    if (isReset) {
+        resetMinHandler()
+        resetMaxHandler()
+    }
     return (
         <div className={s.container}>
             <Button variant={'outlined'} onClick={resetMinHandler}>{value[0]}</Button>
