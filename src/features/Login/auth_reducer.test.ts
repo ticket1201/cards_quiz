@@ -5,7 +5,7 @@ let startState: AuthInitialStateType, endState: AuthInitialStateType;
 
 beforeEach(() => {
     startState = {
-        _id: null,
+        _id: undefined,
         email: '',
         name: '',
         avatar: 'https//avatar-url.img',
@@ -24,7 +24,7 @@ test('set user data into the state wia auth me request', () => {
     } as AuthResponseType
     endState = authReducer(startState, authMeAC(user))
 
-    expect(startState._id).toBe(null)
+    expect(startState._id).toBe(undefined)
     expect(startState.publicCardPacksCount).toBe(null)
     expect(endState._id).toBe('124')
     expect(endState.publicCardPacksCount).toBe(24)
