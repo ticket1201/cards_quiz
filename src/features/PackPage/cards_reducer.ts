@@ -17,13 +17,15 @@ const initialState = {
     minGrade: 0,
     page: 0,
     pageCount: 0,
-    packUserId: ''
+    packUserId: '',
+    isChanged: false
 }
 
 
 export const cardsReducer = (state: CardsInitialStateType = initialState, action: CardsActionType): CardsInitialStateType => {
     switch (action.type) {
         case 'CARDS/SET_CARDS':
+        case 'CARDS/SET_CHANGED':
             return {...state, ...action.payload}
         default :
             return state
@@ -34,11 +36,18 @@ export const cardsReducer = (state: CardsInitialStateType = initialState, action
 export type CardsInitialStateType = typeof initialState
 export type CardsActionType =
     | ReturnType<typeof setCardsAC>
+    | ReturnType<typeof setCardsIsChangedAC>
 
 // ACs
 export const setCardsAC = (payload: getCardsResponseType) => {
     return {
         type: 'CARDS/SET_CARDS',
+        payload
+    } as const
+}
+export const setCardsIsChangedAC = (payload: {isChanged: boolean}) => {
+    return {
+        type: 'CARDS/SET_CHANGED',
         payload
     } as const
 }
