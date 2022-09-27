@@ -19,11 +19,13 @@ const initialState = {
     cardPacksTotalCount: 0,
     minCardsCount: 0,
     maxCardsCount: 0,
+    isChanged: false
 }
 
 export const packReducer = (state: PacksInitialStateType = initialState, action: PacksActionType): PacksInitialStateType => {
     switch (action.type) {
         case 'PACK/SET_PACKS':
+        case 'PACK/SET_CHANGED':
             return {...state, ...action.payload}
         default :
             return state
@@ -34,11 +36,18 @@ export const packReducer = (state: PacksInitialStateType = initialState, action:
 export type PacksInitialStateType = typeof initialState
 export type PacksActionType =
     | ReturnType<typeof setPacksAC>
+    | ReturnType<typeof setPacksIsChangedAC>
 
 // ACs
 export const setPacksAC = (payload: getPacksResponseType) => {
     return {
         type: 'PACK/SET_PACKS',
+        payload
+    } as const
+}
+export const setPacksIsChangedAC = (payload: {isChanged: boolean}) => {
+    return {
+        type: 'PACK/SET_CHANGED',
         payload
     } as const
 }
