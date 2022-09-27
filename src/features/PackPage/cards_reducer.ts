@@ -45,7 +45,7 @@ export const setCardsAC = (payload: getCardsResponseType) => {
         payload
     } as const
 }
-export const setCardsIsChangedAC = (payload: {isChanged: boolean}) => {
+export const setCardsIsChangedAC = (payload: { isChanged: boolean }) => {
     return {
         type: 'CARDS/SET_CHANGED',
         payload
@@ -62,6 +62,7 @@ export const getCardsTC = (data: GetCardParamsType): RootThunkType => async (dis
     } catch (e: any) {
         errorUtils(e, dispatch)
     } finally {
+        dispatch(setCardsIsChangedAC({isChanged: false}))
         setAppStatusAC('idle')
     }
 }

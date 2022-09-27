@@ -61,6 +61,7 @@ export const getPacksTC = (data:GetPacksParamsType): RootThunkType => async (dis
     } catch (e:any) {
         errorUtils(e, dispatch)
     } finally {
+        dispatch(setPacksIsChangedAC({isChanged: false}))
         setAppStatusAC('idle')
     }
 }
