@@ -1,18 +1,15 @@
 import React, {FC} from 'react';
 import FilterAltOffOutlinedIcon from '@mui/icons-material/FilterAltOffOutlined';
 import IconButton from '@mui/material/IconButton';
-import {AnyAction} from 'redux';
-import {useAppDispatch} from '../../hooks/hooks';
 
 type ClearFiltersType = {
-    clearAC:()=>AnyAction
+    clearHandler:()=>void
 }
 
-export const ClearFilters:FC<ClearFiltersType> = ({clearAC}) => {
+export const ClearFilters:FC<ClearFiltersType> = ({clearHandler}) => {
 
-    const dispatch = useAppDispatch()
 
-    const onClickHandler = () => dispatch(clearAC())
+    const onClickHandler = () => clearHandler()
 
     return (
         <div>
