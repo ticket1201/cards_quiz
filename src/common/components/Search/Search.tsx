@@ -17,7 +17,7 @@ export const Search: FC<SearchPropsType> = ({searchValue, searchHandler, isFullW
 
 
     return <div>
-        <p>Search real-time: {searchValue}</p>
+        <h3>Search</h3>
         <TextField
             value={searchValue ? searchValue : ''}
             onChange={onChangeHandler}
