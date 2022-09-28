@@ -1,36 +1,25 @@
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import {SearchOutlined} from '@mui/icons-material';
-import {ChangeEvent, FC, useEffect} from 'react';
-import useDebounce from '../../hooks/useDebounce';
-import {useAppDispatch} from '../../hooks/hooks';
-import {getPacksTC} from '../../../features/PacksList/pack_reducer';
-import {AnyAction} from 'redux';
+import {ChangeEvent, FC} from 'react';
 
 type SearchPropsType = {
-    searchValue: string | undefined
-    searchAC: (value: string) => AnyAction
+    searchValue: string | null
+    searchHandler: (value: string) => void
     isFullWidth?: boolean
 }
 
-export const Search: FC<SearchPropsType> = ({searchValue, searchAC, isFullWidth}) => {
-
-    const dispatch = useAppDispatch()
-    const debouncedValue = useDebounce(searchValue)
+export const Search: FC<SearchPropsType> = ({searchValue, searchHandler, isFullWidth}) => {
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(searchAC(e.currentTarget.value))
+        searchHandler(e.currentTarget.value)
     }
 
-    useEffect(() => {
-        dispatch(getPacksTC({packName: debouncedValue}))
-    }, [debouncedValue])
 
     return <div>
         <p>Search real-time: {searchValue}</p>
-        <p>Debounced value: {debouncedValue}</p>
         <TextField
-            value={searchValue}
+            value={searchValue ? searchValue : ''}
             onChange={onChangeHandler}
             size={'small'}
             placeholder={'Provide your text'}
