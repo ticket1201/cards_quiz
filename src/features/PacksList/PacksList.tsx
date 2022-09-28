@@ -187,7 +187,7 @@ const PacksList = () => {
 
     useEffect(() => {
         let id = setTimeout(() => {
-            dispatch(getPacksTC({...params, pageCount: selectedPagesCount && +selectedPagesCount || 10}))
+            dispatch(getPacksTC({...params, pageCount: selectedPagesCount ? +selectedPagesCount : 10}))
         }, 1000)
         return () => clearTimeout(id)
     }, [min, max, searchValue, user_id, selectedPage, selectedPagesCount])
