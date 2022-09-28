@@ -18,9 +18,10 @@ export const PacksOwnerSort: React.FC<PacksOwnerSortType> = ({owner, packsOwnerH
 
     return (
         <div>
+            <h3>Show packs cards</h3>
             <ButtonGroup>
-                <Button onClick={getMyPacksHandler} variant={owner ? 'contained' : 'outlined'}>My</Button>
-                <Button onClick={getAllPacksHandler} variant={owner ? 'outlined' : 'contained'}>All</Button>
+                <Button onClick={getMyPacksHandler} sx={{width:'100px'}} variant={owner ? 'contained' : 'outlined'}>My</Button>
+                <Button onClick={getAllPacksHandler} sx={{width:'100px'}} variant={owner ? 'outlined' : 'contained'}>All</Button>
             </ButtonGroup>
         </div>
     );
