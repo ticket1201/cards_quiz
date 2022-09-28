@@ -177,7 +177,7 @@ const PacksList = () => {
 
     let params = {}
     searchParam.forEach((value: string, key: string) => {
-        if(key === 'user_id'){
+        if (key === 'user_id') {
             params = {...params, [key]: authId}
             return
         }
@@ -200,7 +200,7 @@ const PacksList = () => {
             <RangeSlider minValue={minCardsCount} maxValue={maxCardsCount} currentMin={min} currentMax={max}
                          rangeSliderHandler={rangeHandler}/>
             <ClearFilters clearHandler={clearFiltersHandler}/>
-            <UniversalTable columns={columns} rows={rows} pageSize={10}/>
+            <UniversalTable columns={columns} rows={rows} pageSize={selectedPagesCount ? +selectedPagesCount : 10}/>
             <Paginator changePageHandler={paginationHandler} changePagesCountHandler={pagesCountHandler}
                        currentPage={page} itemsOnPage={pageCount}
                        itemsTotalCount={cardPacksTotalCount} selectedPagesCount={selectedPagesCount}/>

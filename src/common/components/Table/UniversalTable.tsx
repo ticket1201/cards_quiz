@@ -27,8 +27,8 @@ const UniversalTable = ({rows, columns, pageSize, loading, ...restProps}: DataGr
                 // autoHeight
                 // disableColumnFilter={true}
                 // autoPageSize
-                rowsPerPageOptions={[5, 10, 25, 50, 100]}
-                // pageSize={pageSize}
+                // rowsPerPageOptions={[10]}
+                pageSize={pageSize}
                 rowSpacingType={'margin'}
                 // pageSize={5}
                 loading={loading}
