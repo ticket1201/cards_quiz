@@ -17,8 +17,8 @@ import {Paginator} from '../../common/components/Paginator/Paginator';
 const columns: GridColDef[] = [
     {field: 'name', headerName: 'Name', flex: 1},
     {field: 'cardsCount', headerName: 'Cards', flex: 1},
-    {field: 'lastUpdated', headerName: 'Last updated', flex: 1},
-    {field: 'createdBy', headerName: 'Created by', flex: 1},
+    {field: 'updated', headerName: 'Last updated', flex: 1},
+    {field: 'created', headerName: 'Created by', flex: 1},
     {
         field: 'actions',
         headerName: 'Actions',
@@ -80,6 +80,7 @@ const PacksList = () => {
         pageCount,
         cardPacksTotalCount
     } = useAppSelector(state => state.packs)
+    const authId = useAppSelector(state => state.auth._id)
     let rows = cardPacks.map(el => ({
         ...el, id: el._id
     }))
@@ -176,6 +177,10 @@ const PacksList = () => {
 
     let params = {}
     searchParam.forEach((value: string, key: string) => {
+        if(key === 'user_id'){
+            params = {...params, [key]: authId}
+            return
+        }
         params = {...params, [key]: value}
     })
 
@@ -196,7 +201,8 @@ const PacksList = () => {
                          rangeSliderHandler={rangeHandler}/>
             <ClearFilters clearHandler={clearFiltersHandler}/>
             <UniversalTable columns={columns} rows={rows} pageSize={10}/>
-            <Paginator changePageHandler={paginationHandler} changePagesCountHandler={pagesCountHandler} currentPage={page} itemsOnPage={pageCount}
+            <Paginator changePageHandler={paginationHandler} changePagesCountHandler={pagesCountHandler}
+                       currentPage={page} itemsOnPage={pageCount}
                        itemsTotalCount={cardPacksTotalCount} selectedPagesCount={selectedPagesCount}/>
         </>
     );
