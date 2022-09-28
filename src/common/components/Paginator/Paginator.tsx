@@ -21,7 +21,7 @@ export const Paginator: React.FC<PaginatorPropsType> = ({
                                                             changePageHandler,
                                                             changePagesCountHandler
                                                         }) => {
-    const pagesCount = Math.ceil(itemsTotalCount / itemsOnPage)
+    const pagesCount = itemsOnPage ? Math.ceil(itemsTotalCount / itemsOnPage) : 0
 
     const changePage = (event: React.ChangeEvent<unknown>, value: number) => {
         changePageHandler(value)
