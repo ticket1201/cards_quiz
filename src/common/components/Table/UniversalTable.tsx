@@ -10,11 +10,10 @@ import {DataGrid, DataGridProps} from '@mui/x-data-grid';
 
 const UniversalTable = ({rows, columns, pageSize, loading, ...restProps}: DataGridProps) => {
 
-
-    const onPageSizeChangeHandler = (size: number) => {
+    /*const onPageSizeChangeHandler = (size: number) => {
         console.log(size)
         pageSize = size
-    }
+    }*/
 
     return (
         <div style={{height: 400, width: '100%'}}>
@@ -23,6 +22,7 @@ const UniversalTable = ({rows, columns, pageSize, loading, ...restProps}: DataGr
                 columns={columns}
                 density={'comfortable'}
                 disableColumnMenu={true}
+                sortingOrder={['desc', 'asc']}
                 // disableExtendRowFullWidth={false}
                 // autoHeight
                 // disableColumnFilter={true}
@@ -33,7 +33,7 @@ const UniversalTable = ({rows, columns, pageSize, loading, ...restProps}: DataGr
                 // pageSize={5}
                 loading={loading}
                 {...restProps}
-                onPageSizeChange={onPageSizeChangeHandler}
+                // onPageSizeChange={onPageSizeChangeHandler}
             />
         </div>
     );
