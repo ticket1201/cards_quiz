@@ -45,7 +45,7 @@ export const setPacksAC = (payload: getPacksResponseType) => {
         payload
     } as const
 }
-export const setPacksIsChangedAC = (payload: {isChanged: boolean}) => {
+export const setPacksIsChangedAC = (payload: { isChanged: boolean }) => {
     return {
         type: 'PACK/SET_CHANGED',
         payload
@@ -53,22 +53,22 @@ export const setPacksIsChangedAC = (payload: {isChanged: boolean}) => {
 }
 
 //TCs
-export const getPacksTC = (data:GetPacksParamsType): RootThunkType => async (dispatch) => {
-    setAppStatusAC('loading')
+export const getPacksTC = (data: GetPacksParamsType): RootThunkType => async (dispatch) => {
+    dispatch(setAppStatusAC('loading'))
     try {
         const res = await cardsAPI.getPacks(data)
         dispatch(setPacksAC(res.data))
-    } catch (e:any) {
+    } catch (e: any) {
         errorUtils(e, dispatch)
     } finally {
         dispatch(setPacksIsChangedAC({isChanged: false}))
-        setAppStatusAC('idle')
+        dispatch(setAppStatusAC('idle'))
     }
 }
 
-export const createPackTC = (data:CreatePackDataType) => universalPacksCardsTC('packs', cardsAPI.createPack, data)
+export const createPackTC = (data: CreatePackDataType) => universalPacksCardsTC('packs', cardsAPI.createPack, data)
 
-export const updatePackTC = (data:UpdatePackDataType) => universalPacksCardsTC('packs', cardsAPI.updatePack, data)
+export const updatePackTC = (data: UpdatePackDataType) => universalPacksCardsTC('packs', cardsAPI.updatePack, data)
 
 export const deletePackTC = (id: string) => universalPacksCardsTC('packs', cardsAPI.deletePack, id)
 

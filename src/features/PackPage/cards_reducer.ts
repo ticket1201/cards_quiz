@@ -55,7 +55,7 @@ export const setCardsIsChangedAC = (payload: { isChanged: boolean }) => {
 //TCs
 
 export const getCardsTC = (data: GetCardParamsType): RootThunkType => async (dispatch) => {
-    setAppStatusAC('loading')
+    dispatch(setAppStatusAC('loading'))
     try {
         const res = await cardsAPI.getCards(data)
         dispatch(setCardsAC(res.data))
@@ -63,7 +63,7 @@ export const getCardsTC = (data: GetCardParamsType): RootThunkType => async (dis
         errorUtils(e, dispatch)
     } finally {
         dispatch(setCardsIsChangedAC({isChanged: false}))
-        setAppStatusAC('idle')
+        dispatch(setAppStatusAC('idle'))
     }
 }
 
