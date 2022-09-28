@@ -16,7 +16,7 @@ import {Paginator} from '../../common/components/Paginator/Paginator';
 
 const columns: GridColDef[] = [
     {field: 'name', headerName: 'Name', flex: 1},
-    {field: 'cards', headerName: 'Cards', flex: 1},
+    {field: 'cardsCount', headerName: 'Cards', flex: 1},
     {field: 'lastUpdated', headerName: 'Last updated', flex: 1},
     {field: 'createdBy', headerName: 'Created by', flex: 1},
     {
@@ -165,9 +165,9 @@ const PacksList = () => {
         for (const [key, value] of searchParam.entries()) {
             temp = {...temp, [key]: value}
         }
-        if (+newPageCount === pageCount) {
+        if (+newPageCount === 10) {
             // @ts-ignore
-            delete temp.page
+            delete temp.pageCount
             setSearchParam(temp)
             return
         }
@@ -182,7 +182,7 @@ const PacksList = () => {
 
     useEffect(() => {
         let id = setTimeout(() => {
-            dispatch(getPacksTC(params))
+            dispatch(getPacksTC({...params, pageCount: selectedPagesCount && +selectedPagesCount || 10}))
         }, 1000)
         return () => clearTimeout(id)
     }, [min, max, searchValue, user_id, selectedPage, selectedPagesCount])
