@@ -44,10 +44,10 @@ export const Paginator: React.FC<PaginatorPropsType> = ({
                 <Select
                     autoWidth
                     size="small"
-                    value={selectedPagesCount ? selectedPagesCount : '4'}
+                    value={selectedPagesCount ? selectedPagesCount : '10'}
                     onChange={changeSelect}>
-                    <MenuItem value={4}>4</MenuItem>
                     <MenuItem value={10}>10</MenuItem>
+                    <MenuItem value={15}>15</MenuItem>
                     <MenuItem value={20}>20</MenuItem>
                     <MenuItem value={50}>50</MenuItem>
                     <MenuItem value={100}>100</MenuItem>
