@@ -1,19 +1,8 @@
 import * as React from 'react';
 import {DataGrid, DataGridProps} from '@mui/x-data-grid';
 
-/*type UniversalTablePropsType = {
-    rows: any[]
-    columns: GridColDef[]
-    pageSize: number
-    loading?: boolean
-}*/
 
 const UniversalTable = ({rows, columns, pageSize, loading, ...restProps}: DataGridProps) => {
-
-    /*const onPageSizeChangeHandler = (size: number) => {
-        console.log(size)
-        pageSize = size
-    }*/
 
     return (
         <div style={{height: 400, width: '100%'}}>

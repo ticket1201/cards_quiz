@@ -92,6 +92,8 @@ const PacksList = () => {
     let user_id = searchParam.get('user_id')
     let selectedPagesCount = searchParam.get('pageCount')
     const [params, setParams] = useState<any>({})
+    const loading = useAppSelector(state => state.app.status)
+    console.log(loading)
 
     const searchHandler = (value: string) => {
         if (!value) {
@@ -162,7 +164,12 @@ const PacksList = () => {
             <RangeSlider minValue={minCardsCount} maxValue={maxCardsCount} currentMin={min} currentMax={max}
                          rangeSliderHandler={rangeHandler}/>
             <ClearFilters clearHandler={clearFiltersHandler}/>
-            <UniversalTable columns={columns} rows={rows} pageSize={selectedPagesCount ? +selectedPagesCount : 10}/>
+            <UniversalTable
+                columns={columns}
+                rows={rows}
+                pageSize={selectedPagesCount ? +selectedPagesCount : 10}
+                loading={loading === 'loading'}
+            />
             <Paginator changePageHandler={paginationHandler} changePagesCountHandler={pagesCountHandler}
                        currentPage={page} itemsOnPage={pageCount}
                        itemsTotalCount={cardPacksTotalCount} selectedPagesCount={selectedPagesCount}/>
