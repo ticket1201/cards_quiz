@@ -1,6 +1,12 @@
 .container {
     max-width: 375px;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
+}
+
+.rangeWrapper {
+    display: flex;
+    justify-content: space-between;
 }
