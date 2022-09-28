@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import UniversalTable from '../../common/components/Table/UniversalTable';
 import {GridColDef} from '@mui/x-data-grid';
 import SchoolIcon from '@mui/icons-material/School';
@@ -90,107 +90,69 @@ const PacksList = () => {
     let min = searchParam.get('min')
     let max = searchParam.get('max')
     let user_id = searchParam.get('user_id')
-    let selectedPage = searchParam.get('page')
     let selectedPagesCount = searchParam.get('pageCount')
+    const [params, setParams] = useState<any>({})
 
     const searchHandler = (value: string) => {
-        let temp = {}
-        // @ts-ignore
-        for (const [key, value] of searchParam.entries()) {
-            temp = {...temp, [key]: value}
-        }
         if (!value) {
-            // @ts-ignore
-            delete temp.packName
-            setSearchParam(temp)
+            const {packName, ...restParams} = params
+            setParams(restParams)
             return
         }
-        setSearchParam({...temp, packName: value})
+
+        setParams({...params, packName: value})
     }
 
     const rangeHandler = (min: number, max: number) => {
-        let temp = {}
-        // @ts-ignore
-        for (const [key, value] of searchParam.entries()) {
-            temp = {...temp, [key]: value}
-        }
         if (min === 0 && max === maxCardsCount) {
-            // @ts-ignore
-            delete temp.min
-            // @ts-ignore
-            delete temp.max
-            setSearchParam(temp)
+            const {min, max, ...restParams} = params
+            setParams(restParams)
             return
         }
-        setSearchParam({...temp, min: min.toString(), max: max.toString()})
+
+        setParams({...params, min: min.toString(), max: max.toString()})
     }
 
     const packsOwnerHandler = (user_id: string) => {
-        let temp = {}
-        // @ts-ignore
-        for (const [key, value] of searchParam.entries()) {
-            temp = {...temp, [key]: value}
-        }
-
         if (!user_id) {
-            // @ts-ignore
-            delete temp.user_id
-            setSearchParam(temp)
+            const {user_id, ...restParams} = params
+            setParams(restParams)
             return
         }
-        setSearchParam({...temp, user_id})
+
+        setParams({...params, user_id: authId})
     }
 
     const clearFiltersHandler = () => {
-        setSearchParam({})
+        setParams({})
     }
 
     const paginationHandler = (currentPage: number) => {
-        let temp = {}
-        // @ts-ignore
-        for (const [key, value] of searchParam.entries()) {
-            temp = {...temp, [key]: value}
-        }
         if (currentPage === page) {
-            // @ts-ignore
-            delete temp.page
-            setSearchParam(temp)
+            const {page, ...restParams} = params
+            setParams(restParams)
             return
         }
-        setSearchParam({...temp, page: currentPage.toString()})
+        setParams({...params, page: currentPage.toString()})
     }
 
     const pagesCountHandler = (newPageCount: string) => {
-        let temp = {}
-        // @ts-ignore
-        for (const [key, value] of searchParam.entries()) {
-            temp = {...temp, [key]: value}
-        }
         if (+newPageCount === 10) {
-            // @ts-ignore
-            delete temp.pageCount
-            setSearchParam(temp)
+            const {pageCount, ...restParams} = params
+            setParams(restParams)
             return
         }
-        setSearchParam({...temp, pageCount: newPageCount})
+        setParams({...params, pageCount: newPageCount})
     }
 
-    let params = {}
-    searchParam.forEach((value: string, key: string) => {
-        if (key === 'user_id') {
-            params = {...params, [key]: authId}
-            return
-        }
-        params = {...params, [key]: value}
-    })
-
-
     useEffect(() => {
+        setSearchParam(params)
+
         let id = setTimeout(() => {
             dispatch(getPacksTC({...params, pageCount: selectedPagesCount ? +selectedPagesCount : 10}))
         }, 1000)
         return () => clearTimeout(id)
-    }, [min, max, searchValue, user_id, selectedPage, selectedPagesCount])
+    }, [dispatch, params, selectedPagesCount, setSearchParam])
 
     return (
         <>
