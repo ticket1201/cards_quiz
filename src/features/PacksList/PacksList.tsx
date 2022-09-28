@@ -89,8 +89,8 @@ const PacksList = () => {
     let min = searchParam.get('min')
     let max = searchParam.get('max')
     let user_id = searchParam.get('user_id')
-
-    // let somePage = searchParam.get('user_id')
+    let selectedPage = searchParam.get('page')
+    let selectedPagesCount = searchParam.get('pageCount')
 
     const searchHandler = (value: string) => {
         let temp = {}
@@ -144,9 +144,35 @@ const PacksList = () => {
         setSearchParam({})
     }
 
-    const paginationHandler = () => {
+    const paginationHandler = (currentPage: number) => {
+        let temp = {}
+        // @ts-ignore
+        for (const [key, value] of searchParam.entries()) {
+            temp = {...temp, [key]: value}
+        }
+        if (currentPage === page) {
+            // @ts-ignore
+            delete temp.page
+            setSearchParam(temp)
+            return
+        }
+        setSearchParam({...temp, page: currentPage.toString()})
     }
 
+    const pagesCountHandler = (newPageCount: string) => {
+        let temp = {}
+        // @ts-ignore
+        for (const [key, value] of searchParam.entries()) {
+            temp = {...temp, [key]: value}
+        }
+        if (+newPageCount === pageCount) {
+            // @ts-ignore
+            delete temp.page
+            setSearchParam(temp)
+            return
+        }
+        setSearchParam({...temp, pageCount: newPageCount})
+    }
 
     let params = {}
     searchParam.forEach((value: string, key: string) => {
@@ -159,19 +185,19 @@ const PacksList = () => {
             dispatch(getPacksTC(params))
         }, 1000)
         return () => clearTimeout(id)
-    }, [min, max, searchValue, user_id])
+    }, [min, max, searchValue, user_id, selectedPage, selectedPagesCount])
 
     return (
         <>
             Packs list
             <Search isFullWidth={true} searchHandler={searchHandler} searchValue={searchValue}/>
+            <PacksOwnerSort owner={user_id} packsOwnerHandler={packsOwnerHandler}/>
             <RangeSlider minValue={minCardsCount} maxValue={maxCardsCount} currentMin={min} currentMax={max}
                          rangeSliderHandler={rangeHandler}/>
-            <PacksOwnerSort owner={user_id} packsOwnerHandler={packsOwnerHandler}/>
             <ClearFilters clearHandler={clearFiltersHandler}/>
             <UniversalTable columns={columns} rows={rows} pageSize={10}/>
-            <Paginator changePageHandler={paginationHandler} currentPage={page} itemsOnPage={pageCount}
-                       itemsTotalCount={cardPacksTotalCount}/>
+            <Paginator changePageHandler={paginationHandler} changePagesCountHandler={pagesCountHandler} currentPage={page} itemsOnPage={pageCount}
+                       itemsTotalCount={cardPacksTotalCount} selectedPagesCount={selectedPagesCount}/>
         </>
     );
 };
