@@ -1,7 +1,6 @@
 import React from 'react';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
-import {useAppSelector} from '../../hooks/hooks';
 
 type PacksOwnerSortType = {
     owner: string | null
@@ -10,10 +9,7 @@ type PacksOwnerSortType = {
 
 export const PacksOwnerSort: React.FC<PacksOwnerSortType> = ({owner, packsOwnerHandler}) => {
 
-    const userId = useAppSelector(state => state.auth._id)
-
-
-    const getMyPacksHandler = () => userId && packsOwnerHandler(userId)
+    const getMyPacksHandler = () => packsOwnerHandler('my')
     const getAllPacksHandler = () => packsOwnerHandler('')
 
     return (
