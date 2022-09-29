@@ -93,7 +93,6 @@ const PacksList = () => {
     let selectedPagesCount = searchParam.get('pageCount')
     const [params, setParams] = useState<any>({})
     const loading = useAppSelector(state => state.app.status)
-    console.log(loading)
 
     const searchHandler = (value: string) => {
         if (!value) {
@@ -122,7 +121,8 @@ const PacksList = () => {
             return
         }
 
-        setParams({...params, user_id: authId})
+        // setParams({...params, user_id: authId})
+        setParams({...params, user_id})
     }
 
     const clearFiltersHandler = () => {
@@ -151,10 +151,15 @@ const PacksList = () => {
         setSearchParam(params)
 
         let id = setTimeout(() => {
-            dispatch(getPacksTC({...params, pageCount: selectedPagesCount ? +selectedPagesCount : 10}))
+            const sendParams = {...params, pageCount: selectedPagesCount ? +selectedPagesCount : 10}
+            if (sendParams.hasOwnProperty('user_id')) {
+                sendParams['user_id'] = authId
+            }
+
+            dispatch(getPacksTC(sendParams))
         }, 1000)
         return () => clearTimeout(id)
-    }, [dispatch, params, selectedPagesCount, setSearchParam])
+    }, [dispatch, params, selectedPagesCount, setSearchParam, authId])
 
     return (
         <>
