@@ -2,7 +2,7 @@ import * as React from 'react';
 import {DataGrid, DataGridProps} from '@mui/x-data-grid';
 
 
-const UniversalTable = ({rows, columns, pageSize, loading, ...restProps}: DataGridProps) => {
+const UniversalTable = ({rows, columns, pageSize, loading, onSortModelChange, ...restProps}: DataGridProps) => {
 
     return (
         <div style={{height: 400, width: '100%'}}>
@@ -21,6 +21,7 @@ const UniversalTable = ({rows, columns, pageSize, loading, ...restProps}: DataGr
                 rowSpacingType={'margin'}
                 // pageSize={5}
                 loading={loading}
+                onSortModelChange={onSortModelChange}
                 {...restProps}
                 // onPageSizeChange={onPageSizeChangeHandler}
             />
