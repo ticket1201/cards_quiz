@@ -28,8 +28,9 @@ export const RangeSlider: FC<RangeSliderType> = ({
     const [value, setValue] = React.useState<number[]>([]);
 
     useEffect(() => {
-        if (currentMin && currentMax) {
-            setValue([+currentMin, +currentMax])
+        if (currentMin || currentMax) {
+            // setValue([+currentMin, +currentMax])
+            setValue([currentMin ? +currentMin : minValue, currentMax ? +currentMax : maxValue])
             return
         }
         setValue([minValue, maxValue])
@@ -74,7 +75,8 @@ export const RangeSlider: FC<RangeSliderType> = ({
                         getAriaValueText={valuetext}
                     />
                 </Box>
-                <Button variant={'outlined'} sx={{marginLeft: '12px'}} onClick={resetMaxHandler}>{value[1]}</Button></div>
+                <Button variant={'outlined'} sx={{marginLeft: '12px'}} onClick={resetMaxHandler}>{value[1]}</Button>
+            </div>
         </div>
     );
 }

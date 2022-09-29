@@ -105,13 +105,19 @@ const PacksList = () => {
     }
 
     const rangeHandler = (min: number, max: number) => {
-        if (min === 0 && max === maxCardsCount) {
-            const {min, max, ...restParams} = params
-            setParams(restParams)
-            return
+        let rangeParams = {...params, min: min.toString(), max: max.toString()}
+
+        if (min === 0) {
+            const {min, ...rest} = rangeParams
+            rangeParams = {...rest}
         }
 
-        setParams({...params, min: min.toString(), max: max.toString()})
+        if (max === maxCardsCount) {
+            const {max, ...rest} = rangeParams
+            rangeParams = {...rest}
+        }
+
+        setParams(rangeParams)
     }
 
     const packsOwnerHandler = (user_id: string) => {
