@@ -32,7 +32,7 @@ function App() {
             {status === 'loading' &&
                 <LinearProgress color={'inherit'} sx={{top: '60px', left: '0', right: '0', position: 'absolute'}}/>}
             <UniversalSnackbar/>
-            <Grid container className={'content-wrapper'}>
+            <Grid container className={'base-wrapper'} justifyContent={'center'}>
                 <Pages/>
             </Grid>
 
