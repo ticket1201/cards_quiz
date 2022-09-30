@@ -19,13 +19,14 @@ const initialState = {
     cardPacksTotalCount: 0,
     minCardsCount: 0,
     maxCardsCount: 0,
-    isChanged: false
+    isToggled: false
 }
 
 export const packReducer = (state: PacksInitialStateType = initialState, action: PacksActionType): PacksInitialStateType => {
     switch (action.type) {
-        case 'PACK/SET_PACKS':
         case 'PACK/SET_CHANGED':
+            return {...state, isToggled: !state.isToggled}
+        case 'PACK/SET_PACKS':
             return {...state, ...action.payload}
         default :
             return state
@@ -45,10 +46,9 @@ export const setPacksAC = (payload: getPacksResponseType) => {
         payload
     } as const
 }
-export const setPacksIsChangedAC = (payload: { isChanged: boolean }) => {
+export const setPacksIsChangedAC = () => {
     return {
         type: 'PACK/SET_CHANGED',
-        payload
     } as const
 }
 
@@ -61,7 +61,6 @@ export const getPacksTC = (data: GetPacksParamsType): RootThunkType => async (di
     } catch (e: any) {
         errorUtils(e, dispatch)
     } finally {
-        dispatch(setPacksIsChangedAC({isChanged: false}))
         dispatch(setAppStatusAC('idle'))
     }
 }
@@ -70,5 +69,5 @@ export const createPackTC = (data: CreatePackDataType) => universalPacksCardsTC(
 
 export const updatePackTC = (data: UpdatePackDataType) => universalPacksCardsTC('packs', cardsAPI.updatePack, data)
 
-export const deletePackTC = (id: string) => universalPacksCardsTC('packs', cardsAPI.deletePack, id)
+export const deletePackTC = (_id: string) => universalPacksCardsTC('packs', cardsAPI.deletePack, _id)
 
