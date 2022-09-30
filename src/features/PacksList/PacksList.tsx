@@ -13,11 +13,12 @@ import {RangeSlider} from '../../common/components/RangeSlider/RangeSlider';
 import {PacksOwnerSort} from '../../common/components/PacksOwnerSort/PacksOwnerSort';
 import {ClearFilters} from '../../common/components/ClearFilters/ClearFilters';
 import {Paginator} from '../../common/components/Paginator/Paginator';
-import {GridSortModel} from '@mui/x-data-grid/models/gridSortModel';
+import {GridSortDirection, GridSortModel} from '@mui/x-data-grid/models/gridSortModel';
 import s from './PacksList.module.css'
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import {serializeFormQuery} from '../../common/utils/serializeFormQuery';
+import {GridInitialStateCommunity} from "@mui/x-data-grid/models/gridStateCommunity";
 
 const PacksList = () => {
     const columns: GridColDef[] = [
@@ -36,7 +37,7 @@ const PacksList = () => {
                         <SchoolIcon/>
                     </IconButton>
                     {params.row.actions && <>
-                        <IconButton onClick={() => onUpdateHandler(params.row._id)} >
+                        <IconButton onClick={() => onUpdateHandler(params.row._id)}>
                             <EditIcon/>
                         </IconButton>
                         <IconButton onClick={() => onDeleteHandler(params.row._id)}>
@@ -49,10 +50,10 @@ const PacksList = () => {
 
     ];
 
-    const onUpdateHandler = (_id:string) => {
+    const onUpdateHandler = (_id: string) => {
         dispatch(updatePackTC({_id, name: `updated ${Math.random() * 10}`}))
     }
-    const onDeleteHandler = (_id:string) => {
+    const onDeleteHandler = (_id: string) => {
         dispatch(deletePackTC(_id))
     }
 
@@ -75,6 +76,29 @@ const PacksList = () => {
 
     let selectedPagesCount = params.pageCount
 
+    // set initial sorting state for the table
+    let initialState: GridInitialStateCommunity = {}
+    if (params.hasOwnProperty('sortPacks')) {
+
+        const field = params.sortPacks.slice(1);
+        const sortQuery = params.sortPacks[0];
+        let sort: GridSortDirection = null;
+
+        if (sortQuery === '1')
+            sort = 'asc'
+        if (sortQuery === '0')
+            sort = 'desc'
+
+        initialState = {
+            sorting: {
+                sortModel: [
+                    {field, sort}
+                ]
+            }
+        }
+    }
+
+    
     const onSortModelChangeHandler = (model: GridSortModel) => {
         const field = model[0].field;
         const sort = model[0].sort;
@@ -160,12 +184,14 @@ const PacksList = () => {
         <div className={`content-wrapper ${s.content}`}>
             <Grid flexDirection={'row'} justifyContent={'space-between'} className={s.title}>
                 <h2>Packs list</h2>
-                <Button className={s.addBtn} size={'small'} variant={'contained'} onClick={()=>dispatch(createPackTC({}))}>Add new pack</Button>
+                <Button className={s.addBtn} size={'small'} variant={'contained'}
+                        onClick={() => dispatch(createPackTC({}))}>Add new pack</Button>
             </Grid>
             <div className={`${s.search}`}>
                 <Search isFullWidth={true} searchHandler={searchHandler} searchValue={params.packName}/>
                 <PacksOwnerSort owner={params.user_id} packsOwnerHandler={packsOwnerHandler}/>
-                <RangeSlider minValue={minCardsCount} maxValue={maxCardsCount} currentMin={params.min} currentMax={params.max}
+                <RangeSlider minValue={minCardsCount} maxValue={maxCardsCount} currentMin={params.min}
+                             currentMax={params.max}
                              rangeSliderHandler={rangeHandler}/>
                 <ClearFilters clearHandler={clearFiltersHandler}/>
             </div>
@@ -176,6 +202,7 @@ const PacksList = () => {
                 pageSize={selectedPagesCount ? +selectedPagesCount : 10}
                 loading={loading === 'loading'}
                 onSortModelChange={onSortModelChangeHandler}
+                initialState={initialState}
             />
             <Paginator changePageHandler={paginationHandler} changePagesCountHandler={pagesCountHandler}
                        currentPage={page} itemsOnPage={pageCount}
