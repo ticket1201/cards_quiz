@@ -98,7 +98,7 @@ const PacksList = () => {
         }
     }
 
-    
+
     const onSortModelChangeHandler = (model: GridSortModel) => {
         const field = model[0].field;
         const sort = model[0].sort;
@@ -127,7 +127,7 @@ const PacksList = () => {
     const rangeHandler = (min: number, max: number) => {
         let rangeParams = {...params, min: min.toString(), max: max.toString()}
 
-        if (min === 0) {
+        if (min === minCardsCount) {
             const {min, ...rest} = rangeParams
             rangeParams = {...rest}
         }
