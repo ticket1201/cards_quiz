@@ -17,6 +17,7 @@ import {GridSortModel} from '@mui/x-data-grid/models/gridSortModel';
 import s from './PacksList.module.css'
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
+import {serializeFormQuery} from '../../common/utils/serializeFormQuery';
 
 /*const customComparation: GridComparatorFn<string> = (v1, v2) => {
     // console.log('We are here')
@@ -127,14 +128,14 @@ const PacksList = () => {
 
         setParams({...params, sortPacks: sortQuery})
     }
-
     const [searchParam, setSearchParam] = useSearchParams({})
+    const startParams = serializeFormQuery(searchParam, authId)
     let searchValue = searchParam.get('packName')
     let min = searchParam.get('min')
     let max = searchParam.get('max')
     let user_id = searchParam.get('user_id')
     let selectedPagesCount = searchParam.get('pageCount')
-    const [params, setParams] = useState<any>({})
+    const [params, setParams] = useState<any>(startParams)
     const loading = useAppSelector(state => state.app.status)
 
     const searchHandler = (value: string) => {
