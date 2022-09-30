@@ -18,14 +18,15 @@ const initialState = {
     page: 0,
     pageCount: 0,
     packUserId: '',
-    isChanged: false
+    isToggled: false
 }
 
 
 export const cardsReducer = (state: CardsInitialStateType = initialState, action: CardsActionType): CardsInitialStateType => {
     switch (action.type) {
-        case 'CARDS/SET_CARDS':
         case 'CARDS/SET_CHANGED':
+            return {...state, isToggled: !state.isToggled}
+        case 'CARDS/SET_CARDS':
             return {...state, ...action.payload}
         default :
             return state
@@ -45,10 +46,10 @@ export const setCardsAC = (payload: getCardsResponseType) => {
         payload
     } as const
 }
-export const setCardsIsChangedAC = (payload: { isChanged: boolean }) => {
+export const setCardsIsChangedAC = () => {
     return {
         type: 'CARDS/SET_CHANGED',
-        payload
+
     } as const
 }
 
@@ -62,7 +63,6 @@ export const getCardsTC = (data: GetCardParamsType): RootThunkType => async (dis
     } catch (e: any) {
         errorUtils(e, dispatch)
     } finally {
-        dispatch(setCardsIsChangedAC({isChanged: false}))
         dispatch(setAppStatusAC('idle'))
     }
 }
