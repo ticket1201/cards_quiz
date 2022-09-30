@@ -5,7 +5,7 @@ import {DataGrid, DataGridProps} from '@mui/x-data-grid';
 const UniversalTable = ({rows, columns, pageSize, loading, onSortModelChange, ...restProps}: DataGridProps) => {
 
     return (
-        <div style={{height: 400, width: '100%'}}>
+        <div style={{height: 400, width: '100%'}} >
             <DataGrid
                 rows={rows}
                 columns={columns}
@@ -17,6 +17,8 @@ const UniversalTable = ({rows, columns, pageSize, loading, onSortModelChange, ..
                 // disableColumnFilter={true}
                 // autoPageSize
                 // rowsPerPageOptions={[10]}
+                disableSelectionOnClick
+                hideFooter
                 pageSize={pageSize}
                 rowSpacingType={'margin'}
                 // pageSize={5}
