@@ -4,7 +4,7 @@ import {SearchOutlined} from '@mui/icons-material';
 import {ChangeEvent, FC} from 'react';
 
 type SearchPropsType = {
-    searchValue: string | null
+    searchValue: string | undefined
     searchHandler: (value: string) => void
     isFullWidth?: boolean
 }

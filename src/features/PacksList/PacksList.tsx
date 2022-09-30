@@ -19,50 +19,10 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import {serializeFormQuery} from '../../common/utils/serializeFormQuery';
 
-/*const customComparation: GridComparatorFn<string> = (v1, v2) => {
-    // console.log('We are here')
-    if (v1 < v2) {
-        return -1;
-    }
-    if (v1 > v2) {
-        return 1;
-    }
-    // names must be equal
-    return 0;
-}*/
-
-
-
-/*const rows = [
-    {id: '1', name: 'Anton\'s pack', cards: '4', lastUpdated: '18.02.2019', createdBy: 'Anton', actions: true},
-    {id: '2', name: 'Artem\'s pack', cards: '7', lastUpdated: '09.04.2020', createdBy: 'Artem', actions: false},
-    {id: '3', name: 'Siarhei\'s pack', cards: '1', lastUpdated: '21.01.2017', createdBy: 'Siarhei', actions: false},
-    {id: '4', name: 'Anton\'s pack', cards: '4', lastUpdated: '18.02.2019', createdBy: 'Anton', actions: false},
-    {id: '5', name: 'Artem\'s pack', cards: '7', lastUpdated: '09.04.2020', createdBy: 'Artem', actions: true},
-    {id: '6', name: 'Siarhei\'s pack', cards: '1', lastUpdated: '21.01.2017', createdBy: 'Siarhei', actions: false},
-    {id: '7', name: 'Anton\'s pack', cards: '4', lastUpdated: '18.02.2019', createdBy: 'Anton', actions: false},
-    {id: '8', name: 'Artem\'s pack', cards: '7', lastUpdated: '09.04.2020', createdBy: 'Artem', actions: false},
-    {id: '9', name: 'Siarhei\'s pack', cards: '1', lastUpdated: '21.01.2017', createdBy: 'Siarhei', actions: false},
-    {id: '10', name: 'Anton\'s pack', cards: '4', lastUpdated: '18.02.2019', createdBy: 'Anton', actions: false},
-    {id: '11', name: 'Artem\'s pack', cards: '7', lastUpdated: '09.04.2020', createdBy: 'Artem', actions: true},
-    {id: '12', name: 'Siarhei\'s pack', cards: '1', lastUpdated: '21.01.2017', createdBy: 'Siarhei', actions: true},
-    {id: '13', name: 'Anton\'s pack', cards: '4', lastUpdated: '18.02.2019', createdBy: 'Anton', actions: false},
-    {id: '14', name: 'Artem\'s pack', cards: '7', lastUpdated: '09.04.2020', createdBy: 'Artem', actions: false},
-    {id: '15', name: 'Siarhei\'s pack', cards: '1', lastUpdated: '21.01.2017', createdBy: 'Siarhei', actions: true},
-
-];*/
-
 const PacksList = () => {
-    const onUpdateHandler = (_id:string) => {
-        dispatch(updatePackTC({_id, name: `updated ${Math.random() * 10}`}))
-    }
-    const onDeleteHandler = (_id:string) => {
-        dispatch(deletePackTC(_id))
-    }
-
     const columns: GridColDef[] = [
         {field: 'name', headerName: 'Name', flex: 1},
-        {field: 'cardsCount', headerName: 'Cards', flex: 1/*, sortComparator: customComparation*/},
+        {field: 'cardsCount', headerName: 'Cards', flex: 1},
         {field: 'updated', headerName: 'Last updated', flex: 1},
         {field: 'created', headerName: 'Created by', flex: 1},
         {
@@ -86,16 +46,16 @@ const PacksList = () => {
                 </>
             ),
         }
-        /*{
-            field: 'fullName',
-            headerName: 'Full name',
-            description: 'This column has a value getter and is not sortable.',
-            sortable: false,
-            width: 160,
-            valueGetter: (params: GridValueGetterParams) =>
-                `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-        },*/
+
     ];
+
+    const onUpdateHandler = (_id:string) => {
+        dispatch(updatePackTC({_id, name: `updated ${Math.random() * 10}`}))
+    }
+    const onDeleteHandler = (_id:string) => {
+        dispatch(deletePackTC(_id))
+    }
+
     const dispatch = useAppDispatch()
     const {
         cardPacks,
@@ -107,6 +67,13 @@ const PacksList = () => {
         isToggled
     } = useAppSelector(state => state.packs)
     const authId = useAppSelector(state => state.auth._id)
+    const loading = useAppSelector(state => state.app.status)
+    const [searchParam, setSearchParam] = useSearchParams({})
+    const startParams = serializeFormQuery(searchParam, authId)
+    const [params, setParams] = useState<any>(startParams)
+
+
+    let selectedPagesCount = params.pageCount
 
     const onSortModelChangeHandler = (model: GridSortModel) => {
         const field = model[0].field;
@@ -125,26 +92,14 @@ const PacksList = () => {
 
         setParams({...params, sortPacks: sortQuery})
     }
-    const [searchParam, setSearchParam] = useSearchParams({})
-    const startParams = serializeFormQuery(searchParam, authId)
-    let searchValue = searchParam.get('packName')
-    let min = searchParam.get('min')
-    let max = searchParam.get('max')
-    let user_id = searchParam.get('user_id')
-    let selectedPagesCount = searchParam.get('pageCount')
-    const [params, setParams] = useState<any>(startParams)
-    const loading = useAppSelector(state => state.app.status)
-
     const searchHandler = (value: string) => {
         if (!value) {
             const {packName, ...restParams} = params
             setParams(restParams)
             return
         }
-
         setParams({...params, packName: value})
     }
-
     const rangeHandler = (min: number, max: number) => {
         let rangeParams = {...params, min: min.toString(), max: max.toString()}
 
@@ -157,25 +112,19 @@ const PacksList = () => {
             const {max, ...rest} = rangeParams
             rangeParams = {...rest}
         }
-
         setParams(rangeParams)
     }
-
     const packsOwnerHandler = (user_id: string) => {
         if (!user_id) {
             const {user_id, ...restParams} = params
             setParams(restParams)
             return
         }
-
-        // setParams({...params, user_id: authId})
         setParams({...params, user_id})
     }
-
     const clearFiltersHandler = () => {
         setParams({})
     }
-
     const paginationHandler = (currentPage: number) => {
         if (currentPage === page) {
             const {page, ...restParams} = params
@@ -184,7 +133,6 @@ const PacksList = () => {
         }
         setParams({...params, page: currentPage.toString()})
     }
-
     const pagesCountHandler = (newPageCount: string) => {
         if (+newPageCount === 10) {
             const {pageCount, ...restParams} = params
@@ -215,9 +163,9 @@ const PacksList = () => {
                 <Button className={s.addBtn} size={'small'} variant={'contained'} onClick={()=>dispatch(createPackTC({}))}>Add new pack</Button>
             </Grid>
             <div className={`${s.search}`}>
-                <Search isFullWidth={true} searchHandler={searchHandler} searchValue={searchValue}/>
-                <PacksOwnerSort owner={user_id} packsOwnerHandler={packsOwnerHandler}/>
-                <RangeSlider minValue={minCardsCount} maxValue={maxCardsCount} currentMin={min} currentMax={max}
+                <Search isFullWidth={true} searchHandler={searchHandler} searchValue={params.packName}/>
+                <PacksOwnerSort owner={params.user_id} packsOwnerHandler={packsOwnerHandler}/>
+                <RangeSlider minValue={minCardsCount} maxValue={maxCardsCount} currentMin={params.min} currentMax={params.max}
                              rangeSliderHandler={rangeHandler}/>
                 <ClearFilters clearHandler={clearFiltersHandler}/>
             </div>
