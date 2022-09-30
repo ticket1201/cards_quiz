@@ -62,7 +62,7 @@ export const RangeSlider: FC<RangeSliderType> = ({
         <div className={s.container}>
             <h3>Number of cards</h3>
             <div className={s.rangeWrapper}>
-                <Button variant={'outlined'} sx={{marginRight: '12px'}} onClick={resetMinHandler}>{value[0]}</Button>
+                <Button variant={'outlined'} onClick={resetMinHandler} className={s.button}>{value[0]}</Button>
                 <Box sx={{width: 200}}>
                     <Slider
                         getAriaLabel={() => 'Cards in pack range'}
@@ -73,9 +73,10 @@ export const RangeSlider: FC<RangeSliderType> = ({
                         onChangeCommitted={handleChangeCommitted}
                         valueLabelDisplay="auto"
                         getAriaValueText={valuetext}
+                        size={'medium'}
                     />
                 </Box>
-                <Button variant={'outlined'} sx={{marginLeft: '12px'}} onClick={resetMaxHandler}>{value[1]}</Button>
+                <Button variant={'outlined'} onClick={resetMaxHandler} className={s.button}>{value[1]}</Button>
             </div>
         </div>
     );
