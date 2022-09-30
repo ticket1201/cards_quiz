@@ -1,5 +1,5 @@
 .container {
-    width: 800px;
+    width: inherit;
     display: flex;
     justify-content: space-between;
 }
