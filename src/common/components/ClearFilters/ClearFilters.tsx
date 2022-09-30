@@ -12,10 +12,10 @@ export const ClearFilters:FC<ClearFiltersType> = ({clearHandler}) => {
     const onClickHandler = () => clearHandler()
 
     return (
-        <div>
-            <IconButton onClick={onClickHandler}>
-                <FilterAltOffOutlinedIcon/>
+        <>
+            <IconButton onClick={onClickHandler} sx={{alignSelf:'flex-end'}}>
+                <FilterAltOffOutlinedIcon sx={{height:'32px', width:'32px'}}/>
             </IconButton>
-        </div>
+        </>
     );
 };
