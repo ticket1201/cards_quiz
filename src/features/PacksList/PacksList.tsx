@@ -107,9 +107,6 @@ const PacksList = () => {
         isToggled
     } = useAppSelector(state => state.packs)
     const authId = useAppSelector(state => state.auth._id)
-    let rows = cardPacks.map(el => ({
-        ...el, id: el._id, actions: el.user_id === authId
-    }))
 
     const onSortModelChangeHandler = (model: GridSortModel) => {
         const field = model[0].field;
@@ -227,7 +224,7 @@ const PacksList = () => {
 
             <UniversalTable
                 columns={columns}
-                rows={rows}
+                rows={cardPacks}
                 pageSize={selectedPagesCount ? +selectedPagesCount : 10}
                 loading={loading === 'loading'}
                 onSortModelChange={onSortModelChangeHandler}
