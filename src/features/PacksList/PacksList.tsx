@@ -7,13 +7,16 @@ import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import {useSearchParams} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../common/hooks/hooks';
-import {getPacksTC} from './pack_reducer';
+import {createPackTC, deletePackTC, getPacksTC, updatePackTC} from './pack_reducer';
 import {Search} from '../../common/components/Search/Search';
 import {RangeSlider} from '../../common/components/RangeSlider/RangeSlider';
 import {PacksOwnerSort} from '../../common/components/PacksOwnerSort/PacksOwnerSort';
 import {ClearFilters} from '../../common/components/ClearFilters/ClearFilters';
 import {Paginator} from '../../common/components/Paginator/Paginator';
 import {GridSortModel} from '@mui/x-data-grid/models/gridSortModel';
+import s from './PacksList.module.css'
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
 
 /*const customComparation: GridComparatorFn<string> = (v1, v2) => {
     // console.log('We are here')
@@ -27,42 +30,7 @@ import {GridSortModel} from '@mui/x-data-grid/models/gridSortModel';
     return 0;
 }*/
 
-const columns: GridColDef[] = [
-    {field: 'name', headerName: 'Name', flex: 1},
-    {field: 'cardsCount', headerName: 'Cards', flex: 1/*, sortComparator: customComparation*/},
-    {field: 'updated', headerName: 'Last updated', flex: 1},
-    {field: 'created', headerName: 'Created by', flex: 1},
-    {
-        field: 'actions',
-        headerName: 'Actions',
-        sortable: false,
-        minWidth: 150,
-        renderCell: (params) => (
-            <>
-                <IconButton>
-                    <SchoolIcon/>
-                </IconButton>
-                {params.row.actions && <>
-                    <IconButton>
-                        <EditIcon/>
-                    </IconButton>
-                    <IconButton>
-                        <DeleteIcon/>
-                    </IconButton>
-                </>}
-            </>
-        ),
-    }
-    /*{
-        field: 'fullName',
-        headerName: 'Full name',
-        description: 'This column has a value getter and is not sortable.',
-        sortable: false,
-        width: 160,
-        valueGetter: (params: GridValueGetterParams) =>
-            `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-    },*/
-];
+
 
 /*const rows = [
     {id: '1', name: 'Anton\'s pack', cards: '4', lastUpdated: '18.02.2019', createdBy: 'Anton', actions: true},
@@ -84,6 +52,49 @@ const columns: GridColDef[] = [
 ];*/
 
 const PacksList = () => {
+    const onUpdateHandler = (_id:string) => {
+        dispatch(updatePackTC({_id, name: `updated ${Math.random() * 10}`}))
+    }
+    const onDeleteHandler = (_id:string) => {
+        dispatch(deletePackTC(_id))
+    }
+
+    const columns: GridColDef[] = [
+        {field: 'name', headerName: 'Name', flex: 1},
+        {field: 'cardsCount', headerName: 'Cards', flex: 1/*, sortComparator: customComparation*/},
+        {field: 'updated', headerName: 'Last updated', flex: 1},
+        {field: 'created', headerName: 'Created by', flex: 1},
+        {
+            field: 'actions',
+            headerName: 'Actions',
+            sortable: false,
+            minWidth: 150,
+            renderCell: (params) => (
+                <>
+                    <IconButton>
+                        <SchoolIcon/>
+                    </IconButton>
+                    {params.row.actions && <>
+                        <IconButton onClick={() => onUpdateHandler(params.row._id)} >
+                            <EditIcon/>
+                        </IconButton>
+                        <IconButton onClick={() => onDeleteHandler(params.row._id)}>
+                            <DeleteIcon/>
+                        </IconButton>
+                    </>}
+                </>
+            ),
+        }
+        /*{
+            field: 'fullName',
+            headerName: 'Full name',
+            description: 'This column has a value getter and is not sortable.',
+            sortable: false,
+            width: 160,
+            valueGetter: (params: GridValueGetterParams) =>
+                `${params.row.firstName || ''} ${params.row.lastName || ''}`,
+        },*/
+    ];
     const dispatch = useAppDispatch()
     const {
         cardPacks,
@@ -91,11 +102,12 @@ const PacksList = () => {
         maxCardsCount,
         page,
         pageCount,
-        cardPacksTotalCount
+        cardPacksTotalCount,
+        isToggled
     } = useAppSelector(state => state.packs)
     const authId = useAppSelector(state => state.auth._id)
     let rows = cardPacks.map(el => ({
-        ...el, id: el._id
+        ...el, id: el._id, actions: el.user_id === authId
     }))
 
     const onSortModelChangeHandler = (model: GridSortModel) => {
@@ -196,16 +208,22 @@ const PacksList = () => {
             dispatch(getPacksTC(sendParams))
         }, 1000)
         return () => clearTimeout(id)
-    }, [dispatch, params, selectedPagesCount, setSearchParam, authId])
+    }, [dispatch, params, isToggled, selectedPagesCount, setSearchParam, authId])
 
     return (
-        <>
-            Packs list
-            <Search isFullWidth={true} searchHandler={searchHandler} searchValue={searchValue}/>
-            <PacksOwnerSort owner={user_id} packsOwnerHandler={packsOwnerHandler}/>
-            <RangeSlider minValue={minCardsCount} maxValue={maxCardsCount} currentMin={min} currentMax={max}
-                         rangeSliderHandler={rangeHandler}/>
-            <ClearFilters clearHandler={clearFiltersHandler}/>
+        <div className={`content-wrapper ${s.content}`}>
+            <Grid flexDirection={'row'} justifyContent={'space-between'} className={s.title}>
+                <h2>Packs list</h2>
+                <Button className={s.addBtn} size={'small'} variant={'contained'} onClick={()=>dispatch(createPackTC({}))}>Add new pack</Button>
+            </Grid>
+            <div className={`${s.search}`}>
+                <Search isFullWidth={true} searchHandler={searchHandler} searchValue={searchValue}/>
+                <PacksOwnerSort owner={user_id} packsOwnerHandler={packsOwnerHandler}/>
+                <RangeSlider minValue={minCardsCount} maxValue={maxCardsCount} currentMin={min} currentMax={max}
+                             rangeSliderHandler={rangeHandler}/>
+                <ClearFilters clearHandler={clearFiltersHandler}/>
+            </div>
+
             <UniversalTable
                 columns={columns}
                 rows={rows}
@@ -216,7 +234,7 @@ const PacksList = () => {
             <Paginator changePageHandler={paginationHandler} changePagesCountHandler={pagesCountHandler}
                        currentPage={page} itemsOnPage={pageCount}
                        itemsTotalCount={cardPacksTotalCount} selectedPagesCount={selectedPagesCount}/>
-        </>
+        </div>
     );
 };
 

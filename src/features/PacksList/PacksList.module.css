@@ -1,0 +1,19 @@
+.content{
+    flex-direction: column;
+    width: inherit;
+    gap: 20px;
+}
+
+.search{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.title{
+    display: flex;
+    width: 100%;
+}
+.addBtn{
+    height: 45px;
+}
