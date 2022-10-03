@@ -87,8 +87,8 @@ export const cardsAPI = {
             }
         })
     },
-    updateGrade(data: updateCardGradeDataType) {
-        return instance.put<updateCardGradeResponseType>('/cards/grade', {
+    updateGrade(data: UpdateCardGradeDataType) {
+        return instance.put<UpdateCardGradeResponseType>('/cards/grade', {
             card: {
                 ...data
             }
@@ -261,12 +261,12 @@ export type CardDataType = {
     questionVideo: string
 }
 
-export type updateCardGradeDataType = {
+export type UpdateCardGradeDataType = {
     card_id: string
     grade: number
 }
 
-export type updateCardGradeResponseType = {
+export type UpdateCardGradeResponseType = {
     _id: string
     cardsPack_id: string
     card_id: string

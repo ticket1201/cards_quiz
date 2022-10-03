@@ -1,7 +1,7 @@
 import {
     CardDataType, CardRequestType,
     cardsAPI, GetCardParamsType,
-    getCardsResponseType, UpdateCardRequestType,
+    getCardsResponseType, UpdateCardGradeDataType, UpdateCardRequestType,
 } from '../../api/api';
 import {RootThunkType} from '../../app/store';
 import {setAppStatusAC} from '../../app/app_reducer';
@@ -72,5 +72,7 @@ export const createCardTC = (data: CardRequestType) => universalPacksCardsTC('ca
 export const updateCardTC = (data: UpdateCardRequestType) => universalPacksCardsTC('cards', cardsAPI.updateCard, data)
 
 export const deleteCardTC = (id: string) => universalPacksCardsTC('cards', cardsAPI.deleteCard, id)
+
+export const updateGradeCardTC = (data: UpdateCardGradeDataType) => universalPacksCardsTC('cards', cardsAPI.updateGrade, data)
 
 
