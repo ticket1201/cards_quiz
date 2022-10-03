@@ -5,7 +5,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
-import {useSearchParams} from 'react-router-dom';
+import {Link, useSearchParams} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../common/hooks/hooks';
 import {createPackTC, deletePackTC, getPacksTC, updatePackTC} from './pack_reducer';
 import {Search} from '../../common/components/Search/Search';
@@ -19,10 +19,11 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import {serializeFormQuery} from '../../common/utils/serializeFormQuery';
 import {GridInitialStateCommunity} from "@mui/x-data-grid/models/gridStateCommunity";
+import {Path} from '../../common/enums/path';
 
 const PacksList = () => {
     const columns: GridColDef[] = [
-        {field: 'name', headerName: 'Name', flex: 1},
+        {field: 'name', headerName: 'Name', flex: 1, renderCell: (params) => (<Link to={`${Path.PackPage}/${params.id}`}>{params.row.name}</Link>)},
         {field: 'cardsCount', headerName: 'Cards', flex: 1},
         {field: 'updated', headerName: 'Last updated', flex: 1},
         {field: 'created', headerName: 'Created by', flex: 1},
@@ -188,7 +189,7 @@ const PacksList = () => {
                         onClick={() => dispatch(createPackTC({}))}>Add new pack</Button>
             </Grid>
             <div className={`${s.search}`}>
-                <Search isFullWidth={true} searchHandler={searchHandler} searchValue={params.packName}/>
+                <Search searchHandler={searchHandler} searchValue={params.packName}/>
                 <PacksOwnerSort owner={params.user_id} packsOwnerHandler={packsOwnerHandler}/>
                 <RangeSlider minValue={minCardsCount} maxValue={maxCardsCount} currentMin={params.min}
                              currentMax={params.max}
