@@ -116,8 +116,7 @@ const Learn = () => {
             <Card sx={{minWidth: 300}}>
                 <CardContent>
                     <div>
-                        <span className={styles.QA}>ID: </span>{card._id}
-                        <p className={styles.QA}>Question: {card.question}</p>
+                        <span className={styles.QA}>Question: </span>{card.question}
                     </div>
                     <div className={styles.shots}>
                         Count of tries: <span className={styles.shotsNumber}>{card.shots}</span>
