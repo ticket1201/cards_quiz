@@ -27,6 +27,7 @@ const UniversalTable = ({
                 loading={loading}
                 onSortModelChange={onSortModelChange}
                 initialState={initialState}
+                getRowId={(row)=>row._id}
                 {...restProps}
             />
         </div>
