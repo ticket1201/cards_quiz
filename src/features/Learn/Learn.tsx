@@ -116,8 +116,9 @@ const Learn = () => {
 
                     {showAnswer && (
                         <div>
-                            tralala
-                            <p><span className={styles.QA}>Answer: </span>{card.answer}</p>
+                            <div className={styles.answer}>
+                                <span className={styles.QA}>Answer: </span>{card.answer}
+                            </div>
                             <FormControl>
                                 <FormLabel>Rate yourself</FormLabel>
                                 <RadioGroup

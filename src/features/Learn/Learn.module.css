@@ -8,6 +8,10 @@
     font-weight: bold;
 }
 
+.answer {
+    margin: 20px 0
+}
+
 .shots {
     margin-top: 10px;
     font-size: smaller;
