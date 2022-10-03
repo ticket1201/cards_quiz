@@ -5,6 +5,7 @@ import Paper from "@mui/material/Paper";
 import styles from './Learn.module.css'
 import {useAppDispatch, useAppSelector} from "../../common/hooks/hooks";
 import {getCardsTC} from "../PackPage/cards_reducer";
+import {Card, CardContent} from "@mui/material";
 
 const grades = ['Did not know', 'Forgot', 'A lot of thought', 'Confused', 'Knew the answer'];
 
@@ -16,7 +17,7 @@ const getCard = (cards: CardDataType[]) => {
             return {sum: newSum, id: newSum < rand ? i : acc.id}
         }
         , {sum: 0, id: -1});
-    console.log('test: ', sum, rand, res)
+    // console.log('test: ', sum, rand, res)
 
     return cards[res.id + 1];
 }
@@ -41,13 +42,11 @@ const initialCardState: CardDataType = {
 }
 
 const Learn = () => {
-    // const [cards, setCards] = useState<getCardsResponseType>(initialPackState)
     const [card, setCard] = useState<CardDataType>(initialCardState)
-    let {id = ''} = useParams();
+    let {id} = useParams();
     const {
         cards,
-        packName,
-        cardsTotalCount
+        packName
     } = useAppSelector((store) => store.cards);
     const dispatch = useAppDispatch()
 
@@ -66,13 +65,18 @@ const Learn = () => {
     }, [cards])
 
     return (
-        <div>
-            <p>pack name: {packName}</p>
-            <p>cards count: {cardsTotalCount}</p>
-            <p>Learn</p>
+        <div className={styles.main}>
+            <h3>Learn "{packName}"</h3>
+            <Card sx={{minWidth: 300}}>
+                <CardContent>
+                    <p><span className={styles.QA}>CardID: </span>{card._id}</p>
+                    <p><span className={styles.QA}>Question: </span>{card.question}</p>
+                    <p><span className={styles.QA}>Answer: </span>{card.answer}</p>
+                </CardContent>
+            </Card>
+
             <Paper>
-                <p><span className={styles.QA}>Question: </span>{card.question}</p>
-                <p><span className={styles.QA}>Answer: </span>{card.answer}</p>
+
             </Paper>
         </div>
     );
