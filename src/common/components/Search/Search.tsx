@@ -16,7 +16,7 @@ export const Search: FC<SearchPropsType> = ({searchValue, searchHandler, isFullW
     }
 
 
-    return <div>
+    return <div style={isFullWidth ? {width: 'inherit'} : {}}>
         <h3>Search</h3>
         <TextField
             value={searchValue ? searchValue : ''}
