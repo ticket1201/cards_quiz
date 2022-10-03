@@ -13,6 +13,7 @@ import CardContent from "@mui/material/CardContent";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import Button from "@mui/material/Button";
+import {Preloader} from "../../common/components/Preloader/Preloader";
 
 const grades = ['Did not know', 'Forgot', 'A lot of thought', 'Confused', 'Knew the answer'];
 
@@ -109,9 +110,10 @@ const Learn = () => {
             label={e}/>
     ))
 
+    if (!card._id)
+        return <Preloader/>
 
-    return (
-        <div className={styles.main}>
+    return (<div className={styles.main}>
             <h3>Learn "{allCards.packName}"</h3>
             <Card sx={{minWidth: 300}}>
                 <CardContent>
