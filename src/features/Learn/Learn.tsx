@@ -4,7 +4,7 @@ import {useParams} from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import styles from './Learn.module.css'
 import {useAppDispatch, useAppSelector} from "../../common/hooks/hooks";
-import {getCardsTC} from "../PackPage/cards_reducer";
+import {getCardsTC, updateGradeCardTC} from "../PackPage/cards_reducer";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -51,6 +51,8 @@ const initialCardState: CardDataType = {
 const Learn = () => {
     const [card, setCard] = useState<CardDataType>(initialCardState)
     const [showAnswer, setShowAnswer] = useState<boolean>(false);
+    const [grade, setGrade] = useState<number>(1);
+
     let {id} = useParams();
     const {
         cards,
@@ -78,10 +80,12 @@ const Learn = () => {
 
     const onNextButtonClickHandler = () => {
         // setShowAnswer((prev) => !prev)
-        console.log('NEXT')
+        // console.log('NEXT')
+        dispatch(updateGradeCardTC({card_id: card._id, grade}))
     }
 
-    const radioJSX = grades.map((e, k) => <FormControlLabel key={'case-' + k} value={k} control={<Radio/>} label={e}/>)
+    const radioJSX = grades.map((e, k) => <FormControlLabel key={'case-' + k} value={k + 1} control={<Radio/>}
+                                                            label={e}/>)
 
     return (
         <div className={styles.main}>
@@ -112,7 +116,7 @@ const Learn = () => {
                                 <FormLabel>Rate yourself</FormLabel>
                                 <RadioGroup
                                     aria-labelledby="grade"
-                                    defaultValue="0"
+                                    defaultValue={grade}
                                     name="grade-radio-group"
                                 >
                                     {radioJSX}
