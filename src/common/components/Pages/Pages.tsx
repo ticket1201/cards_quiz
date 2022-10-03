@@ -17,7 +17,7 @@ export const Pages = () => {
         <Route element={<PrivateRoutes/>}>
             <Route path={Path.Profile} element={<Profile/>}/>
             <Route path={`${Path.PacksList}`} element={<PacksList/>}/>
-            <Route path={`${Path.PackPage}`} element={<PackPage/>}/>
+            <Route path={`${Path.PackPage}/:packId`} element={<PackPage/>}/>
         </Route>
         <Route path={Path.Login} element={<Login/>}/>
         <Route path={Path.Registration} element={<Registration/>}/>
