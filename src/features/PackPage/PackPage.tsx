@@ -5,7 +5,7 @@ import Rating from '@mui/material/Rating';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
-import {useParams, useSearchParams} from 'react-router-dom';
+import {useNavigate, useParams, useSearchParams} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../common/hooks/hooks';
 import {getCardsTC} from './cards_reducer';
 import {Search} from '../../common/components/Search/Search';
@@ -19,6 +19,7 @@ import Button from '@mui/material/Button';
 import {CardsMenu} from './CardsMenu/CardsMenu';
 import c from './PackPage.module.css'
 import {Preloader} from "../../common/components/Preloader/Preloader";
+import {Path} from "../../common/enums/path";
 
 
 let columns: GridColDef[] = [
@@ -59,8 +60,9 @@ const PackPage = () => {
 
     const {cards, page, pageCount, cardsTotalCount, isToggled, packUserId} = useAppSelector(state => state.cards)
     const loading = useAppSelector(state => state.app.status)
-    const dispatch = useAppDispatch()
     const authId = useAppSelector(state => state.auth._id)
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
 
 
     const isOwner = authId === packUserId
@@ -164,18 +166,32 @@ const PackPage = () => {
         ? <div className={c.ownerBar}><h2>My Pack</h2> <CardsMenu/></div>
         : <div><h2>Friend's Pack</h2></div>
 
+    const onClickAddLearnButtonHandler = () => {
+        if (isOwner) {
+            return
+        } else {
+            navigate(`${Path.LearnPage}/${packId}`);
+        }
+    }
+
 
     if (!packUserId)
         return <Preloader/>
-    
+
 
     return (
         <div className={`content-wrapper ${s.content}`}>
             <Grid flexDirection={'row'} justifyContent={'space-between'} className={s.title}>
                 {ownerBar}
-                <Button className={s.addBtn} size={'small'} variant={'contained'}
-                        onClick={() => {
-                        }}>{isOwner ? 'Add new card' : 'Learn pack'}</Button>
+                <Button
+                    className={s.addBtn}
+                    size={'small'}
+                    variant={'contained'}
+                    disabled={loading === 'loading'}
+                    onClick={onClickAddLearnButtonHandler}
+                >
+                    {isOwner ? 'Add new card' : 'Learn pack'}
+                </Button>
             </Grid>
             <Search isFullWidth={true} searchValue={params.cardQuestion} searchHandler={searchHandler}/>
             <UniversalTable
