@@ -81,7 +81,7 @@ const Learn = () => {
         console.log('NEXT')
     }
 
-    const radioJSX = grades.map((e, k) => <FormControlLabel value={k} control={<Radio/>} label={e}/>)
+    const radioJSX = grades.map((e, k) => <FormControlLabel key={'case-' + k} value={k} control={<Radio/>} label={e}/>)
 
     return (
         <div className={styles.main}>
