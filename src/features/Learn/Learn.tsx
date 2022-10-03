@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {CardDataType, cardsAPI, getCardsResponseType} from "../../api/api";
+import {CardDataType} from "../../api/api";
 import {useParams} from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import styles from './Learn.module.css'
-import {useAppDispatch} from "../../common/hooks/hooks";
+import {useAppDispatch, useAppSelector} from "../../common/hooks/hooks";
 import {getCardsTC} from "../PackPage/cards_reducer";
 
 const grades = ['Did not know', 'Forgot', 'A lot of thought', 'Confused', 'Knew the answer'];
@@ -21,37 +21,58 @@ const getCard = (cards: CardDataType[]) => {
     return cards[res.id + 1];
 }
 
-const initialPackState: getCardsResponseType = {
-    cards: [],
-    packName: '',
-    cardsTotalCount: 0,
-    maxGrade: 5,
-    minGrade: 1,
-    page: 1,
-    pageCount: 1,
-    packUserId: ''
+const initialCardState: CardDataType = {
+    cardsPack_id: '',
+    user_id: '',
+    _id: '',
+
+    answer: '',
+    question: '',
+    comments: '',
+    grade: 0,
+    shots: 0,
+    created: '',
+    updated: '',
+
+    answerImg: '',
+    answerVideo: '',
+    questionImg: '',
+    questionVideo: ''
 }
 
-
 const Learn = () => {
-    const [cards, setCards] = useState<getCardsResponseType>(initialPackState)
-    const [card, setCard] = useState<getCardsResponseType>(initialPackState)
+    // const [cards, setCards] = useState<getCardsResponseType>(initialPackState)
+    const [card, setCard] = useState<CardDataType>(initialCardState)
     let {id = ''} = useParams();
+    const {
+        cards,
+        packName,
+        cardsTotalCount
+    } = useAppSelector((store) => store.cards);
     const dispatch = useAppDispatch()
 
     useEffect(() => {
+        // get all cards
         if (id) {
-            dispatch(getCardsTC({cardsPack_id: id}))
+            dispatch(getCardsTC({cardsPack_id: id, pageCount: Infinity}))
         }
     }, [id])
 
+    useEffect(() => {
+        // get one card randomly from pack
+        if (cards.length) {
+            setCard(getCard(cards));
+        }
+    }, [cards])
+
     return (
         <div>
-            {/*<p>pack name: {cards.packName}</p>
-            <p>cards count: {cards.cardsTotalCount}</p>
-            <p>Learn</p>*/}
+            <p>pack name: {packName}</p>
+            <p>cards count: {cardsTotalCount}</p>
+            <p>Learn</p>
             <Paper>
-                <p><span className={styles.question}>Question: </span></p>
+                <p><span className={styles.QA}>Question: </span>{card.question}</p>
+                <p><span className={styles.QA}>Answer: </span>{card.answer}</p>
             </Paper>
         </div>
     );
