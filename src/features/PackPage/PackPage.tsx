@@ -18,20 +18,13 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import {CardsMenu} from './CardsMenu/CardsMenu';
 import c from './PackPage.module.css'
+import {Preloader} from "../../common/components/Preloader/Preloader";
 
 
 let columns: GridColDef[] = [
     {
         field: 'question',
         headerName: 'Question',
-        /*renderHeader: () => (
-            <strong>
-                {'Birthday '}
-                <span role="img" aria-label="enjoy">
-          🎂
-        </span>
-            </strong>
-        ),*/
         flex: 1
     },
     {field: 'answer', headerName: 'Answer', flex: 1},
@@ -62,15 +55,6 @@ let columns: GridColDef[] = [
     }
 ];
 
-/*const rows = [
-    {id: '1', question: 'How are you?', answer: 'Good', lastUpdated: '02.05.2022', grade: 2.3},
-    {id: '2', question: 'How are you?', answer: 'Good', lastUpdated: '02.05.2022', grade: 4},
-    {id: '3', question: 'How are you?', answer: 'Good', lastUpdated: '02.05.2022', grade: 0.2},
-    {id: '4', question: 'How are you?', answer: 'Good', lastUpdated: '02.05.2022', grade: 4.5},
-    {id: '5', question: 'How are you?', answer: 'Good', lastUpdated: '02.05.2022', grade: 5},
-    {id: '6', question: 'How are you?', answer: 'Good', lastUpdated: '02.05.2022', grade: 3.2},
-    {id: '7', question: 'How are you?', answer: 'Good', lastUpdated: '02.05.2022', grade: 4},
-];*/
 const PackPage = () => {
 
     const {cards, page, pageCount, cardsTotalCount, isToggled, packUserId} = useAppSelector(state => state.cards)
@@ -79,10 +63,10 @@ const PackPage = () => {
     const authId = useAppSelector(state => state.auth._id)
 
 
-    // const isOwner = authId === packUserId
-    const isOwner = true
+    const isOwner = authId === packUserId
+    let renderColumns = columns
     if (!isOwner) {
-        columns = columns.filter(e => e.field !== 'actions')
+        renderColumns = columns.filter(e => e.field !== 'actions')
     }
 
 
@@ -95,10 +79,10 @@ const PackPage = () => {
 
     // set initial sorting state for the table
     let initialState: GridInitialStateCommunity = {}
-    if (params.hasOwnProperty('sortPacks')) {
+    if (params.hasOwnProperty('sortCards')) {
 
-        const field = params.sortPacks.slice(1);
-        const sortQuery = params.sortPacks[0];
+        const field = params.sortCards.slice(1);
+        const sortQuery = params.sortCards[0];
         let sort: GridSortDirection = null;
 
         if (sortQuery === '1')
@@ -126,12 +110,12 @@ const PackPage = () => {
         else if (sort === 'desc')
             sortQuery = '0' + field
         else if (!sort) {
-            const {sortPacks, ...restParams} = params
+            const {sortCards, ...restParams} = params
             setParams(restParams)
             return
         }
 
-        setParams({...params, sortPacks: sortQuery})
+        setParams({...params, sortCards: sortQuery})
     }
 
     const searchHandler = (value: string) => {
@@ -180,6 +164,11 @@ const PackPage = () => {
         ? <div className={c.ownerBar}><h2>My Pack</h2> <CardsMenu/></div>
         : <div><h2>Friend's Pack</h2></div>
 
+
+    if (!packUserId)
+        return <Preloader/>
+    
+
     return (
         <div className={`content-wrapper ${s.content}`}>
             <Grid flexDirection={'row'} justifyContent={'space-between'} className={s.title}>
@@ -190,14 +179,13 @@ const PackPage = () => {
             </Grid>
             <Search isFullWidth={true} searchValue={params.cardQuestion} searchHandler={searchHandler}/>
             <UniversalTable
-                columns={columns}
+                columns={renderColumns}
                 rows={cards}
                 pageSize={selectedPagesCount ? +selectedPagesCount : 10}
                 loading={loading === 'loading'}
                 onSortModelChange={onSortModelChangeHandler}
                 initialState={initialState}
             />
-            {/*<UniversalTable columns={columns} rows={cards} pageSize={10}/>*/}
             <Paginator changePageHandler={paginationHandler} changePagesCountHandler={pagesCountHandler}
                        currentPage={page} itemsOnPage={pageCount}
                        itemsTotalCount={cardsTotalCount} selectedPagesCount={selectedPagesCount}/>
