@@ -89,9 +89,7 @@ export const cardsAPI = {
     },
     updateGrade(data: UpdateCardGradeDataType) {
         return instance.put<UpdateCardGradeResponseType>('/cards/grade', {
-            card: {
-                ...data
-            }
+            ...data
         })
     },
 }
