@@ -1,10 +1,14 @@
 import {
-    CardDataType, CardRequestType,
-    cardsAPI, GetCardParamsType,
-    getCardsResponseType, UpdateCardGradeDataType, UpdateCardRequestType,
+    CardDataType,
+    CardRequestType,
+    cardsAPI,
+    GetCardParamsType,
+    getCardsResponseType,
+    UpdateCardGradeDataType,
+    UpdateCardRequestType,
 } from '../../api/api';
 import {RootThunkType} from '../../app/store';
-import {setAppStatusAC} from '../../app/app_reducer';
+import {setAppStatusAC, setAppSuccessAC} from '../../app/app_reducer';
 import {errorUtils} from '../../common/utils/error-utils';
 import {universalPacksCardsTC} from '../../common/utils/universalPacksCardsTC';
 
@@ -73,6 +77,17 @@ export const updateCardTC = (data: UpdateCardRequestType) => universalPacksCards
 
 export const deleteCardTC = (id: string) => universalPacksCardsTC('cards', cardsAPI.deleteCard, id)
 
-export const updateGradeCardTC = (data: UpdateCardGradeDataType) => universalPacksCardsTC('cards', cardsAPI.updateGrade, data)
-
-
+// export const updateGradeCardTC = (data: UpdateCardGradeDataType) => universalPacksCardsTC('cards', cardsAPI.updateGrade, data)
+export const updateGradeCardTC = (data: UpdateCardGradeDataType): RootThunkType<Promise<number>> => async (dispatch) => {
+    dispatch(setAppStatusAC('loading'))
+    try {
+        const res = await cardsAPI.updateGrade(data)
+        dispatch(setAppStatusAC('succeeded'))
+        dispatch(setAppSuccessAC('Your answer accepted'))
+        return res.data.updatedGrade.grade
+    } catch (e: any) {
+        dispatch(setAppStatusAC('failed'))
+        errorUtils(e, dispatch)
+        return 0
+    }
+}

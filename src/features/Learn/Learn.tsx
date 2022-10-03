@@ -4,7 +4,7 @@ import {useParams} from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import styles from './Learn.module.css'
 import {useAppDispatch, useAppSelector} from "../../common/hooks/hooks";
-import {getCardsTC, updateGradeCardTC} from "../PackPage/cards_reducer";
+import {getCardsTC, setCardsAC, updateGradeCardTC} from "../PackPage/cards_reducer";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -54,10 +54,18 @@ const Learn = () => {
     const [showAnswer, setShowAnswer] = useState<boolean>(false);
     const [grade, setGrade] = useState<number>(defaultRadioValue);
     let {id} = useParams();
-    const {
+    /*const {
         cards,
-        packName
-    } = useAppSelector((store) => store.cards);
+        packName,
+        cardsTotalCount,
+        maxGrade,
+        minGrade,
+        page,
+        pageCount,
+        packUserId
+    } = useAppSelector((store) => store.cards);*/
+    const allCards = useAppSelector((store) => store.cards)
+
     const dispatch = useAppDispatch()
 
 
@@ -69,17 +77,26 @@ const Learn = () => {
     }, [id])
     useEffect(() => {
         // get one card randomly from pack
-        if (cards.length) {
-            setCard(getCard(cards));
+        if (allCards.cards.length) {
+            setCard(getCard(allCards.cards));
         }
-    }, [cards])
+    }, [allCards.cards])
 
 
     const onShowButtonClickHandler = () => {
         setShowAnswer((prev) => !prev)
     }
-    const onNextButtonClickHandler = () => {
-        dispatch(updateGradeCardTC({card_id: card._id, grade}))
+    const onNextButtonClickHandler = async () => {
+        const updatedGrade = await dispatch(updateGradeCardTC({card_id: card._id, grade}))
+        if (updatedGrade) {
+            // update cards array with our new grade
+            dispatch(setCardsAC({
+                ...allCards,
+                cards: allCards.cards.map(e => e._id === card._id ? {...card, grade: updatedGrade} : e)
+            }))
+            // hide answer
+            setShowAnswer(false)
+        }
     }
 
 
@@ -95,11 +112,12 @@ const Learn = () => {
 
     return (
         <div className={styles.main}>
-            <h3>Learn "{packName}"</h3>
+            <h3>Learn "{allCards.packName}"</h3>
             <Card sx={{minWidth: 300}}>
                 <CardContent>
                     <div>
-                        <span className={styles.QA}>Question: </span>{card.question}
+                        <span className={styles.QA}>ID: </span>{card._id}
+                        <p className={styles.QA}>Question: {card.question}</p>
                     </div>
                     <div className={styles.shots}>
                         Count of tries: <span className={styles.shotsNumber}>{card.shots}</span>
