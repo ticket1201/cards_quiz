@@ -47,12 +47,12 @@ const initialCardState: CardDataType = {
     questionImg: '',
     questionVideo: ''
 }
+const defaultRadioValue = 1
 
 const Learn = () => {
     const [card, setCard] = useState<CardDataType>(initialCardState)
     const [showAnswer, setShowAnswer] = useState<boolean>(false);
-    const [grade, setGrade] = useState<number>(1);
-
+    const [grade, setGrade] = useState<number>(defaultRadioValue);
     let {id} = useParams();
     const {
         cards,
@@ -60,13 +60,13 @@ const Learn = () => {
     } = useAppSelector((store) => store.cards);
     const dispatch = useAppDispatch()
 
+
     useEffect(() => {
         // get all cards
         if (id) {
             dispatch(getCardsTC({cardsPack_id: id, pageCount: Infinity}))
         }
     }, [id])
-
     useEffect(() => {
         // get one card randomly from pack
         if (cards.length) {
@@ -74,18 +74,24 @@ const Learn = () => {
         }
     }, [cards])
 
+
     const onShowButtonClickHandler = () => {
         setShowAnswer((prev) => !prev)
     }
-
     const onNextButtonClickHandler = () => {
-        // setShowAnswer((prev) => !prev)
-        // console.log('NEXT')
         dispatch(updateGradeCardTC({card_id: card._id, grade}))
     }
 
-    const radioJSX = grades.map((e, k) => <FormControlLabel key={'case-' + k} value={k + 1} control={<Radio/>}
-                                                            label={e}/>)
+
+    const radioJSX = grades.map((e, k) => (
+        <FormControlLabel
+            onClick={() => {
+                setGrade(k + 1)
+            }} key={'case-' + k}
+            value={k + 1} control={<Radio/>}
+            label={e}/>
+    ))
+
 
     return (
         <div className={styles.main}>
@@ -116,7 +122,7 @@ const Learn = () => {
                                 <FormLabel>Rate yourself</FormLabel>
                                 <RadioGroup
                                     aria-labelledby="grade"
-                                    defaultValue={grade}
+                                    defaultValue={defaultRadioValue}
                                     name="grade-radio-group"
                                 >
                                     {radioJSX}
