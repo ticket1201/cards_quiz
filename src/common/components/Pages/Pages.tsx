@@ -11,6 +11,7 @@ import {Path} from '../../enums/path';
 import {PrivateRoutes} from '../PrivateRoutes/PrivateRoutes';
 import PacksList from '../../../features/PacksList/PacksList';
 import PackPage from '../../../features/PackPage/PackPage';
+import Learn from "../../../features/Learn/Learn";
 
 export const Pages = () => {
     return <Routes>
@@ -18,6 +19,7 @@ export const Pages = () => {
             <Route path={Path.Profile} element={<Profile/>}/>
             <Route path={`${Path.PacksList}`} element={<PacksList/>}/>
             <Route path={`${Path.PackPage}/:packId`} element={<PackPage/>}/>
+            <Route path={`learn/:id`} element={<Learn/>}/>
         </Route>
         <Route path={Path.Login} element={<Login/>}/>
         <Route path={Path.Registration} element={<Registration/>}/>
