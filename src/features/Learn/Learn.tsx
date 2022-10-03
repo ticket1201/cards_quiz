@@ -72,8 +72,13 @@ const Learn = () => {
         }
     }, [cards])
 
-    const onButtonClickHandler = () => {
+    const onShowButtonClickHandler = () => {
         setShowAnswer((prev) => !prev)
+    }
+
+    const onNextButtonClickHandler = () => {
+        // setShowAnswer((prev) => !prev)
+        console.log('NEXT')
     }
 
     const radioJSX = grades.map((e, k) => <FormControlLabel value={k} control={<Radio/>} label={e}/>)
@@ -94,7 +99,7 @@ const Learn = () => {
                         color={'primary'}
                         style={{margin: '20px 0 0'}}
                         fullWidth
-                        onClick={onButtonClickHandler}
+                        onClick={onShowButtonClickHandler}
                     >
                         Show answer
                     </Button>
@@ -112,7 +117,17 @@ const Learn = () => {
                                 >
                                     {radioJSX}
                                 </RadioGroup>
+
                             </FormControl>
+                            <Button
+                                variant={'contained'}
+                                color={'primary'}
+                                style={{margin: '20px 0 0'}}
+                                fullWidth
+                                onClick={onNextButtonClickHandler}
+                            >
+                                Next
+                            </Button>
                         </div>
 
                     )}
