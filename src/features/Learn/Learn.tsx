@@ -51,7 +51,7 @@ const initialCardState: CardDataType = {
 
 const Learn = () => {
     const [card, setCard] = useState<CardDataType>(initialCardState)
-    const [showAnswer, setShowAnswer] = useState<boolean>(true);
+    const [showAnswer, setShowAnswer] = useState<boolean>(false);
     let {id} = useParams();
     const {
         cards,
@@ -73,6 +73,10 @@ const Learn = () => {
         }
     }, [cards])
 
+    const onButtonClickHandler = () => {
+        setShowAnswer((prev) => !prev)
+    }
+
     const radioJSX = grades.map((e, k) => <FormControlLabel value={k} control={<Radio/>} label={e}/>)
 
     return (
@@ -89,8 +93,9 @@ const Learn = () => {
                     <Button
                         variant={'contained'}
                         color={'primary'}
-                        style={{margin: '20px 0'}}
+                        style={{margin: '20px 0 0'}}
                         fullWidth
+                        onClick={onButtonClickHandler}
                     >
                         Show answer
                     </Button>
@@ -101,10 +106,9 @@ const Learn = () => {
                             <p><span className={styles.QA}>Answer: </span>{card.answer}</p>
                             <FormControl>
                                 <FormLabel>Rate yourself</FormLabel>
-                                {/*<span>Rate yourself</span>*/}
                                 <RadioGroup
                                     aria-labelledby="grade"
-                                    defaultValue="0"
+                                    defaultValue="3"
                                     name="grade-radio-group"
                                 >
                                     {radioJSX}
