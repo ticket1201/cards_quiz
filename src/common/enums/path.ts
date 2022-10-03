@@ -8,6 +8,6 @@ export enum Path {
     Error404 = '404',
     Other = '*',
     PacksList = 'packs',
-    PackPage = 'pack',
-    LearnPage = 'learn'
+    PackPage = '/pack',
+    LearnPage = '/learn'
 }
