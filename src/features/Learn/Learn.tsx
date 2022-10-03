@@ -5,7 +5,6 @@ import Paper from "@mui/material/Paper";
 import styles from './Learn.module.css'
 import {useAppDispatch, useAppSelector} from "../../common/hooks/hooks";
 import {getCardsTC} from "../PackPage/cards_reducer";
-// import {Card, CardContent, Radio, RadioGroup} from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -108,7 +107,7 @@ const Learn = () => {
                                 <FormLabel>Rate yourself</FormLabel>
                                 <RadioGroup
                                     aria-labelledby="grade"
-                                    defaultValue="3"
+                                    defaultValue="0"
                                     name="grade-radio-group"
                                 >
                                     {radioJSX}
