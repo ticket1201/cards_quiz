@@ -1,9 +1,19 @@
-.QA {
-    font-weight: bold;
-}
-
 .main {
     display: flex;
     align-items: center;
     flex-direction: column;
+}
+
+.QA {
+    font-weight: bold;
+}
+
+.shots {
+    margin-top: 10px;
+    font-size: smaller;
+    color: grey;
+}
+
+.shotsNumber {
+    font-weight: bold;
 }

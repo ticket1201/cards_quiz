@@ -5,7 +5,15 @@ import Paper from "@mui/material/Paper";
 import styles from './Learn.module.css'
 import {useAppDispatch, useAppSelector} from "../../common/hooks/hooks";
 import {getCardsTC} from "../PackPage/cards_reducer";
-import {Card, CardContent} from "@mui/material";
+// import {Card, CardContent, Radio, RadioGroup} from "@mui/material";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import Button from "@mui/material/Button";
 
 const grades = ['Did not know', 'Forgot', 'A lot of thought', 'Confused', 'Knew the answer'];
 
@@ -43,6 +51,7 @@ const initialCardState: CardDataType = {
 
 const Learn = () => {
     const [card, setCard] = useState<CardDataType>(initialCardState)
+    const [showAnswer, setShowAnswer] = useState<boolean>(true);
     let {id} = useParams();
     const {
         cards,
@@ -64,14 +73,46 @@ const Learn = () => {
         }
     }, [cards])
 
+    const radioJSX = grades.map((e, k) => <FormControlLabel value={k} control={<Radio/>} label={e}/>)
+
     return (
         <div className={styles.main}>
             <h3>Learn "{packName}"</h3>
             <Card sx={{minWidth: 300}}>
                 <CardContent>
-                    <p><span className={styles.QA}>CardID: </span>{card._id}</p>
-                    <p><span className={styles.QA}>Question: </span>{card.question}</p>
-                    <p><span className={styles.QA}>Answer: </span>{card.answer}</p>
+                    <div>
+                        <span className={styles.QA}>Question: </span>{card.question}
+                    </div>
+                    <div className={styles.shots}>
+                        Count of tries: <span className={styles.shotsNumber}>{card.shots}</span>
+                    </div>
+                    <Button
+                        variant={'contained'}
+                        color={'primary'}
+                        style={{margin: '20px 0'}}
+                        fullWidth
+                    >
+                        Show answer
+                    </Button>
+
+                    {showAnswer && (
+                        <div>
+                            tralala
+                            <p><span className={styles.QA}>Answer: </span>{card.answer}</p>
+                            <FormControl>
+                                <FormLabel>Rate yourself</FormLabel>
+                                {/*<span>Rate yourself</span>*/}
+                                <RadioGroup
+                                    aria-labelledby="grade"
+                                    defaultValue="0"
+                                    name="grade-radio-group"
+                                >
+                                    {radioJSX}
+                                </RadioGroup>
+                            </FormControl>
+                        </div>
+
+                    )}
                 </CardContent>
             </Card>
 
