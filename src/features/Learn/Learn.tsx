@@ -54,7 +54,7 @@ const Learn = () => {
     const [card, setCard] = useState<CardDataType>(initialCardState)
     const [showAnswer, setShowAnswer] = useState<boolean>(false);
     const [grade, setGrade] = useState<number>(defaultRadioValue);
-    let {id} = useParams();
+    let {packId} = useParams();
     /*const {
         cards,
         packName,
@@ -72,10 +72,10 @@ const Learn = () => {
 
     useEffect(() => {
         // get all cards
-        if (id) {
-            dispatch(getCardsTC({cardsPack_id: id, pageCount: Infinity}))
+        if (packId) {
+            dispatch(getCardsTC({cardsPack_id: packId, pageCount: Infinity}))
         }
-    }, [id])
+    }, [packId])
     useEffect(() => {
         // get one card randomly from pack
         if (allCards.cards.length) {
