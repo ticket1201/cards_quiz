@@ -68,6 +68,10 @@ export const PackModal: React.FC<PackModalType> = ({title}) => {
         }
     }, [formState, isSubmitSuccessful, reset])
 
+    useEffect(() => {
+        setInputValue(name)
+    }, [name])
+
     return (
         <BasicModal isOpen={openAddPackModal || openEditPackModal} onClose={closeHandler} title={title}>
             {/*<h2>Name:{name}</h2>*/}
