@@ -1,0 +1,18 @@
+.title {
+    margin: 0;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #D9D9D9;
+    align-items: center;
+    padding: 18px 24px;
+}
+
+.modalBody {
+    padding: 30px 24px 50px;
+}
