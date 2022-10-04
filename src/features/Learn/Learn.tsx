@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {CardDataType} from "../../api/api";
 import {useParams} from "react-router-dom";
-import Paper from "@mui/material/Paper";
 import styles from './Learn.module.css'
 import {useAppDispatch, useAppSelector} from "../../common/hooks/hooks";
 import {getCardsTC, setCardsAC, updateGradeCardTC} from "../PackPage/cards_reducer";
@@ -93,7 +92,11 @@ const Learn = () => {
             // update cards array with our new grade
             dispatch(setCardsAC({
                 ...allCards,
-                cards: allCards.cards.map(e => e._id === card._id ? {...card, grade: updatedGrade} : e)
+                cards: allCards.cards.map(e => e._id === card._id ? {
+                    ...card,
+                    grade: updatedGrade,
+                    shots: card.shots + 1
+                } : e)
             }))
             // hide answer
             setShowAnswer(false)
@@ -163,10 +166,6 @@ const Learn = () => {
                     )}
                 </CardContent>
             </Card>
-
-            <Paper>
-
-            </Paper>
         </div>
     );
 };
