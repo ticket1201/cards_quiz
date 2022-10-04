@@ -19,6 +19,7 @@ export const modalReducer = (state: ModalInitialStateType = initialState, action
             return {
                 ...state,
                 _id: '',
+                name: '',
                 openAddPackModal: false,
                 openEditPackModal: false,
                 openDelPackModal: false,
