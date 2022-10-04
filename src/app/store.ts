@@ -5,14 +5,16 @@ import thunk, {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {packReducer} from '../features/PacksList/pack_reducer';
 import {cardsReducer} from '../features/PackPage/cards_reducer';
 import {searchReducer} from '../features/SearchBar/search-reducer';
+import {modalReducer} from '../features/Modals/modal_reducer';
 
 const rootReducer = combineReducers({
     auth: authReducer,
     app: appReducer,
     packs: packReducer,
     cards: cardsReducer,
-    search: searchReducer
-     /// add your reducer here
+    search: searchReducer,
+    modals: modalReducer
+    /// add your reducer here
 })
 
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunk))
