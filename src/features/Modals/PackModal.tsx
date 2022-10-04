@@ -68,8 +68,12 @@ export const PackModal: React.FC<PackModalType> = ({title}) => {
         }
     }, [formState, isSubmitSuccessful, reset])
 
+    // это надо, потому что ты name берешь из редьюсера, а он не успевает подтянуться, поэтому в начале name = undefined
     useEffect(() => {
         setInputValue(name)
+
+        // это надо, потому что если без изменения нажать на кнопку 'Save', то будет ошибка, типа пустой инпут
+        reset({name})
     }, [name])
 
     return (
