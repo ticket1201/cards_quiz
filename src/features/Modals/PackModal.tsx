@@ -70,7 +70,7 @@ export const PackModal: React.FC<PackModalType> = ({title}) => {
 
     return (
         <BasicModal isOpen={openAddPackModal || openEditPackModal} onClose={closeHandler} title={title}>
-            <h2>Name:{name}</h2>
+            {/*<h2>Name:{name}</h2>*/}
             <form onSubmit={handleSubmit(onSubmit)}
                   onKeyDown={(e) => onEnterPress(e.key)}>
                 <FormGroup>

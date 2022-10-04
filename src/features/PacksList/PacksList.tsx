@@ -42,7 +42,8 @@ const PacksList = () => {
             minWidth: 150,
             renderCell: (params) => (
                 <>
-                    <IconButton onClick={()=>{}}>
+                    <IconButton onClick={() => {
+                    }}>
                         <SchoolIcon/>
                     </IconButton>
                     {params.row.actions && <>
@@ -63,12 +64,15 @@ const PacksList = () => {
 
     const openEditPackModal = (_id: string, name: string) => {
         dispatch(openModalAC({_id, name, openEditPackModal: true}))
+        setModalTitle('Edit pack')
     }
     const openDeletePackModal = (_id: string, name: string) => {
         dispatch(openModalAC({_id, name, openDelPackModal: true}))
+        setModalTitle('Delete pack')
     }
     const openAddPackModal = () => {
         dispatch(openModalAC({openAddPackModal: true}))
+        setModalTitle('Add new pack')
     }
 
     const dispatch = useAppDispatch()
@@ -86,6 +90,7 @@ const PacksList = () => {
     const [searchParam, setSearchParam] = useSearchParams({})
     const startParams = serializeFormQuery(searchParam, authId)
     const [params, setParams] = useState<any>(startParams)
+    const [modalTitle, setModalTitle] = useState<string>('')
 
 
     let selectedPagesCount = params.pageCount
@@ -226,9 +231,9 @@ const PacksList = () => {
             <Paginator changePageHandler={paginationHandler} changePagesCountHandler={pagesCountHandler}
                        currentPage={page} itemsOnPage={pageCount}
                        itemsTotalCount={cardPacksTotalCount} selectedPagesCount={selectedPagesCount}/>
-            <PackModal title={'Add new pack'}/>
-            <DeleteModal title={'Delete Pack'}/>
-            <PackModal title={'Edit pack'}/>
+            <PackModal title={modalTitle}/>
+            <DeleteModal title={modalTitle}/>
+            {/*<PackModal title={'Edit pack'}/>*/}
         </div>
     );
 };
