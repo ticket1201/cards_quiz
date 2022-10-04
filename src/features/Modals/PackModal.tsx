@@ -77,7 +77,7 @@ export const PackModal: React.FC<PackModalType> = ({title}) => {
 
                     <TextField label="Pack name"
                                variant="standard"
-                               value={name}
+                               value={inputValue}
                                {...register('name', {
                                    required: 'Pack name is required'
                                })}
