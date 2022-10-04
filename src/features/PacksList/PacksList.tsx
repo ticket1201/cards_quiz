@@ -231,6 +231,9 @@ const PacksList = () => {
             <Paginator changePageHandler={paginationHandler} changePagesCountHandler={pagesCountHandler}
                        currentPage={page} itemsOnPage={pageCount}
                        itemsTotalCount={cardPacksTotalCount} selectedPagesCount={selectedPagesCount}/>
+
+            {/*использую одну модалку, потому что в твоем случае отображалась все равно последняя с тайтлом edit*/}
+            {/*именно поэтому прилось завести локальный стейт modalTitle*/}
             <PackModal title={modalTitle}/>
             <DeleteModal title={modalTitle}/>
             {/*<PackModal title={'Edit pack'}/>*/}
