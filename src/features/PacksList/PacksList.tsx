@@ -7,7 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import {Link, useSearchParams} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../common/hooks/hooks';
-import {createPackTC, deletePackTC, getPacksTC, updatePackTC} from './pack_reducer';
+import {getPacksTC} from './pack_reducer';
 import {Search} from '../../common/components/Search/Search';
 import {RangeSlider} from '../../common/components/RangeSlider/RangeSlider';
 import {PacksOwnerSort} from '../../common/components/PacksOwnerSort/PacksOwnerSort';
@@ -18,12 +18,20 @@ import s from './PacksList.module.css'
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import {serializeFormQuery} from '../../common/utils/serializeFormQuery';
-import {GridInitialStateCommunity} from "@mui/x-data-grid/models/gridStateCommunity";
+import {GridInitialStateCommunity} from '@mui/x-data-grid/models/gridStateCommunity';
 import {Path} from '../../common/enums/path';
+import {PackModal} from '../Modals/PackModal';
+import {DeleteModal} from '../Modals/DeleteModal';
+import {openModalAC} from '../Modals/modal_reducer';
 
 const PacksList = () => {
     const columns: GridColDef[] = [
-        {field: 'name', headerName: 'Name', flex: 1, renderCell: (params) => (<Link to={`${Path.PackPage}/${params.id}`}>{params.row.name}</Link>)},
+        {
+            field: 'name',
+            headerName: 'Name',
+            flex: 1,
+            renderCell: (params) => (<Link to={`${Path.PackPage}/${params.id}`}>{params.row.name}</Link>)
+        },
         {field: 'cardsCount', headerName: 'Cards', flex: 1},
         {field: 'updated', headerName: 'Last updated', flex: 1},
         {field: 'created', headerName: 'Created by', flex: 1},
@@ -34,28 +42,33 @@ const PacksList = () => {
             minWidth: 150,
             renderCell: (params) => (
                 <>
-                    <IconButton>
+                    <IconButton onClick={()=>{}}>
                         <SchoolIcon/>
                     </IconButton>
                     {params.row.actions && <>
-                        <IconButton onClick={() => onUpdateHandler(params.row._id)}>
+                        <IconButton onClick={() => openEditPackModal(params.row._id, params.row.name)}>
                             <EditIcon/>
                         </IconButton>
-                        <IconButton onClick={() => onDeleteHandler(params.row._id)}>
+                        <IconButton onClick={() => openDeletePackModal(params.row._id, params.row.name)}>
                             <DeleteIcon/>
                         </IconButton>
                     </>}
+
                 </>
             ),
         }
 
     ];
 
-    const onUpdateHandler = (_id: string) => {
-        dispatch(updatePackTC({_id, name: `updated ${Math.random() * 10}`}))
+
+    const openEditPackModal = (_id: string, name: string) => {
+        dispatch(openModalAC({_id, name, openEditPackModal: true}))
     }
-    const onDeleteHandler = (_id: string) => {
-        dispatch(deletePackTC(_id))
+    const openDeletePackModal = (_id: string, name: string) => {
+        dispatch(openModalAC({_id, name, openDelPackModal: true}))
+    }
+    const openAddPackModal = () => {
+        dispatch(openModalAC({openAddPackModal: true}))
     }
 
     const dispatch = useAppDispatch()
@@ -185,9 +198,14 @@ const PacksList = () => {
         <div className={`content-wrapper ${s.content}`}>
             <Grid flexDirection={'row'} justifyContent={'space-between'} className={s.title}>
                 <h2>Packs list</h2>
-                <Button className={s.addBtn} size={'small'} variant={'contained'}
-                        onClick={() => dispatch(createPackTC({}))}>Add new pack</Button>
+                <Button className={s.addBtn}
+                        size={'small'}
+                        variant={'contained'}
+                        onClick={openAddPackModal}
+                >Add new pack
+                </Button>
             </Grid>
+
             <div className={`${s.search}`}>
                 <Search searchHandler={searchHandler} searchValue={params.packName}/>
                 <PacksOwnerSort owner={params.user_id} packsOwnerHandler={packsOwnerHandler}/>
@@ -208,6 +226,9 @@ const PacksList = () => {
             <Paginator changePageHandler={paginationHandler} changePagesCountHandler={pagesCountHandler}
                        currentPage={page} itemsOnPage={pageCount}
                        itemsTotalCount={cardPacksTotalCount} selectedPagesCount={selectedPagesCount}/>
+            <PackModal title={'Add new pack'}/>
+            <DeleteModal title={'Delete Pack'}/>
+            <PackModal title={'Edit pack'}/>
         </div>
     );
 };
