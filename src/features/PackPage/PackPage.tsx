@@ -22,7 +22,7 @@ import {Preloader} from '../../common/components/Preloader/Preloader';
 import {Path} from '../../common/enums/path';
 import {CardModal} from '../Modals/CardModal';
 import {DeleteModal} from '../Modals/DeleteModal';
-import {openModalAC} from '../Modals/modal_reducer';
+import {PackModal} from '../Modals/PackModal';
 
 const PackPage = () => {
 
@@ -61,21 +61,42 @@ const PackPage = () => {
         }
     ];
 
-    const openEditCardModal = (_id: string, question: string, answer: string) => {
-        dispatch(openModalAC({_id, question, answer, openEditCardModal: true}))
-        setModalTitle('Edit card')
+    const initialModalState = {
+        _id: '',
+        cardsPack_id: '',
+        name: '',
+        private: false,
+        question: '',
+        answer: '',
+        title: '',
+        openAddPackModal: false,
+        openEditPackModal: false,
+        openDelPackModal: false,
+        openAddCardModal: false,
+        openEditCardModal: false,
+        openDelCardModal: false
     }
-    const openDeleteCardModal = (_id: string, question: string) => {
-        dispatch(openModalAC({_id, question, openDelCardModal: true}))
-        setModalTitle('Delete card')
-    }
+    type ModalStateType = typeof initialModalState
 
-    const {cards, page, pageCount, cardsTotalCount, isToggled, packUserId} = useAppSelector(state => state.cards)
+    const {
+        cards,
+        page,
+        pageCount,
+        cardsTotalCount,
+        isToggled,
+        packUserId,
+        packName,
+        packPrivate
+    } = useAppSelector(state => state.cards)
     const loading = useAppSelector(state => state.app.status)
     const authId = useAppSelector(state => state.auth._id)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
-
+    const {packId} = useParams()
+    const [searchParam, setSearchParam] = useSearchParams({})
+    const startParams = serializeFormQuery(searchParam)
+    const [params, setParams] = useState<any>(startParams)
+    const [modalData, setModalData] = useState<ModalStateType>(initialModalState)
 
     const isOwner = authId === packUserId
     let renderColumns = columns
@@ -83,13 +104,40 @@ const PackPage = () => {
         renderColumns = columns.filter(e => e.field !== 'actions')
     }
 
+    // Modal logic
+    const closeModal = () => {
+        setModalData(initialModalState)
+    }
+    const openEditCardModal = (_id: string, question: string, answer: string) => {
+        setModalData({...modalData, _id, question, answer, title: 'Edit card', openEditCardModal: true})
+    }
+    const openDeleteCardModal = (_id: string, question: string) => {
+        setModalData({...modalData, _id, question, title: 'Delete Card', openDelCardModal: true})
+    }
+    const openAddCardModal = () => {
+        packId && setModalData({...modalData, cardsPack_id: packId, title: 'Add new pack', openAddCardModal: true})
+    }
+    const openEditPackModal = () => {
+        packId && setModalData({
+            ...modalData,
+            _id: packId,
+            name: packName,
+            private: packPrivate!,
+            title: 'Edit Pack',
+            openEditPackModal: true
+        })
+    }
+    const openDeletePackModal = () => {
+        packId && setModalData({
+            ...modalData,
+            _id: packId,
+            name: packName,
+            title: 'Delete Pack',
+            openDelPackModal: true
+        })
+    }
 
-    const {packId} = useParams()
-    const [searchParam, setSearchParam] = useSearchParams({})
-    const startParams = serializeFormQuery(searchParam)
-    const [params, setParams] = useState<any>(startParams)
-    const [modalTitle, setModalTitle] = useState<string>('')
-
+    // Search, filtration, pagination logic
     let selectedPagesCount = params.pageCount
 
     // set initial sorting state for the table
@@ -113,7 +161,6 @@ const PackPage = () => {
             }
         }
     }
-
 
     const onSortModelChangeHandler = (model: GridSortModel) => {
         const field = model[0].field;
@@ -160,6 +207,18 @@ const PackPage = () => {
         setParams({...params, pageCount: newPageCount})
     }
 
+    const startLearningHandler = () => {
+        navigate(`${Path.LearnPage}/${packId}`);
+    }
+
+    const ownerBar = isOwner
+        ? <div className={c.ownerBar}><h2>{packName}</h2>
+            <CardsMenu isDisabled={!cardsTotalCount}
+                       editPackCallback={openEditPackModal}
+                       deletePackCallback={openDeletePackModal}
+                       learnPackCallback={startLearningHandler}/></div>
+        : <div><h2>{packName}</h2></div>
+
     useEffect(() => {
         setSearchParam(params)
 
@@ -175,23 +234,8 @@ const PackPage = () => {
         return () => clearTimeout(id)
     }, [dispatch, params, isToggled, selectedPagesCount, setSearchParam, packId])
 
-    const ownerBar = isOwner
-        ? <div className={c.ownerBar}><h2>My Pack</h2> <CardsMenu/></div>
-        : <div><h2>Friend's Pack</h2></div>
-
-    const onClickAddLearnButtonHandler = () => {
-        if (isOwner) {
-            dispatch(openModalAC({cardsPack_id: packId, openAddCardModal: true}))
-            setModalTitle('Add new card')
-        } else {
-            navigate(`${Path.LearnPage}/${packId}`);
-        }
-    }
-
-
     if (!packUserId)
         return <Preloader/>
-
 
     return (
         <div className={`content-wrapper ${s.content}`}>
@@ -202,7 +246,7 @@ const PackPage = () => {
                     size={'small'}
                     variant={'contained'}
                     disabled={loading === 'loading'}
-                    onClick={onClickAddLearnButtonHandler}
+                    onClick={isOwner ? openAddCardModal : startLearningHandler}
                 >
                     {isOwner ? 'Add new card' : 'Learn pack'}
                 </Button>
@@ -219,8 +263,25 @@ const PackPage = () => {
             <Paginator changePageHandler={paginationHandler} changePagesCountHandler={pagesCountHandler}
                        currentPage={page} itemsOnPage={pageCount}
                        itemsTotalCount={cardsTotalCount} selectedPagesCount={selectedPagesCount}/>
-            <CardModal title={modalTitle}/>
-            <DeleteModal title={modalTitle}/>
+            <CardModal _id={modalData._id}
+                       cardsPack_id={modalData.cardsPack_id}
+                       question={modalData.question}
+                       answer={modalData.answer}
+                       title={modalData.title}
+                       isOpen={modalData.openAddCardModal || modalData.openEditCardModal}
+                       onClose={closeModal}/>
+            <DeleteModal _id={modalData._id}
+                         name={modalData.name}
+                         question={modalData.question}
+                         title={modalData.title}
+                         isOpen={modalData.openDelCardModal || modalData.openDelPackModal}
+                         onClose={closeModal}/>
+            <PackModal _id={modalData._id}
+                       name={modalData.name}
+                       isPrivate={modalData.private}
+                       title={modalData.title}
+                       isOpen={modalData.openEditPackModal}
+                       onClose={closeModal}/>
         </div>
     );
 };
