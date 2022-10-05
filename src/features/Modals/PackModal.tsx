@@ -15,7 +15,7 @@ type PackModalType = {
     title: string
 }
 
-type CreatePackFormData = {
+type PackModalFormType = {
     name: string
     private: boolean
 }
@@ -34,7 +34,7 @@ export const PackModal: React.FC<PackModalType> = ({title}) => {
         resetField,
         formState,
         formState: {errors, isSubmitSuccessful}
-    } = useForm<CreatePackFormData>({
+    } = useForm<PackModalFormType>({
         defaultValues: {
             name: inputValue,
             private: false
@@ -42,10 +42,13 @@ export const PackModal: React.FC<PackModalType> = ({title}) => {
         mode: 'onSubmit'
     });
 
-    const onSubmit: SubmitHandler<CreatePackFormData> = data => {
-        _id ? dispatch(updatePackTC({_id, ...data})) : dispatch(createPackTC(data))
+    const onSubmit: SubmitHandler<PackModalFormType> = data => {
+        if (_id && data.name !== name) {
+            dispatch(updatePackTC({_id, ...data}))
+        } else if (!_id) {
+            dispatch(createPackTC(data))
+        }
         closeHandler()
-        setInputValue('')
     }
     const onEnterPress = (key: string) => {
         key === 'Enter' && handleSubmit(onSubmit)
@@ -53,6 +56,7 @@ export const PackModal: React.FC<PackModalType> = ({title}) => {
     const closeHandler = () => {
         resetField('name')
         dispatch(closeModalAC())
+        setInputValue('')
     }
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
