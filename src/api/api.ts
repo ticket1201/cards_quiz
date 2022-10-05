@@ -168,7 +168,7 @@ export type CardRequestType = {
     answerVideo?: string
 }
 
-export type UpdateCardRequestType = CardRequestType & { _id: string }
+export type UpdateCardRequestType = Omit<CardRequestType, 'cardsPack_id'> & { _id: string }
 
 // response types
 
