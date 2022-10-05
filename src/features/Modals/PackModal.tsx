@@ -7,12 +7,16 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import {Stack} from '@mui/material';
-import {useAppDispatch, useAppSelector} from '../../common/hooks/hooks';
-import {closeModalAC} from './modal_reducer';
+import {useAppDispatch} from '../../common/hooks/hooks';
 import {createPackTC, updatePackTC} from '../PacksList/pack_reducer';
 
 type PackModalType = {
+    _id: string
+    name: string
+    isPrivate: boolean
     title: string
+    isOpen: boolean
+    onClose: () => void
 }
 
 type PackModalFormType = {
@@ -20,9 +24,8 @@ type PackModalFormType = {
     private: boolean
 }
 
-export const PackModal: React.FC<PackModalType> = ({title}) => {
+export const PackModal: React.FC<PackModalType> = ({_id, name, isPrivate, title, isOpen, onClose}) => {
 
-    const {_id, name, openAddPackModal, openEditPackModal} = useAppSelector(state => state.modals)
     const dispatch = useAppDispatch()
     const [inputValue, setInputValue] = useState(name)
 
@@ -37,13 +40,13 @@ export const PackModal: React.FC<PackModalType> = ({title}) => {
     } = useForm<PackModalFormType>({
         defaultValues: {
             name: inputValue,
-            private: false
+            private: isPrivate
         },
         mode: 'onSubmit'
     });
 
     const onSubmit: SubmitHandler<PackModalFormType> = data => {
-        if (_id && data.name !== name) {
+        if (_id && (data.name !== name || data.private !== isPrivate)) {
             dispatch(updatePackTC({_id, ...data}))
         } else if (!_id) {
             dispatch(createPackTC(data))
@@ -55,7 +58,7 @@ export const PackModal: React.FC<PackModalType> = ({title}) => {
     }
     const closeHandler = () => {
         resetField('name')
-        dispatch(closeModalAC())
+        onClose()
         setInputValue('')
     }
 
@@ -63,26 +66,24 @@ export const PackModal: React.FC<PackModalType> = ({title}) => {
         setInputValue(e.currentTarget.value)
     }
 
+    //without this, private checkbox don't reset after submit
     useEffect(() => {
         if (formState.isSubmitSuccessful) {
-            reset({
-                name: '',
-                private: false
-            })
+            reset({name, private: isPrivate})
         }
-    }, [formState, isSubmitSuccessful, reset])
+    }, [formState, isSubmitSuccessful, reset, name, isPrivate])
 
-    // это надо, потому что ты name берешь из редьюсера, а он не успевает подтянуться, поэтому в начале name = undefined
+
+    // it takes some time before name prop in initState will change it's value from '' to real
     useEffect(() => {
         setInputValue(name)
 
-        // это надо, потому что если без изменения нажать на кнопку 'Save', то будет ошибка, типа пустой инпут
-        reset({name})
-    }, [name])
+        // without this, submitting from without making changes cause error 'Pack name is required'
+        reset({name, private: isPrivate})
+    }, [name, isPrivate, reset])
 
     return (
-        <BasicModal isOpen={openAddPackModal || openEditPackModal} onClose={closeHandler} title={title}>
-            {/*<h2>Name:{name}</h2>*/}
+        <BasicModal isOpen={isOpen} onClose={closeHandler} title={title}>
             <form onSubmit={handleSubmit(onSubmit)}
                   onKeyDown={(e) => onEnterPress(e.key)}>
                 <FormGroup>
