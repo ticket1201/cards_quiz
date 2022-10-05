@@ -1,6 +1,9 @@
 const initialState = {
     _id: '',
+    cardsPack_id: '',
     name: '',
+    question: '',
+    answer: '',
     openAddPackModal: false,
     openEditPackModal: false,
     openDelPackModal: false,
@@ -19,7 +22,10 @@ export const modalReducer = (state: ModalInitialStateType = initialState, action
             return {
                 ...state,
                 _id: '',
+                cardsPack_id: '',
                 name: '',
+                question: '',
+                answer: '',
                 openAddPackModal: false,
                 openEditPackModal: false,
                 openDelPackModal: false,
