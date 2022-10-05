@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/cards_quiz/static/css/main.d8b89129.css",
-    "main.js": "/cards_quiz/static/js/main.ea15cf71.js",
+    "main.css": "/cards_quiz/static/css/main.26887235.css",
+    "main.js": "/cards_quiz/static/js/main.30dc1b65.js",
     "static/js/787.d52304ad.chunk.js": "/cards_quiz/static/js/787.d52304ad.chunk.js",
     "static/media/404.png": "/cards_quiz/static/media/404.df54fb7bdb894cf5182d.png",
-    "static/media/envelope.svg": "/cards_quiz/static/media/envelope.836e246556dd50d082cf05d8309583a6.svg",
+    "static/media/envelope.svg": "/cards_quiz/static/media/envelope.cdfba66fde5a43fa07de20848a33be02.svg",
     "index.html": "/cards_quiz/index.html",
-    "main.d8b89129.css.map": "/cards_quiz/static/css/main.d8b89129.css.map",
-    "main.ea15cf71.js.map": "/cards_quiz/static/js/main.ea15cf71.js.map",
+    "main.26887235.css.map": "/cards_quiz/static/css/main.26887235.css.map",
+    "main.30dc1b65.js.map": "/cards_quiz/static/js/main.30dc1b65.js.map",
     "787.d52304ad.chunk.js.map": "/cards_quiz/static/js/787.d52304ad.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d8b89129.css",
-    "static/js/main.ea15cf71.js"
+    "static/css/main.26887235.css",
+    "static/js/main.30dc1b65.js"
   ]
 }
