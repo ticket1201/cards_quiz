@@ -5,17 +5,18 @@ import {Stack} from '@mui/material';
 import {useAppDispatch, useAppSelector} from '../../common/hooks/hooks';
 import {deletePackTC} from '../PacksList/pack_reducer';
 import {closeModalAC} from './modal_reducer';
+import {deleteCardTC} from '../PackPage/cards_reducer';
 
 type DeleteModalType = {
     title: string
 }
 
 export const DeleteModal: React.FC<DeleteModalType> = ({title}) => {
-    const {_id, name, openDelPackModal, openDelCardModal} = useAppSelector(state => state.modals)
+    const {_id, name, question, openDelPackModal, openDelCardModal} = useAppSelector(state => state.modals)
     const dispatch = useAppDispatch()
 
     const deleteHandler = () => {
-        dispatch(deletePackTC(_id))
+        question ? dispatch(deleteCardTC(_id)) : dispatch(deletePackTC(_id))
         closeHandler()
     }
     const closeHandler = () => {
@@ -24,7 +25,7 @@ export const DeleteModal: React.FC<DeleteModalType> = ({title}) => {
 
     return (
         <BasicModal isOpen={openDelPackModal || openDelCardModal} onClose={closeHandler} title={title}>
-            <div>Do you really want to remove <b>{name}</b> ?</div>
+            <div>Do you really want to remove <b>{name || question}</b> ?</div>
             {title === 'Delete Pack'
                 ? <div>All cards will be deleted.</div>
                 : <div>This card will be deleted</div>}
