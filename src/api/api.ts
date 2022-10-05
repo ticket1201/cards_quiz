@@ -232,6 +232,7 @@ export type PackDataType = {
 export type getCardsResponseType = {
     cards: Array<CardDataType>
     packName: string
+    packPrivate: boolean
     cardsTotalCount: number
     maxGrade: number
     minGrade: number

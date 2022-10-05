@@ -16,6 +16,7 @@ import {universalPacksCardsTC} from '../../common/utils/universalPacksCardsTC';
 const initialState = {
     cards: [] as Array<CardDataType>,
     packName: '',
+    packPrivate: false,
     cardsTotalCount: 0,
     maxGrade: 0,
     minGrade: 0,
