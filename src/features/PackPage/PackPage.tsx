@@ -18,45 +18,57 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import {CardsMenu} from './CardsMenu/CardsMenu';
 import c from './PackPage.module.css'
-import {Preloader} from "../../common/components/Preloader/Preloader";
-import {Path} from "../../common/enums/path";
-
-
-let columns: GridColDef[] = [
-    {
-        field: 'question',
-        headerName: 'Question',
-        flex: 1
-    },
-    {field: 'answer', headerName: 'Answer', flex: 1},
-    {field: 'lastUpdated', headerName: 'Last updated', flex: 1},
-    {
-        field: 'grade',
-        headerName: 'Grade',
-        renderCell: (params) => (
-            <Rating name={params.row.id} defaultValue={params.row.grade} precision={0.1} readOnly/>
-        ),
-        minWidth: 140
-    },
-    {
-        field: 'actions',
-        headerName: 'Actions',
-        sortable: false,
-        minWidth: 100,
-        renderCell: () => (
-            <>
-                <IconButton>
-                    <EditIcon/>
-                </IconButton>
-                <IconButton>
-                    <DeleteIcon/>
-                </IconButton>
-            </>
-        )
-    }
-];
+import {Preloader} from '../../common/components/Preloader/Preloader';
+import {Path} from '../../common/enums/path';
+import {CardModal} from '../Modals/CardModal';
+import {DeleteModal} from '../Modals/DeleteModal';
+import {openModalAC} from '../Modals/modal_reducer';
 
 const PackPage = () => {
+
+    let columns: GridColDef[] = [
+        {
+            field: 'question',
+            headerName: 'Question',
+            flex: 1
+        },
+        {field: 'answer', headerName: 'Answer', flex: 1},
+        {field: 'lastUpdated', headerName: 'Last updated', flex: 1},
+        {
+            field: 'grade',
+            headerName: 'Grade',
+            renderCell: (params) => (
+                <Rating name={params.row.id} defaultValue={params.row.grade} precision={0.1} readOnly/>
+            ),
+            minWidth: 140
+        },
+        {
+            field: 'actions',
+            headerName: 'Actions',
+            sortable: false,
+            minWidth: 100,
+            renderCell: (params) => (
+                <>
+                    <IconButton
+                        onClick={() => openEditCardModal(params.row._id, params.row.question, params.row.answer)}>
+                        <EditIcon/>
+                    </IconButton>
+                    <IconButton onClick={() => openDeleteCardModal(params.row._id, params.row.question)}>
+                        <DeleteIcon/>
+                    </IconButton>
+                </>
+            )
+        }
+    ];
+
+    const openEditCardModal = (_id: string, question: string, answer: string) => {
+        dispatch(openModalAC({_id, question, answer, openEditCardModal: true}))
+        setModalTitle('Edit card')
+    }
+    const openDeleteCardModal = (_id: string, question: string) => {
+        dispatch(openModalAC({_id, question, openDelCardModal: true}))
+        setModalTitle('Delete card')
+    }
 
     const {cards, page, pageCount, cardsTotalCount, isToggled, packUserId} = useAppSelector(state => state.cards)
     const loading = useAppSelector(state => state.app.status)
@@ -76,6 +88,7 @@ const PackPage = () => {
     const [searchParam, setSearchParam] = useSearchParams({})
     const startParams = serializeFormQuery(searchParam)
     const [params, setParams] = useState<any>(startParams)
+    const [modalTitle, setModalTitle] = useState<string>('')
 
     let selectedPagesCount = params.pageCount
 
@@ -168,7 +181,8 @@ const PackPage = () => {
 
     const onClickAddLearnButtonHandler = () => {
         if (isOwner) {
-            return
+            dispatch(openModalAC({cardsPack_id: packId, openAddCardModal: true}))
+            setModalTitle('Add new card')
         } else {
             navigate(`${Path.LearnPage}/${packId}`);
         }
@@ -205,6 +219,8 @@ const PackPage = () => {
             <Paginator changePageHandler={paginationHandler} changePagesCountHandler={pagesCountHandler}
                        currentPage={page} itemsOnPage={pageCount}
                        itemsTotalCount={cardsTotalCount} selectedPagesCount={selectedPagesCount}/>
+            <CardModal title={modalTitle}/>
+            <DeleteModal title={modalTitle}/>
         </div>
     );
 };
