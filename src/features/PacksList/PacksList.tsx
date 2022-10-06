@@ -23,6 +23,7 @@ import {Path} from '../../common/enums/path';
 import {PackModal} from '../Modals/PackModal';
 import {DeleteModal} from '../Modals/DeleteModal';
 import {convertDateFromIso8601} from "../../common/utils/convertDate";
+import {CommonModalStateType} from "../Modals/commonTypes";
 
 
 const PacksList = () => {
@@ -68,7 +69,7 @@ const PacksList = () => {
 
     ];
 
-    const initialModalState = {
+    /*const initialModalState = {
         _id: '',
         name: '',
         private: false,
@@ -77,7 +78,7 @@ const PacksList = () => {
         openEditPackModal: false,
         openDelPackModal: false,
     }
-    type ModalStateType = typeof initialModalState
+    type ModalStateType = typeof initialModalState*/
 
     const {
         cardPacks,
@@ -95,11 +96,11 @@ const PacksList = () => {
     const [searchParam, setSearchParam] = useSearchParams({})
     const startParams = serializeFormQuery(searchParam, authId)
     const [params, setParams] = useState<any>(startParams)
-    const [modalData, setModalData] = useState<ModalStateType>(initialModalState)
+    const [modalData, setModalData] = useState<CommonModalStateType>({} as CommonModalStateType)
 
     // Modal logic
     const closeModal = () => {
-        setModalData(initialModalState)
+        setModalData({} as CommonModalStateType)
     }
     const openEditPackModal = (_id: string, name: string, isPrivate: boolean) => {
         setModalData({...modalData, _id, name, private: isPrivate, title: 'Edit Pack', openEditPackModal: true})
@@ -258,15 +259,17 @@ const PacksList = () => {
             <Paginator changePageHandler={paginationHandler} changePagesCountHandler={pagesCountHandler}
                        currentPage={page} itemsOnPage={pageCount}
                        itemsTotalCount={cardPacksTotalCount} selectedPagesCount={selectedPagesCount}/>
-            <PackModal _id={modalData._id}
-                       name={modalData.name}
-                       isPrivate={modalData.private}
-                       title={modalData.title}
-                       isOpen={modalData.openAddPackModal || modalData.openEditPackModal}
-                       onClose={closeModal}/>
+            <PackModal
+                // _id={modalData._id}
+                //        name={modalData.name}
+                // isPrivate={!!modalData.private}
+                // title={modalData.title}
+                data={modalData}
+                isOpen={!!(modalData.openAddPackModal || modalData.openEditPackModal)}
+                onClose={closeModal}/>
             <DeleteModal
                 data={modalData}
-                isOpen={modalData.openDelPackModal}
+                isOpen={!!modalData.openDelPackModal}
                 onClose={closeModal}/>
         </div>
     );

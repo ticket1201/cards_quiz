@@ -9,12 +9,11 @@ import Button from '@mui/material/Button';
 import {Stack} from '@mui/material';
 import {useAppDispatch} from '../../common/hooks/hooks';
 import {createPackTC, updatePackTC} from '../PacksList/pack_reducer';
+import {CommonModalStateType} from "./commonTypes";
 
 type PackModalType = {
-    _id: string
-    name: string
-    isPrivate: boolean
-    title: string
+    data: CommonModalStateType
+    // isPrivate: boolean
     isOpen: boolean
     onClose: () => void
 }
@@ -24,7 +23,9 @@ type PackModalFormType = {
     private: boolean
 }
 
-export const PackModal: React.FC<PackModalType> = ({_id, name, isPrivate, title, isOpen, onClose}) => {
+export const PackModal: React.FC<PackModalType> = ({data, isOpen, onClose}) => {
+    const {_id, name, title} = data
+    const isPrivate = data.private
 
     const dispatch = useAppDispatch()
     const [inputValue, setInputValue] = useState(name)
