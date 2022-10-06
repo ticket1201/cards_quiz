@@ -23,6 +23,7 @@ import {Path} from '../../common/enums/path';
 import {CardModal} from '../Modals/CardModal';
 import {DeleteModal} from '../Modals/DeleteModal';
 import {PackModal} from '../Modals/PackModal';
+import {BackToPacksList} from '../../common/components/BackToPacksList/BackToPacksList';
 
 const PackPage = () => {
 
@@ -239,6 +240,9 @@ const PackPage = () => {
 
     return (
         <div className={`content-wrapper ${s.content}`}>
+            <div className={c.backToPacks}>
+                <BackToPacksList/>
+            </div>
             <Grid flexDirection={'row'} justifyContent={'space-between'} className={s.title}>
                 {ownerBar}
                 <Button
