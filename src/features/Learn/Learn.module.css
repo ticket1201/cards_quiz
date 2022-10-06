@@ -1,3 +1,9 @@
+.backToPacks {
+    position: absolute;
+    top: 85px;
+    left: 0;
+}
+
 .main {
     display: flex;
     align-items: center;

@@ -13,6 +13,7 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import Button from "@mui/material/Button";
 import {Preloader} from "../../common/components/Preloader/Preloader";
+import {BackToPacksList} from '../../common/components/BackToPacksList/BackToPacksList';
 
 const grades = ['Did not know', 'Forgot', 'A lot of thought', 'Confused', 'Knew the answer'];
 
@@ -117,6 +118,9 @@ const Learn = () => {
         return <Preloader/>
 
     return (<div className={styles.main}>
+            <div className={styles.backToPacks}>
+                <BackToPacksList/>
+            </div>
             <h3>Learn "{allCards.packName}"</h3>
             <Card sx={{minWidth: 300}}>
                 <CardContent>
