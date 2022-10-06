@@ -264,11 +264,10 @@ const PacksList = () => {
                        title={modalData.title}
                        isOpen={modalData.openAddPackModal || modalData.openEditPackModal}
                        onClose={closeModal}/>
-            <DeleteModal _id={modalData._id}
-                         name={modalData.name}
-                         title={modalData.title}
-                         isOpen={modalData.openDelPackModal}
-                         onClose={closeModal}/>
+            <DeleteModal
+                data={modalData}
+                isOpen={modalData.openDelPackModal}
+                onClose={closeModal}/>
         </div>
     );
 };

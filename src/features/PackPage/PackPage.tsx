@@ -276,12 +276,10 @@ const PackPage = () => {
                        title={modalData.title}
                        isOpen={modalData.openAddCardModal || modalData.openEditCardModal}
                        onClose={closeModal}/>
-            <DeleteModal _id={modalData._id}
-                         name={modalData.name}
-                         question={modalData.question}
-                         title={modalData.title}
-                         isOpen={modalData.openDelCardModal || modalData.openDelPackModal}
-                         onClose={closeModal}/>
+            <DeleteModal
+                data={modalData}
+                isOpen={modalData.openDelCardModal || modalData.openDelPackModal}
+                onClose={closeModal}/>
             <PackModal _id={modalData._id}
                        name={modalData.name}
                        isPrivate={modalData.private}

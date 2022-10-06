@@ -7,17 +7,16 @@ import {deletePackTC} from '../PacksList/pack_reducer';
 import {deleteCardTC} from '../PackPage/cards_reducer';
 import {useNavigate} from 'react-router-dom';
 import {Path} from '../../common/enums/path';
+import {CommonModalStateType} from "./commonTypes";
 
 type DeleteModalType = {
-    _id: string
-    name?: string
-    question?: string
-    title: string
+    data: CommonModalStateType
     isOpen: boolean
     onClose: () => void
 }
 
-export const DeleteModal: React.FC<DeleteModalType> = ({_id, name, question, title, isOpen, onClose}) => {
+export const DeleteModal: React.FC<DeleteModalType> = ({data, isOpen, onClose}) => {
+    const {_id, name, question, title} = data
     const dispatch = useAppDispatch()
 
     const navigate = useNavigate()
