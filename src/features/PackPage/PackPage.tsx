@@ -33,7 +33,7 @@ const PackPage = () => {
             flex: 1
         },
         {field: 'answer', headerName: 'Answer', flex: 1},
-        {field: 'lastUpdated', headerName: 'Last updated', flex: 1},
+        {field: 'updated', headerName: 'Last updated', flex: 1},
         {
             field: 'grade',
             headerName: 'Grade',
