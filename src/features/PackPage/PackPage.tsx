@@ -24,6 +24,7 @@ import {CardModal} from '../Modals/CardModal';
 import {DeleteModal} from '../Modals/DeleteModal';
 import {PackModal} from '../Modals/PackModal';
 import {BackToPacksList} from '../../common/components/BackToPacksList/BackToPacksList';
+import {convertDateFromIso8601} from "../../common/utils/convertDate";
 
 const PackPage = () => {
 
@@ -34,7 +35,12 @@ const PackPage = () => {
             flex: 1
         },
         {field: 'answer', headerName: 'Answer', flex: 1},
-        {field: 'updated', headerName: 'Last updated', flex: 1},
+        {
+            field: 'updated',
+            headerName: 'Last updated',
+            flex: 1,
+            renderCell: (params) => (convertDateFromIso8601(params.value))
+        },
         {
             field: 'grade',
             headerName: 'Grade',
