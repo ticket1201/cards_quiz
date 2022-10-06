@@ -1,0 +1,10 @@
+.link {
+    text-decoration: none;
+    color: #000;
+}
+
+.text {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
