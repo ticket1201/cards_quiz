@@ -34,7 +34,7 @@ const PacksList = () => {
         },
         {field: 'cardsCount', headerName: 'Cards', flex: 1},
         {field: 'updated', headerName: 'Last updated', flex: 1},
-        {field: 'created', headerName: 'Created by', flex: 1},
+        {field: 'user_name', headerName: 'Created by', flex: 1},
         {
             field: 'actions',
             headerName: 'Actions',
