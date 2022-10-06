@@ -79,6 +79,7 @@ const PackPage = () => {
     }
     type ModalStateType = typeof initialModalState
 
+    const isPackToggled = useAppSelector(state => state.packs.isToggled)
     const {
         cards,
         page,
@@ -119,6 +120,7 @@ const PackPage = () => {
         packId && setModalData({...modalData, cardsPack_id: packId, title: 'Add new pack', openAddCardModal: true})
     }
     const openEditPackModal = () => {
+        // console.log('edit pack modal')
         packId && setModalData({
             ...modalData,
             _id: packId,
@@ -233,7 +235,7 @@ const PackPage = () => {
             dispatch(getCardsTC(sendParams))
         }, 600)
         return () => clearTimeout(id)
-    }, [dispatch, params, isToggled, selectedPagesCount, setSearchParam, packId])
+    }, [dispatch, params, isToggled, isPackToggled, selectedPagesCount, setSearchParam, packId])
 
     if (!packUserId)
         return <Preloader/>
