@@ -1,11 +1,11 @@
 export type CommonModalStateType = {
     _id: string
     title: string
-    cardsPack_id?: string
-    name?: string
+    cardsPack_id: string
+    name: string
+    question: string
+    answer: string
     private?: boolean
-    question?: string
-    answer?: string
     openAddPackModal?: boolean
     openEditPackModal?: boolean
     openDelPackModal?: boolean

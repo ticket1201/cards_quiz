@@ -13,7 +13,6 @@ import {CommonModalStateType} from "./commonTypes";
 
 type PackModalType = {
     data: CommonModalStateType
-    // isPrivate: boolean
     isOpen: boolean
     onClose: () => void
 }

@@ -277,11 +277,7 @@ const PackPage = () => {
                        currentPage={page} itemsOnPage={pageCount}
                        itemsTotalCount={cardsTotalCount} selectedPagesCount={selectedPagesCount}/>
             <CardModal
-                _id={modalData._id}
-                cardsPack_id={modalData.cardsPack_id || ''}
-                question={modalData.question || ''}
-                answer={modalData.answer || ''}
-                title={modalData.title}
+                data={modalData}
                 isOpen={!!(modalData.openAddCardModal || modalData.openEditCardModal)}
                 onClose={closeModal}/>
             <DeleteModal
@@ -289,11 +285,7 @@ const PackPage = () => {
                 isOpen={!!(modalData.openDelCardModal || modalData.openDelPackModal)}
                 onClose={closeModal}/>
             <PackModal
-                // _id={modalData._id}
-                //        name={modalData.name}
                 data={modalData}
-                // isPrivate={!!modalData.private}
-                // title={modalData.title}
                 isOpen={!!modalData.openEditPackModal}
                 onClose={closeModal}/>
         </div>

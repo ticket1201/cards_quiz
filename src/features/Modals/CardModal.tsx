@@ -11,13 +11,10 @@ import {useAppDispatch} from '../../common/hooks/hooks';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 import {createCardTC, updateCardTC} from '../PackPage/cards_reducer';
+import {CommonModalStateType} from "./commonTypes";
 
 type CardModalType = {
-    _id: string
-    cardsPack_id: string
-    question: string
-    answer: string
-    title: string
+    data: CommonModalStateType
     isOpen: boolean
     onClose: () => void
 }
@@ -27,7 +24,8 @@ type CardModalFormData = {
     answer: string
 }
 
-export const CardModal: React.FC<CardModalType> = ({_id, cardsPack_id, question, answer, title, isOpen, onClose}) => {
+export const CardModal: React.FC<CardModalType> = ({data, isOpen, onClose}) => {
+    const {_id, cardsPack_id, question, answer, title} = data
 
     const dispatch = useAppDispatch()
     const [inputValues, setInputValues] = useState<string[]>([question, answer])
@@ -63,6 +61,7 @@ export const CardModal: React.FC<CardModalType> = ({_id, cardsPack_id, question,
         resetField('answer')
         onClose()
         setInputValues(['', ''])
+        setQuestionType('')
     }
 
     const onQuestionChangeHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
