@@ -7,7 +7,7 @@ import {setPacksIsChangedAC} from '../../features/PacksList/pack_reducer';
 type ReducerNameType = 'packs' | 'cards'
 
 
-export const universalPacksCardsTC = <T>(reducerName: ReducerNameType, method: (model: T) => void, model: T): RootThunkType => async (dispatch) => {
+export const universalPacksCardsTC = <T>(reducerName: ReducerNameType, method: (model: T) => void, model: T): RootThunkType<Promise<boolean>> => async (dispatch) => {
     let ActionCreator
 
     switch (reducerName){
@@ -23,7 +23,9 @@ export const universalPacksCardsTC = <T>(reducerName: ReducerNameType, method: (
     try {
         await method(model)
         dispatch(ActionCreator())
+        return true
     } catch (e: any) {
         errorUtils(e, dispatch)
+        return false
     }
 }
