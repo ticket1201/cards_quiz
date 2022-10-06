@@ -8,6 +8,7 @@ import ava from '../../assets/images/avatar.jpg'
 import {EditableSpan} from '../../common/components/EditableSpan/EditableSpan';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import {logoutTC, updateProfileTC} from '../Login/auth_reducer';
+import {BackToPacksList} from '../../common/components/BackToPacksList/BackToPacksList';
 
 
 const Profile = () => {
@@ -24,6 +25,9 @@ const Profile = () => {
 
     return (
         <div className={'base-wrapper'}>
+            <div className={s.backToPacks}>
+                <BackToPacksList/>
+            </div>
             <Paper className={'defaultPop'} elevation={2}>
                 <h2>Personal Information</h2>
                 <div className={s.ava} style={{backgroundImage:`url(${avatar || ava})`}}>
