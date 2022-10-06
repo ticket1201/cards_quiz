@@ -5,6 +5,8 @@ import Stack from '@mui/material/Stack';
 import {useAppDispatch} from '../../common/hooks/hooks';
 import {deletePackTC} from '../PacksList/pack_reducer';
 import {deleteCardTC} from '../PackPage/cards_reducer';
+import {useNavigate} from 'react-router-dom';
+import {Path} from '../../common/enums/path';
 
 type DeleteModalType = {
     _id: string
@@ -18,8 +20,15 @@ type DeleteModalType = {
 export const DeleteModal: React.FC<DeleteModalType> = ({_id, name, question, title, isOpen, onClose}) => {
     const dispatch = useAppDispatch()
 
-    const deleteHandler = () => {
-        question ? dispatch(deleteCardTC(_id)) : dispatch(deletePackTC(_id))
+    const navigate = useNavigate()
+    const deleteHandler = async () => {
+        if (question) {
+            dispatch(deleteCardTC(_id))
+        } else {
+            const res = await dispatch(deletePackTC(_id))
+            res && navigate(`/${Path.PacksList}`)
+        }
+        // question ? dispatch(deleteCardTC(_id)) : dispatch(deletePackTC(_id))
         onClose()
     }
 
