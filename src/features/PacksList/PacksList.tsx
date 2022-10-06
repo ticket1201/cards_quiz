@@ -22,6 +22,8 @@ import {GridInitialStateCommunity} from '@mui/x-data-grid/models/gridStateCommun
 import {Path} from '../../common/enums/path';
 import {PackModal} from '../Modals/PackModal';
 import {DeleteModal} from '../Modals/DeleteModal';
+import {convertDateFromIso8601} from "../../common/utils/convertDate";
+
 
 const PacksList = () => {
 
@@ -33,7 +35,12 @@ const PacksList = () => {
             renderCell: (params) => (<Link to={`${Path.PackPage}/${params.id}`}>{params.row.name}</Link>)
         },
         {field: 'cardsCount', headerName: 'Cards', flex: 1},
-        {field: 'updated', headerName: 'Last updated', flex: 1},
+        {
+            field: 'updated',
+            headerName: 'Last updated',
+            flex: 1,
+            renderCell: (params) => (convertDateFromIso8601(params.value))
+        },
         {field: 'user_name', headerName: 'Created by', flex: 1},
         {
             field: 'actions',
