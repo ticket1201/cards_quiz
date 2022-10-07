@@ -53,9 +53,6 @@ export const PackModal: React.FC<PackModalType> = ({data, isOpen, onClose}) => {
         }
         closeHandler()
     }
-    const onEnterPress = (key: string) => {
-        key === 'Enter' && handleSubmit(onSubmit)
-    }
     const closeHandler = () => {
         resetField('name')
         onClose()
@@ -74,7 +71,7 @@ export const PackModal: React.FC<PackModalType> = ({data, isOpen, onClose}) => {
     }, [formState, isSubmitSuccessful, reset, name, isPrivate])
 
 
-    // it takes some time before name prop in initState will change it's value from '' to real
+    // it takes some time before name prop in initState will change its value from '' to real
     useEffect(() => {
         setInputValue(name)
 
@@ -84,8 +81,7 @@ export const PackModal: React.FC<PackModalType> = ({data, isOpen, onClose}) => {
 
     return (
         <BasicModal isOpen={isOpen} onClose={closeHandler} title={title}>
-            <form onSubmit={handleSubmit(onSubmit)}
-                  onKeyDown={(e) => onEnterPress(e.key)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <FormGroup>
 
                     <TextField label="Pack name"
