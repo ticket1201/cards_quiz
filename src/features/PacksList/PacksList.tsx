@@ -22,8 +22,8 @@ import {GridInitialStateCommunity} from '@mui/x-data-grid/models/gridStateCommun
 import {Path} from '../../common/enums/path';
 import {PackModal} from '../Modals/PackModal';
 import {DeleteModal} from '../Modals/DeleteModal';
-import {convertDateFromIso8601} from "../../common/utils/convertDate";
-import {CommonModalStateType} from "../Modals/commonTypes";
+import {convertDateFromIso8601} from '../../common/utils/convertDate';
+import {commonModalState, CommonModalStateType} from '../Modals/commonTypes';
 
 
 const PacksList = () => {
@@ -33,7 +33,9 @@ const PacksList = () => {
             field: 'name',
             headerName: 'Name',
             flex: 1,
-            renderCell: (params) => (<Link to={`${Path.PackPage}/${params.id}`}>{params.row.name}</Link>)
+            renderCell: (params) => (params.row.cardsCount || params.row.user_id === authId ?
+                <Link className={s.link}
+                      to={`${Path.PackPage}/${params.id}`}>{params.row.name}</Link> : params.row.name)
         },
         {field: 'cardsCount', headerName: 'Cards', flex: 1},
         {
@@ -86,11 +88,11 @@ const PacksList = () => {
     const [searchParam, setSearchParam] = useSearchParams({})
     const startParams = serializeFormQuery(searchParam, authId)
     const [params, setParams] = useState<any>(startParams)
-    const [modalData, setModalData] = useState<CommonModalStateType>({} as CommonModalStateType)
+    const [modalData, setModalData] = useState<CommonModalStateType>(commonModalState)
 
     // Modal logic
     const closeModal = () => {
-        setModalData({} as CommonModalStateType)
+        setModalData(commonModalState)
     }
     const openEditPackModal = (_id: string, name: string, isPrivate: boolean) => {
         setModalData({...modalData, _id, name, private: isPrivate, title: 'Edit Pack', openEditPackModal: true})
