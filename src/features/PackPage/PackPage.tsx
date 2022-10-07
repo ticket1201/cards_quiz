@@ -69,23 +69,6 @@ const PackPage = () => {
         }
     ];
 
-    /*const initialModalState = {
-        _id: '',
-        cardsPack_id: '',
-        name: '',
-        private: false,
-        question: '',
-        answer: '',
-        title: '',
-        openAddPackModal: false,
-        openEditPackModal: false,
-        openDelPackModal: false,
-        openAddCardModal: false,
-        openEditCardModal: false,
-        openDelCardModal: false
-    }
-    type ModalStateType = typeof initialModalState*/
-
     const isPackToggled = useAppSelector(state => state.packs.isToggled)
     const {
         cards,
@@ -127,7 +110,6 @@ const PackPage = () => {
         packId && setModalData({...modalData, cardsPack_id: packId, title: 'Add new pack', openAddCardModal: true})
     }
     const openEditPackModal = () => {
-        // console.log('edit pack modal')
         packId && setModalData({
             ...modalData,
             _id: packId,

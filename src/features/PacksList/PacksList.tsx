@@ -69,17 +69,6 @@ const PacksList = () => {
 
     ];
 
-    /*const initialModalState = {
-        _id: '',
-        name: '',
-        private: false,
-        title: '',
-        openAddPackModal: false,
-        openEditPackModal: false,
-        openDelPackModal: false,
-    }
-    type ModalStateType = typeof initialModalState*/
-
     const {
         cardPacks,
         minCardsCount,
@@ -260,10 +249,6 @@ const PacksList = () => {
                        currentPage={page} itemsOnPage={pageCount}
                        itemsTotalCount={cardPacksTotalCount} selectedPagesCount={selectedPagesCount}/>
             <PackModal
-                // _id={modalData._id}
-                //        name={modalData.name}
-                // isPrivate={!!modalData.private}
-                // title={modalData.title}
                 data={modalData}
                 isOpen={!!(modalData.openAddPackModal || modalData.openEditPackModal)}
                 onClose={closeModal}/>
