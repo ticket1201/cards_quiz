@@ -1,4 +1,4 @@
-export type CommonModalStateType = {
+/*export type CommonModalStateType = {
     _id: string
     title: string
     cardsPack_id: string
@@ -12,4 +12,22 @@ export type CommonModalStateType = {
     openAddCardModal?: boolean
     openEditCardModal?: boolean
     openDelCardModal?: boolean
+}*/
+
+export const commonModalState = {
+    _id: '',
+    cardsPack_id: '',
+    name: '',
+    private: false as boolean | undefined,
+    question: '',
+    answer: '',
+    title: '',
+    openAddPackModal: false as boolean | undefined,
+    openEditPackModal: false as boolean | undefined,
+    openDelPackModal: false as boolean | undefined,
+    openAddCardModal: false as boolean | undefined,
+    openEditCardModal: false as boolean | undefined,
+    openDelCardModal: false
 }
+
+export type CommonModalStateType = typeof commonModalState
