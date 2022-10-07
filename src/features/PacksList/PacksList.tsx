@@ -17,14 +17,13 @@ import {GridSortDirection, GridSortModel} from '@mui/x-data-grid/models/gridSort
 import s from './PacksList.module.css'
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-// import {serializeFormQuery} from '../../common/utils/serializeFormQuery';
+import {serializeFormQuery} from '../../common/utils/serializeFormQuery';
 import {GridInitialStateCommunity} from '@mui/x-data-grid/models/gridStateCommunity';
 import {Path} from '../../common/enums/path';
 import {PackModal} from '../Modals/PackModal';
 import {DeleteModal} from '../Modals/DeleteModal';
 import {convertDateFromIso8601} from "../../common/utils/convertDate";
 import {CommonModalStateType} from "../Modals/commonTypes";
-import useOwnSearchParams from "../../common/hooks/useOwnSearchParams";
 
 
 const PacksList = () => {
@@ -70,6 +69,7 @@ const PacksList = () => {
 
     ];
 
+
     const {
         cardPacks,
         minCardsCount,
@@ -84,10 +84,9 @@ const PacksList = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const [searchParam, setSearchParam] = useSearchParams({})
-    // const startParams = serializeFormQuery(searchParam, authId)
-    // const [params, setParams] = useState<any>(startParams)
+    const startParams = serializeFormQuery(searchParam, authId)
+    const [params, setParams] = useState<any>(startParams)
     const [modalData, setModalData] = useState<CommonModalStateType>({} as CommonModalStateType)
-    const [params, setParams] = useOwnSearchParams()
 
     // Modal logic
     const closeModal = () => {
@@ -205,97 +204,6 @@ const PacksList = () => {
         setParams({...params, pageCount: newPageCount})
     }
 
-
-    useEffect(() => {
-        // setSearchParam(params)
-
-        let id = setTimeout(() => {
-            const sendParams = {...params, pageCount: selectedPagesCount ? +selectedPagesCount : 10}
-            if (sendParams.hasOwnProperty('user_id')) {
-                sendParams['user_id'] = authId
-            }
-
-            dispatch(getPacksTC(sendParams))
-        }, 1000)
-        return () => clearTimeout(id)
-    }, [dispatch, params, isToggled, selectedPagesCount, setSearchParam, authId])
-
-
-    /*const onSortModelChangeHandler = (model: GridSortModel) => {
-        const field = model[0].field;
-        const sort = model[0].sort;
-        let sortQuery = '';
-
-        if (sort === 'asc')
-            sortQuery = '1' + field
-        else if (sort === 'desc')
-            sortQuery = '0' + field
-        else if (!sort) {
-            const {sortPacks, ...restParams} = params
-            setParams(restParams)
-            return
-        }
-        setParams({...params, sortPacks: sortQuery})
-    }
-
-    const searchHandler = (value: string) => {
-        if (!value) {
-            const {packName, ...restParams} = params
-            setParams(restParams)
-            return
-        }
-        setParams({...params, packName: value})
-    }
-
-    const rangeHandler = (min: number, max: number) => {
-        let rangeParams = {...params, min: min.toString(), max: max.toString()}
-
-        if (min === minCardsCount) {
-            const {min, ...rest} = rangeParams
-            rangeParams = {...rest}
-        }
-        if (max === maxCardsCount) {
-            const {max, ...rest} = rangeParams
-            rangeParams = {...rest}
-        }
-        setParams(rangeParams)
-    }
-
-    const packsOwnerHandler = (user_id: string) => {
-        if (!user_id) {
-            const {user_id, ...restParams} = params
-            setParams(restParams)
-            return
-        }
-        setParams({...params, user_id})
-    }
-
-    const clearFiltersHandler = () => {
-        setParams({})
-    }
-
-    const paginationHandler = (currentPage: number) => {
-        if (currentPage === page) {
-            const {page, ...restParams} = params
-            setParams(restParams)
-            return
-        }
-        setParams({...params, page: currentPage.toString()})
-    }
-
-    const pagesCountHandler = (newPageCount: string) => {
-        if (+newPageCount === 10) {
-            const {pageCount, ...restParams} = params
-            setParams(restParams)
-            return
-        }
-        setParams({...params, pageCount: newPageCount})
-    }
-
-    const startLearningHandler = (packId: string) => {
-        navigate(`${Path.LearnPage}/${packId}`);
-    }
-
     useEffect(() => {
         setSearchParam(params)
 
@@ -308,7 +216,7 @@ const PacksList = () => {
             dispatch(getPacksTC(sendParams))
         }, 1000)
         return () => clearTimeout(id)
-    }, [dispatch, params, isToggled, selectedPagesCount, setSearchParam, authId])*/
+    }, [dispatch, params, isToggled, selectedPagesCount, setSearchParam, authId])
 
     return (
         <div className={`content-wrapper ${s.content}`}>
