@@ -53,9 +53,6 @@ export const CardModal: React.FC<CardModalType> = ({data, isOpen, onClose}) => {
         }
         closeHandler()
     }
-    const onEnterPress = (key: string) => {
-        key === 'Enter' && handleSubmit(onSubmit)
-    }
     const closeHandler = () => {
         resetField('question')
         resetField('answer')
@@ -82,8 +79,7 @@ export const CardModal: React.FC<CardModalType> = ({data, isOpen, onClose}) => {
 
     return (
         <BasicModal isOpen={isOpen} onClose={closeHandler} title={title}>
-            <form onSubmit={handleSubmit(onSubmit)}
-                  onKeyDown={(e) => onEnterPress(e.key)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <FormGroup>
 
                     <FormControl fullWidth>
