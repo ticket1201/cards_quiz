@@ -12,7 +12,7 @@ import {BackToPacksList} from '../../common/components/BackToPacksList/BackToPac
 
 
 const Profile = () => {
-    const {name,email, avatar} = useAppSelector(state => state.auth)
+    const {name, email, avatar} = useAppSelector(state => state.auth)
     const dispatch = useAppDispatch()
 
     const HandlerLogOut = () => {
@@ -23,25 +23,28 @@ const Profile = () => {
         dispatch(updateProfileTC({name, avatar}))
     }
 
-    return (
-        <div className={'base-wrapper'}>
+    return (<>
             <div className={s.backToPacks}>
                 <BackToPacksList/>
             </div>
-            <Paper className={'defaultPop'} elevation={2}>
-                <h2>Personal Information</h2>
-                <div className={s.ava} style={{backgroundImage:`url(${avatar || ava})`}}>
-                    <div className={s.buttonWrapper}>
-                        <IconButton className={s.button}>+</IconButton>
+            <div className={'base-wrapper'}>
+
+                <Paper className={'defaultPop'} elevation={2}>
+                    <h2>Personal Information</h2>
+                    <div className={s.ava} style={{backgroundImage: `url(${avatar || ava})`}}>
+                        <div className={s.buttonWrapper}>
+                            <IconButton className={s.button}>+</IconButton>
+                        </div>
                     </div>
-                </div>
-                <EditableSpan value={name} disabled={false} onChange={HandlerUpdateData}/>
-                <p className={s.email}>{email}</p>
-                <Button variant={'outlined'} className={s.logOut} sx={{    borderRadius: '18px'}} startIcon={<LogoutOutlinedIcon/>} onClick={()=>HandlerLogOut()} >
-                    <span className={s.text}>Log Out</span>
-                </Button>
-            </Paper>
-        </div>
+                    <EditableSpan value={name} disabled={false} onChange={HandlerUpdateData}/>
+                    <p className={s.email}>{email}</p>
+                    <Button variant={'outlined'} className={s.logOut} sx={{borderRadius: '18px'}}
+                            startIcon={<LogoutOutlinedIcon/>} onClick={() => HandlerLogOut()}>
+                        <span className={s.text}>Log Out</span>
+                    </Button>
+                </Paper>
+            </div>
+        </>
     );
 };
 
