@@ -24,8 +24,8 @@ import {CardModal} from '../Modals/CardModal';
 import {DeleteModal} from '../Modals/DeleteModal';
 import {PackModal} from '../Modals/PackModal';
 import {BackToPacksList} from '../../common/components/BackToPacksList/BackToPacksList';
-import {convertDateFromIso8601} from "../../common/utils/convertDate";
-import {CommonModalStateType} from "../Modals/commonTypes";
+import {convertDateFromIso8601} from '../../common/utils/convertDate';
+import {commonModalState, CommonModalStateType} from '../Modals/commonTypes';
 
 const PackPage = () => {
 
@@ -88,7 +88,7 @@ const PackPage = () => {
     const [searchParam, setSearchParam] = useSearchParams({})
     const startParams = serializeFormQuery(searchParam)
     const [params, setParams] = useState<any>(startParams)
-    const [modalData, setModalData] = useState<CommonModalStateType>({} as CommonModalStateType)
+    const [modalData, setModalData] = useState<CommonModalStateType>(commonModalState)
 
     const isOwner = authId === packUserId
     let renderColumns = columns
@@ -98,7 +98,7 @@ const PackPage = () => {
 
     // Modal logic
     const closeModal = () => {
-        setModalData({} as CommonModalStateType)
+        setModalData(commonModalState)
     }
     const openEditCardModal = (_id: string, question: string, answer: string) => {
         setModalData({...modalData, _id, question, answer, title: 'Edit card', openEditCardModal: true})
@@ -234,30 +234,48 @@ const PackPage = () => {
             <div className={c.backToPacks}>
                 <BackToPacksList/>
             </div>
-            <Grid flexDirection={'row'} justifyContent={'space-between'} className={s.title}>
-                {ownerBar}
-                <Button
-                    className={s.addBtn}
-                    size={'small'}
-                    variant={'contained'}
-                    disabled={loading === 'loading'}
-                    onClick={isOwner ? openAddCardModal : startLearningHandler}
-                >
-                    {isOwner ? 'Add new card' : 'Learn pack'}
-                </Button>
-            </Grid>
-            <Search isFullWidth={true} searchValue={params.cardQuestion} searchHandler={searchHandler}/>
-            <UniversalTable
-                columns={renderColumns}
-                rows={cards}
-                pageSize={selectedPagesCount ? +selectedPagesCount : 10}
-                loading={loading === 'loading'}
-                onSortModelChange={onSortModelChangeHandler}
-                initialState={initialState}
-            />
-            <Paginator changePageHandler={paginationHandler} changePagesCountHandler={pagesCountHandler}
-                       currentPage={page} itemsOnPage={pageCount}
-                       itemsTotalCount={cardsTotalCount} selectedPagesCount={selectedPagesCount}/>
+            {cardsTotalCount
+                ? <>
+                    <Grid flexDirection={'row'} justifyContent={'space-between'} className={s.title}>
+                        {ownerBar}
+                        <Button
+                            className={s.addBtn}
+                            size={'small'}
+                            variant={'contained'}
+                            disabled={loading === 'loading'}
+                            onClick={isOwner ? openAddCardModal : startLearningHandler}
+                        >
+                            {isOwner ? 'Add new card' : 'Learn pack'}
+                        </Button>
+                    </Grid>
+                    <Search isFullWidth={true} searchValue={params.cardQuestion} searchHandler={searchHandler}/>
+                    <UniversalTable
+                        columns={renderColumns}
+                        rows={cards}
+                        pageSize={selectedPagesCount ? +selectedPagesCount : 10}
+                        loading={loading === 'loading'}
+                        onSortModelChange={onSortModelChangeHandler}
+                        initialState={initialState}
+                    />
+                    <Paginator changePageHandler={paginationHandler} changePagesCountHandler={pagesCountHandler}
+                               currentPage={page} itemsOnPage={pageCount}
+                               itemsTotalCount={cardsTotalCount} selectedPagesCount={selectedPagesCount}/>
+                </>
+                : <>
+                    <Grid flexDirection={'row'} justifyContent={'space-between'} className={s.title}>
+                        {ownerBar}
+                    </Grid>
+                    <div className={c.tempWrapper}>
+                        <div className={c.text}>This pack is empty. Click add new card to fill this pack</div>
+                        <div><Button
+                            className={s.addBtn}
+                            size={'small'}
+                            variant={'contained'}
+                            disabled={loading === 'loading'}
+                            onClick={openAddCardModal}> Add new card
+                        </Button></div>
+                    </div>
+                </>}
             <CardModal
                 data={modalData}
                 isOpen={!!(modalData.openAddCardModal || modalData.openEditCardModal)}
