@@ -37,7 +37,7 @@ export const EditableSpan = memo(({value, onChange, disabled}: EditableSpanProps
     }
 
     const checkLength = (str:string) => {
-        return str.length > 0
+        return str.length > 0 && str.length < 21
     }
 
     const saveHandler = () => {
@@ -62,7 +62,7 @@ export const EditableSpan = memo(({value, onChange, disabled}: EditableSpanProps
                 size={'small'}
                 variant={'contained'}
                 className={s.button}
-                style={{position: 'absolute'}}
+                style={{position: 'absolute', borderRadius: '5px'}}
                 disabled={!checkLength(title)}
                 disableElevation
                 onClick={saveHandler}
@@ -70,10 +70,12 @@ export const EditableSpan = memo(({value, onChange, disabled}: EditableSpanProps
                 <p>SAVE</p>
             </Button>
         </h3>
-        : <h3 onDoubleClick={activateEditMode} >
-            {value}
-            <IconButton className={s.icon} onClick={activateEditMode}>
+        : <div className={s.nickInner}>
+            <h3 onDoubleClick={activateEditMode} >
+                {value}
+            </h3>
+            <IconButton style={{position: 'absolute'}} className={s.icon} onClick={activateEditMode}>
                 <BorderColorOutlinedIcon/>
             </IconButton>
-        </h3>
+        </div>
 })
