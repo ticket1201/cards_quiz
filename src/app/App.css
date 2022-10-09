@@ -1,10 +1,13 @@
-.App{
+.App {
+    min-height: 100vh;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
     background: #f9f9fa;
 }
 
-.App-header{
+.App-header {
     position: absolute;
     bottom: 0;
     left: 15px;
@@ -15,24 +18,24 @@
     gap: 15px;
 }
 
-.base-wrapper{
+.base-wrapper {
+    height: 90vh;
     max-width: 1200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0 33px;
     position: relative;
-}
-
-.content-wrapper{
-    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 80px 0 0;
 }
 
-.defaultPop{
+.content-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 33px;
+}
+
+.defaultPop {
     width: 410px;
     box-sizing: border-box;
     display: flex;
@@ -43,6 +46,48 @@
     background: #ffffff;
 }
 
-.MuiDataGrid-columnHeaders{
+p.MuiTypography-root {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.MuiDataGrid-columnHeaders {
     background-color: #EFEFEF;
 }
+
+div.MuiAppBar-root {
+    top: 0;
+}
+
+div.MuiCardContent-root {
+    padding: 33px;
+}
+
+button.MuiButton-root {
+    border-radius: 18px;
+    text-transform: none;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 0.01em;
+    padding: 8px 26px;
+}
+
+button.MuiButton-containedPrimary {
+    background: #366EFF;
+    box-shadow: 0 4px 18px rgba(54, 110, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+button.MuiIconButton-root {
+    color: rgba(0, 0, 0, 0.75);
+}
+
+label.MuiFormLabel-root {
+    color: rgba(0, 0, 0, 1);
+    font-family: 'Montserrat', sans-serif;
+}
+
+input.MuiInputBase-input {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+}
+
