@@ -16,30 +16,29 @@ type InputsType = {
 const ResetPassword = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    const { register, handleSubmit, formState: { errors } } = useForm<InputsType>();
-    const onSubmit:SubmitHandler<InputsType> = async (data:{email:string}) => {
-       let res = await dispatch(forgotPassTC(data))
-       if (res){
-           navigate(`${Path.ResetSuccess}/${data.email}`)
-       }
+    const {register, handleSubmit, formState: {errors}} = useForm<InputsType>();
+    const onSubmit: SubmitHandler<InputsType> = async (data: { email: string }) => {
+        let res = await dispatch(forgotPassTC(data))
+        if (res) {
+            navigate(`${Path.ResetSuccess}/${data.email}`)
+        }
     }
 
     return (
-        <div className={'base-wrapper'}>
-            <Paper className={'defaultPop'} elevation={2}>
-                <h2>Forgot your password?</h2>
-                <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
-                    <TextField fullWidth type={'email'} variant={'standard'} label={'Email'} {...register("email", { required: true })} />
-                    {errors.email && <span className={s.error}>This field is required</span>}
-                    <p>Enter your email address and we will send you further instructions </p>
-                    <Button type={'submit'} variant={'contained'} fullWidth>
-                        Send Instructions
-                    </Button>
-                </form>
-                <p>Did you remember your password?</p>
-                <NavLink to={Path.Login}>Try logging in</NavLink>
-            </Paper>
-        </div>
+        <Paper className={'defaultPop'} elevation={2}>
+            <h2 className={s.title}>Forgot your password?</h2>
+            <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
+                <TextField fullWidth type={'email'} variant={'standard'}
+                           label={'Email'} {...register('email', {required: true})} />
+                {errors.email && <span className={s.error}>This field is required</span>}
+                <p>Enter your email address and we will send you further instructions </p>
+                <Button type={'submit'} variant={'contained'} fullWidth>
+                    Send Instructions
+                </Button>
+            </form>
+            <p>Did you remember your password?</p>
+            <NavLink to={Path.Login}>Try logging in</NavLink>
+        </Paper>
     );
 };
 

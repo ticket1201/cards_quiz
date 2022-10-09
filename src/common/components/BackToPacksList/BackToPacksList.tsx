@@ -8,10 +8,8 @@ import Typography from '@mui/material/Typography';
 
 export const BackToPacksList = () => {
     return (
-        <div className={s.back}>
             <NavLink to={`/${Path.PacksList}`} className={s.link}>
                 <Typography className={s.text}><KeyboardBackspaceIcon/> <span>Back to Packs List</span></Typography>
             </NavLink>
-        </div>
     );
 };

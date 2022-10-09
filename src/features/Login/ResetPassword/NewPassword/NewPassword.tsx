@@ -39,23 +39,21 @@ const NewPassword = () => {
     }
 
     return (
-        <div className={'base-wrapper'}>
-            <Paper className={'defaultPop'} elevation={2}>
-                <h2>Create new password</h2>
-                <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
-                    <PasswordInput isFullWidth={true} register={register} name={'password'} options={{
-                        required: 'Password is required', minLength: {
-                            value: 8, message: 'Password must be more than 8 characters'
-                        }
-                    }} label={'Password'}/>
-                    {errors.password && <span className={s.error}>This field is required</span>}
-                    <p>Create new password and we will send you further instructions to email</p>
-                    <Button type={'submit'} variant={'contained'} fullWidth>
-                        Create new password
-                    </Button>
-                </form>
-            </Paper>
-        </div>
+        <Paper className={'defaultPop'} elevation={2}>
+            <h2>Create new password</h2>
+            <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
+                <PasswordInput isFullWidth={true} register={register} name={'password'} options={{
+                    required: 'Password is required', minLength: {
+                        value: 8, message: 'Password must be more than 8 characters'
+                    }
+                }} label={'Password'}/>
+                {errors.password && <span className={s.error}>This field is required</span>}
+                <p>Create new password and we will send you further instructions to email</p>
+                <Button type={'submit'} variant={'contained'} fullWidth>
+                    Create new password
+                </Button>
+            </form>
+        </Paper>
     );
 };
 

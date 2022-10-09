@@ -9,20 +9,18 @@ import RegisterForm from './RegisterForm/RegisterForm';
 
 const Registration = () => {
     return (
-        <div className={'base-wrapper'}>
-            <Paper className={'defaultPop'} elevation={2}>
-                <FormControl className={s.FormControl}>
-                    <FormLabel>
-                        <h2 className={s.title}>Sign up</h2>
-                    </FormLabel>
+        <Paper className={'defaultPop'} elevation={2}>
+            <FormControl className={s.FormControl}>
+                <FormLabel>
+                    <h2 className={s.title}>Sign up</h2>
+                </FormLabel>
 
-                    <RegisterForm/>
+                <RegisterForm/>
 
-                </FormControl>
-                <p className={s.text}>Already have an account ?</p>
-                <NavLink to={Path.Login} className={s.signUpLink}>Sing in</NavLink>
-            </Paper>
-        </div>
+            </FormControl>
+            <p className={s.text}>Already have an account ?</p>
+            <NavLink to={Path.Login} className={s.signUpLink}>Sing in</NavLink>
+        </Paper>
     );
 };
 
