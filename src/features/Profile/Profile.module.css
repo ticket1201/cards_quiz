@@ -1,7 +1,26 @@
 .backToPacks {
     position: absolute;
-    top: 85px;
+    top: 0;
     left: 0;
+}
+
+@media screen and (max-width: 1265px) {
+    .backToPacks {
+        left: 35px;
+    }
+}
+
+@media screen and (max-height: 650px) {
+    .backToPacks {
+        padding: 25px 0;
+        position: relative;
+        top: 0;
+        left: 0;
+    }
+}
+
+.title{
+    margin: 0 0 30px;
 }
 
 .ava{
