@@ -15,17 +15,15 @@ export const Login = () => {
     }
 
     return (
-        <div className={'base-wrapper'}>
-            <Paper className={'defaultPop'} elevation={2}>
-                <FormControl className={s.FormControl}>
-                    <FormLabel style={{color: 'inherit'}}>
-                        <h2 className={s.title}>Sign in</h2>
-                    </FormLabel>
-                    <LoginForm/>
-                </FormControl>
-                <p className={s.text}>Do not have an account ?</p>
-                <NavLink to={Path.Registration} className={s.signUpLink}>Sing up</NavLink>
-            </Paper>
-        </div>
+        <Paper className={'defaultPop'} elevation={2}>
+            <FormControl className={s.FormControl}>
+                <FormLabel>
+                    <h2 className={s.title}>Sign in</h2>
+                </FormLabel>
+                <LoginForm/>
+            </FormControl>
+            <p className={s.text}>Do not have an account ?</p>
+            <NavLink to={Path.Registration} className={s.signUpLink}>Sing up</NavLink>
+        </Paper>
     );
 };
