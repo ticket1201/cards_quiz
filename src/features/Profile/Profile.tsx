@@ -23,28 +23,26 @@ const Profile = () => {
         dispatch(updateProfileTC({name, avatar}))
     }
 
-    return (<>
+    return (
+        <div>
             <div className={s.backToPacks}>
                 <BackToPacksList/>
             </div>
-            <div className={'base-wrapper'}>
-
-                <Paper className={'defaultPop'} elevation={2}>
-                    <h2>Personal Information</h2>
-                    <div className={s.ava} style={{backgroundImage: `url(${avatar || ava})`}}>
-                        <div className={s.buttonWrapper}>
-                            <IconButton className={s.button}>+</IconButton>
-                        </div>
+            <Paper className={'defaultPop'} elevation={2}>
+                <h2 className={s.title}>Personal Information</h2>
+                <div className={s.ava} style={{backgroundImage: `url(${avatar || ava})`}}>
+                    <div className={s.buttonWrapper}>
+                        <IconButton className={s.button}>+</IconButton>
                     </div>
-                    <EditableSpan value={name} disabled={false} onChange={HandlerUpdateData}/>
-                    <p className={s.email}>{email}</p>
-                    <Button variant={'outlined'} className={s.logOut} sx={{borderRadius: '18px'}}
-                            startIcon={<LogoutOutlinedIcon/>} onClick={() => HandlerLogOut()}>
-                        <span className={s.text}>Log Out</span>
-                    </Button>
-                </Paper>
-            </div>
-        </>
+                </div>
+                <EditableSpan value={name} disabled={false} onChange={HandlerUpdateData}/>
+                <p className={s.email}>{email}</p>
+                <Button variant={'outlined'} className={s.logOut}
+                        startIcon={<LogoutOutlinedIcon/>} onClick={() => HandlerLogOut()}>
+                    <span className={s.text}>Log Out</span>
+                </Button>
+            </Paper>
+        </div>
     );
 };
 
