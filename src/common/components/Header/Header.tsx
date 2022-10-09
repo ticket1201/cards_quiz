@@ -14,8 +14,8 @@ const Header = () => {
     const {name, avatar} = useAppSelector(state => state.auth)
 
     return (
-        <AppBar position="absolute" className={s.bar} style={{backgroundColor: '#FCFCFC'}}>
-            <Toolbar className={`${s.toolbar} base-wrapper`}>
+        <AppBar position={'absolute'} className={s.bar} style={{backgroundColor: '#FCFCFC'}}>
+            <Toolbar className={`${s.toolbar}`}>
                 <Grid container
                       direction="row"
                       justifyContent="space-between"
@@ -27,7 +27,7 @@ const Header = () => {
                             <NavLink to={Path.Profile}>{name}</NavLink>
                             <NavLink className={s.ava} style={{backgroundImage:`url(${avatar || ava})`}} to={Path.Profile}></NavLink>
                         </div>
-                        : <Button variant={'contained'} onClick={() => navigate(Path.Login)}>Login</Button>}
+                        : <Button variant={'contained'} onClick={() => navigate(Path.Login)}>Sign in</Button>}
                 </Grid>
             </Toolbar>
         </AppBar>
