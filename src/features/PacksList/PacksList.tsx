@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import UniversalTable from '../../common/components/Table/UniversalTable';
 import {GridColDef} from '@mui/x-data-grid';
-import SchoolIcon from '@mui/icons-material/School';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import IconButton from '@mui/material/IconButton';
 import {Link, useNavigate, useSearchParams} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../common/hooks/hooks';
@@ -53,15 +53,15 @@ const PacksList = () => {
             renderCell: (params) => (
                 <>
                     <IconButton disabled={!params.row.cardsCount} onClick={() => startLearningHandler(params.row._id)}>
-                        <SchoolIcon/>
+                        <SchoolOutlinedIcon/>
                     </IconButton>
                     {params.row.actions && <>
                         <IconButton
                             onClick={() => openEditPackModal(params.row._id, params.row.name, params.row.private)}>
-                            <EditIcon/>
+                            <EditOutlinedIcon/>
                         </IconButton>
                         <IconButton onClick={() => openDeletePackModal(params.row._id, params.row.name)}>
-                            <DeleteIcon/>
+                            <DeleteOutlinedIcon/>
                         </IconButton>
                     </>}
 
