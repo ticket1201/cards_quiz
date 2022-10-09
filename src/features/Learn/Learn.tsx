@@ -75,7 +75,7 @@ const Learn = () => {
         if (packId) {
             dispatch(getCardsTC({cardsPack_id: packId, pageCount: Infinity}))
         }
-    }, [packId])
+    }, [packId, dispatch])
     useEffect(() => {
         // get one card randomly from pack
         if (allCards.cards.length) {
