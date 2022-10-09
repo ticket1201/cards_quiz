@@ -9,7 +9,7 @@ import url404 from '../../../assets/images/404.png'
 function Error404() {
     const navigate = useNavigate()
     return (
-       <Grid className={`base-wrapper ${s.grid}`}>
+       <Grid className={`${s.grid}`}>
            <Container className={s.text}>
                 <h2>Ooops!</h2>
                 <p>Sorry! Page not found!</p>
