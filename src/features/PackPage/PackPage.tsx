@@ -200,7 +200,7 @@ const PackPage = () => {
     }
 
     const startLearningHandler = () => {
-        navigate(`${Path.LearnPage}/${packId}`);
+        navigate(`${Path.LearnPage}/${packId}`, {state: 'packPage'});
     }
 
     const ownerBar = isOwner
@@ -232,7 +232,7 @@ const PackPage = () => {
     return (
         <div className={`content-wrapper ${s.content}`} style={{paddingTop:'50px'}}>
             <div className={c.backToPacks}>
-                <BackToPacksList/>
+                <BackToPacksList fromCards/>
             </div>
             {cardsTotalCount
                 ? <>

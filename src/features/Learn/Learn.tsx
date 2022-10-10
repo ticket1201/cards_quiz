@@ -1,18 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import {CardDataType} from "../../api/api";
-import {useParams} from "react-router-dom";
+import {CardDataType} from '../../api/api';
+import {useLocation, useParams} from 'react-router-dom';
 import styles from './Learn.module.css'
-import {useAppDispatch, useAppSelector} from "../../common/hooks/hooks";
-import {getCardsTC, setCardsAC, updateGradeCardTC} from "../PackPage/cards_reducer";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import Button from "@mui/material/Button";
-import {Preloader} from "../../common/components/Preloader/Preloader";
+import {useAppDispatch, useAppSelector} from '../../common/hooks/hooks';
+import {getCardsTC, setCardsAC, updateGradeCardTC} from '../PackPage/cards_reducer';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import Button from '@mui/material/Button';
+import {Preloader} from '../../common/components/Preloader/Preloader';
 import {BackToPacksList} from '../../common/components/BackToPacksList/BackToPacksList';
 
 const grades = ['Did not know', 'Forgot', 'A lot of thought', 'Confused', 'Knew the answer'];
@@ -68,7 +68,7 @@ const Learn = () => {
     const allCards = useAppSelector((store) => store.cards)
 
     const dispatch = useAppDispatch()
-
+    const location = useLocation()
 
     useEffect(() => {
         // get all cards
@@ -119,7 +119,7 @@ const Learn = () => {
 
     return (<div className={styles.main}>
             <div className={styles.backToPacks}>
-                <BackToPacksList/>
+                <BackToPacksList fromCards={location.state === 'packPage'} fromPacks={location.state === 'packsList'}/>
             </div>
             <h3>Learn "{allCards.packName}"</h3>
             <Card sx={{minWidth: 300}}>
