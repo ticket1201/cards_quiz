@@ -1,9 +1,5 @@
-.link {
-    text-decoration: none;
-    color: #000;
-}
-
 .text {
+    cursor: pointer;
     display: flex;
     align-items: flex-start;
     gap: 10px;
