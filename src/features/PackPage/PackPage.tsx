@@ -58,7 +58,7 @@ const PackPage = () => {
             renderCell: (params) => (
                 <>
                     <IconButton
-                        onClick={() => openEditCardModal(params.row._id, params.row.question, params.row.answer)}>
+                        onClick={() => openEditCardModal(params.row._id, params.row.question, params.row.answer, params.row.questionImg, params.row.answerImg)}>
                         <EditIcon/>
                     </IconButton>
                     <IconButton onClick={() => openDeleteCardModal(params.row._id, params.row.question)}>
@@ -78,7 +78,8 @@ const PackPage = () => {
         isToggled,
         packUserId,
         packName,
-        packPrivate
+        packPrivate,
+        packDeckCover
     } = useAppSelector(state => state.cards)
     const loading = useAppSelector(state => state.app.status)
     const authId = useAppSelector(state => state.auth._id)
@@ -100,8 +101,17 @@ const PackPage = () => {
     const closeModal = () => {
         setModalData(commonModalState)
     }
-    const openEditCardModal = (_id: string, question: string, answer: string) => {
-        setModalData({...modalData, _id, question, answer, title: 'Edit card', openEditCardModal: true})
+    const openEditCardModal = (_id: string, question: string, answer: string, questionURL: string, answerURL: string) => {
+        setModalData({
+            ...modalData,
+            _id,
+            question,
+            answer,
+            questionURL,
+            answerURL,
+            title: 'Edit card',
+            openEditCardModal: true
+        })
     }
     const openDeleteCardModal = (_id: string, question: string) => {
         setModalData({...modalData, _id, question, title: 'Delete Card', openDelCardModal: true})
@@ -114,7 +124,8 @@ const PackPage = () => {
             ...modalData,
             _id: packId,
             name: packName,
-            private: packPrivate!,
+            private: packPrivate,
+            packCover: packDeckCover,
             title: 'Edit Pack',
             openEditPackModal: true
         })
@@ -230,7 +241,7 @@ const PackPage = () => {
         return <Preloader/>
 
     return (
-        <div className={`content-wrapper ${s.content}`} style={{paddingTop:'50px'}}>
+        <div className={`content-wrapper ${s.content}`} style={{paddingTop: '50px'}}>
             <div className={c.backToPacks}>
                 <BackToPacksList fromCards/>
             </div>
