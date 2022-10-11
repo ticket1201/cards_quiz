@@ -57,7 +57,8 @@ const PacksList = () => {
                     </IconButton>
                     {params.row.actions && <>
                         <IconButton
-                            onClick={() => openEditPackModal(params.row._id, params.row.name, params.row.private)}>
+                            onClick={() => openEditPackModal(params.row._id, params.row.name, params.row.private, params.row.deckCover
+                            )}>
                             <EditOutlinedIcon/>
                         </IconButton>
                         <IconButton onClick={() => openDeletePackModal(params.row._id, params.row.name)}>
@@ -94,8 +95,16 @@ const PacksList = () => {
     const closeModal = () => {
         setModalData(commonModalState)
     }
-    const openEditPackModal = (_id: string, name: string, isPrivate: boolean) => {
-        setModalData({...modalData, _id, name, private: isPrivate, title: 'Edit Pack', openEditPackModal: true})
+    const openEditPackModal = (_id: string, name: string, isPrivate: boolean, packCover: string) => {
+        setModalData({
+            ...modalData,
+            _id,
+            name,
+            private: isPrivate,
+            packCover,
+            title: 'Edit Pack',
+            openEditPackModal: true
+        })
     }
     const openDeletePackModal = (_id: string, name: string) => {
         setModalData({...modalData, _id, name, title: 'Delete Pack', openDelPackModal: true})
