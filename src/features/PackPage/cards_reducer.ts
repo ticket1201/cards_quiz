@@ -17,6 +17,7 @@ const initialState = {
     cards: [] as Array<CardDataType>,
     packName: '',
     packPrivate: false,
+    packDeckCover: '',
     cardsTotalCount: 0,
     maxGrade: 0,
     minGrade: 0,
