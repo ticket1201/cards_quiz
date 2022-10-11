@@ -23,6 +23,8 @@ export const commonModalState = {
     answer: '',
     title: '',
     packCover: '',
+    questionURL: '',
+    answerURL: '',
     openAddPackModal: false as boolean | undefined,
     openEditPackModal: false as boolean | undefined,
     openDelPackModal: false as boolean | undefined,
