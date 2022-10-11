@@ -48,7 +48,7 @@ export const PackModal: React.FC<PackModalType> = ({data, isOpen, onClose}) => {
     });
 
     const onSubmit: SubmitHandler<PackModalFormType> = data => {
-        if (_id && (data.name !== name || data.private !== isPrivate)) {
+        if (_id && (data.name !== name || data.private !== isPrivate || deckCover !== packCover)) {
             dispatch(updatePackTC({_id, ...data, deckCover}))
         } else if (!_id) {
             dispatch(createPackTC({...data, deckCover}))
@@ -95,6 +95,7 @@ export const PackModal: React.FC<PackModalType> = ({data, isOpen, onClose}) => {
                     <TextField label="Pack name"
                                variant="standard"
                                value={packName}
+                               sx={{marginTop: '25px'}}
                                {...register('name', {
                                    required: 'Pack name is required'
                                })}
