@@ -7,10 +7,11 @@ import s from './UploadButton.module.css';
 
 type UploadButtonType = {
     title: string
+    label?: string
     imgURL: string
     saveImgUrl: (imgURL: string) => void
 }
-export const UploadButton: React.FC<UploadButtonType> = ({title, imgURL, saveImgUrl}) => {
+export const UploadButton: React.FC<UploadButtonType> = ({title, label, imgURL, saveImgUrl}) => {
 
     const dispatch = useAppDispatch()
 
@@ -28,7 +29,8 @@ export const UploadButton: React.FC<UploadButtonType> = ({title, imgURL, saveImg
     }
 
     return <>
-        <Button variant="contained" component="label" sx={{marginBottom: '30px'}}>
+        <span className={s.label}>{label}</span>
+        <Button variant="contained" component="label">
             {title}
             <input hidden accept="image/*" type="file" onChange={onCoverChangeHandler}/>
         </Button>

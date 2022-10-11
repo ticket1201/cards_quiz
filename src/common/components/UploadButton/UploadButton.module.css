@@ -1,7 +1,11 @@
+.label {
+    margin-top: 25px;
+}
+
 .image {
     width: 350px;
-    height: 200px;
-    margin: 0 auto 30px auto;
+    height: 150px;
+    margin: 25px auto 0 auto;
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
