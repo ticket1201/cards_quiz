@@ -9,7 +9,8 @@ import Button from '@mui/material/Button';
 import {Stack} from '@mui/material';
 import {useAppDispatch} from '../../common/hooks/hooks';
 import {createPackTC, updatePackTC} from '../PacksList/pack_reducer';
-import {CommonModalStateType} from "./commonTypes";
+import {CommonModalStateType} from './commonTypes';
+import {UploadButton} from '../../common/components/UploadButton/UploadButton';
 
 type PackModalType = {
     data: CommonModalStateType
@@ -23,11 +24,12 @@ type PackModalFormType = {
 }
 
 export const PackModal: React.FC<PackModalType> = ({data, isOpen, onClose}) => {
-    const {_id, name, title} = data
+    const {_id, name, title, packCover} = data
     const isPrivate = data.private
 
     const dispatch = useAppDispatch()
-    const [inputValue, setInputValue] = useState(name)
+    const [packName, setPackName] = useState(name)
+    const [deckCover, setDeckCover] = useState(packCover)
 
     const {
         register,
@@ -39,29 +41,32 @@ export const PackModal: React.FC<PackModalType> = ({data, isOpen, onClose}) => {
         formState: {errors, isSubmitSuccessful}
     } = useForm<PackModalFormType>({
         defaultValues: {
-            name: inputValue,
-            private: isPrivate
+            name: packName,
+            private: isPrivate,
         },
         mode: 'onSubmit'
     });
 
     const onSubmit: SubmitHandler<PackModalFormType> = data => {
         if (_id && (data.name !== name || data.private !== isPrivate)) {
-            dispatch(updatePackTC({_id, ...data}))
+            dispatch(updatePackTC({_id, ...data, deckCover}))
         } else if (!_id) {
-            dispatch(createPackTC(data))
+            dispatch(createPackTC({...data, deckCover}))
         }
         closeHandler()
     }
+
     const closeHandler = () => {
         resetField('name')
         onClose()
-        setInputValue('')
+        setPackName('')
+        setDeckCover('')
     }
 
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setInputValue(e.currentTarget.value)
+    const onPackNameChangeHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setPackName(e.currentTarget.value)
     }
+
 
     //without this, private checkbox don't reset after submit
     useEffect(() => {
@@ -73,24 +78,27 @@ export const PackModal: React.FC<PackModalType> = ({data, isOpen, onClose}) => {
 
     // it takes some time before name prop in initState will change its value from '' to real
     useEffect(() => {
-        setInputValue(name)
+        setPackName(name)
+        setDeckCover(packCover)
 
         // without this, submitting from without making changes cause error 'Pack name is required'
         reset({name, private: isPrivate})
-    }, [name, isPrivate, reset])
+    }, [name, isPrivate, reset, packCover])
 
     return (
         <BasicModal isOpen={isOpen} onClose={closeHandler} title={title}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FormGroup>
 
+                    <UploadButton title={'Upload pack cover'} imgURL={deckCover} saveImgUrl={setDeckCover}/>
+
                     <TextField label="Pack name"
                                variant="standard"
-                               value={inputValue}
+                               value={packName}
                                {...register('name', {
                                    required: 'Pack name is required'
                                })}
-                               onChange={onChangeHandler}
+                               onChange={onPackNameChangeHandler}
                     />
                     {errors.name && <div style={{color: 'red'}}>{errors.name.message}</div>}
 
