@@ -10,10 +10,7 @@ import {useAppDispatch, useAppSelector} from '../../common/hooks/hooks';
 import {getCardsTC} from './cards_reducer';
 import {Search} from '../../common/components/Search/Search';
 import s from '../PacksList/PacksList.module.css';
-import {serializeFormQuery} from '../../common/utils/serializeFormQuery';
 import {Paginator} from '../../common/components/Paginator/Paginator';
-import {GridInitialStateCommunity} from '@mui/x-data-grid/models/gridStateCommunity';
-import {GridSortDirection, GridSortModel} from '@mui/x-data-grid/models/gridSortModel';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import {CardsMenu} from './CardsMenu/CardsMenu';
@@ -26,6 +23,13 @@ import {PackModal} from '../Modals/PackModal';
 import {BackToPacksList} from '../../common/components/BackToPacksList/BackToPacksList';
 import {convertDateFromIso8601} from '../../common/utils/convertDate';
 import {commonModalState, CommonModalStateType} from '../Modals/commonTypes';
+import {
+    getSearchParams,
+    pageCountDefault, searchCardsByQuestionAC,
+    setPageAC,
+    setPageCountAC
+} from "../SearchBar/search-reducer";
+import {convertObjectToSearchParam} from "../../common/utils/convertObjectToSearchParam";
 
 const PackPage = () => {
 
@@ -86,9 +90,11 @@ const PackPage = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const {packId} = useParams()
-    const [searchParam, setSearchParam] = useSearchParams({})
-    const startParams = serializeFormQuery(searchParam)
-    const [params, setParams] = useState<any>(startParams)
+
+    const myOwnSearchParams = useAppSelector(getSearchParams)
+    const myQuerySearchParams = convertObjectToSearchParam(myOwnSearchParams)
+    const [searchParam, setSearchParam] = useSearchParams(myQuerySearchParams)
+
     const [modalData, setModalData] = useState<CommonModalStateType>(commonModalState)
 
     const isOwner = authId === packUserId
@@ -141,73 +147,18 @@ const PackPage = () => {
     }
 
     // Search, filtration, pagination logic
-    let selectedPagesCount = params.pageCount
-
-    // set initial sorting state for the table
-    let initialState: GridInitialStateCommunity = {}
-    if (params.hasOwnProperty('sortCards')) {
-
-        const field = params.sortCards.slice(1);
-        const sortQuery = params.sortCards[0];
-        let sort: GridSortDirection = null;
-
-        if (sortQuery === '1')
-            sort = 'asc'
-        if (sortQuery === '0')
-            sort = 'desc'
-
-        initialState = {
-            sorting: {
-                sortModel: [
-                    {field, sort}
-                ]
-            }
-        }
-    }
-
-    const onSortModelChangeHandler = (model: GridSortModel) => {
-        const field = model[0].field;
-        const sort = model[0].sort;
-        let sortQuery = '';
-
-        if (sort === 'asc')
-            sortQuery = '1' + field
-        else if (sort === 'desc')
-            sortQuery = '0' + field
-        else if (!sort) {
-            const {sortCards, ...restParams} = params
-            setParams(restParams)
-            return
-        }
-
-        setParams({...params, sortCards: sortQuery})
-    }
+    let selectedPagesCount = myOwnSearchParams.pageCount ?? pageCountDefault
 
     const searchHandler = (value: string) => {
-        if (!value) {
-            const {cardQuestion, ...restParams} = params
-            setParams(restParams)
-            return
-        }
-        setParams({...params, cardQuestion: value})
+        dispatch(searchCardsByQuestionAC(value))
     }
 
     const paginationHandler = (currentPage: number) => {
-        if (currentPage === page) {
-            const {page, ...restParams} = params
-            setParams(restParams)
-            return
-        }
-        setParams({...params, page: currentPage.toString()})
+        dispatch(setPageAC(currentPage))
     }
 
     const pagesCountHandler = (newPageCount: string) => {
-        if (+newPageCount === 10) {
-            const {pageCount, ...restParams} = params
-            setParams(restParams)
-            return
-        }
-        setParams({...params, pageCount: newPageCount})
+        dispatch(setPageCountAC(+newPageCount))
     }
 
     const startLearningHandler = () => {
@@ -223,19 +174,19 @@ const PackPage = () => {
         : <div><h2>{packName}</h2></div>
 
     useEffect(() => {
-        setSearchParam(params)
+        setSearchParam(myQuerySearchParams)
 
         let id = setTimeout(() => {
             const sendParams = {
-                ...params,
-                pageCount: selectedPagesCount ? +selectedPagesCount : 10,
-                cardsPack_id: packId
+                ...myQuerySearchParams,
+                pageCount: selectedPagesCount,
+                cardsPack_id: packId ?? ''
             }
 
             dispatch(getCardsTC(sendParams))
-        }, 600)
+        }, 1000)
         return () => clearTimeout(id)
-    }, [dispatch, params, isToggled, isPackToggled, selectedPagesCount, setSearchParam, packId])
+    }, [dispatch, myOwnSearchParams, isToggled, isPackToggled, selectedPagesCount, setSearchParam, packId])
 
     if (!packUserId)
         return <Preloader/>
@@ -259,18 +210,19 @@ const PackPage = () => {
                             {isOwner ? 'Add new card' : 'Learn pack'}
                         </Button>
                     </Grid>
-                    <Search isFullWidth={true} searchValue={params.cardQuestion} searchHandler={searchHandler}/>
+                    <Search isFullWidth={true} searchValue={myOwnSearchParams.cardQuestion}
+                            searchHandler={searchHandler}/>
                     <UniversalTable
                         columns={renderColumns}
                         rows={cards}
-                        pageSize={selectedPagesCount ? +selectedPagesCount : 10}
+                        pageSize={selectedPagesCount}
                         loading={loading === 'loading'}
-                        onSortModelChange={onSortModelChangeHandler}
-                        initialState={initialState}
+                        sortParam={myOwnSearchParams.sortCards}
+                        sortName={'sortCards'}
                     />
                     <Paginator changePageHandler={paginationHandler} changePagesCountHandler={pagesCountHandler}
                                currentPage={page} itemsOnPage={pageCount}
-                               itemsTotalCount={cardsTotalCount} selectedPagesCount={selectedPagesCount}/>
+                               itemsTotalCount={cardsTotalCount} selectedPagesCount={String(selectedPagesCount)}/>
                 </>
                 : <>
                     <Grid flexDirection={'row'} justifyContent={'space-between'} className={s.title}>

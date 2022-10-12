@@ -163,7 +163,10 @@ const PacksList = () => {
             }
             dispatch(getPacksTC(sendParams))
         }, 1000)
-        return () => clearTimeout(id)
+        return () => {
+            clearTimeout(id)
+            // dispatch(clearSearchFiltersAC())
+        }
     }, [dispatch, myOwnSearchParams, isToggled, selectedPagesCount, setSearchParam, authId])
 
     return (

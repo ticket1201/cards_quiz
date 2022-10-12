@@ -30,6 +30,14 @@ export const searchReducer = (state: SearchInitialStateType = initialState, acti
 
             return {...state, packName}
         }
+        case 'search/SEARCH_CARDS_BY_QUESTION': {
+            let {cardQuestion} = action.payload
+            if (!cardQuestion) {
+                cardQuestion = undefined
+            }
+
+            return {...state, cardQuestion}
+        }
         case 'search/SEARCH_PACKS_BY_OWNER': {
             return {...state, ...action.payload}
         }
@@ -81,6 +89,7 @@ export const getSearchParams = (state: RootStateType): SearchInitialStateType =>
 //types
 export type SearchActionType =
     | ReturnType<typeof searchPacksByNameAC>
+    | ReturnType<typeof searchCardsByQuestionAC>
     | ReturnType<typeof searchPacksByOwnerAC>
     | ReturnType<typeof searchByRangeAC>
     | ReturnType<typeof setPageAC>
@@ -93,6 +102,12 @@ export const searchPacksByNameAC = (packName: string | undefined) => {
     return {
         type: 'search/SEARCH_PACKS_BY_NAME',
         payload: {packName}
+    } as const
+}
+export const searchCardsByQuestionAC = (cardQuestion: string | undefined) => {
+    return {
+        type: 'search/SEARCH_CARDS_BY_QUESTION',
+        payload: {cardQuestion}
     } as const
 }
 export const searchPacksByOwnerAC = (user_id: string | undefined = undefined) => {
