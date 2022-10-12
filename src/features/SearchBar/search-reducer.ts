@@ -63,6 +63,7 @@ export const searchReducer = (state: SearchInitialStateType = initialState, acti
         }
         case 'search/SET_PAGE':
         case 'search/SET_PAGE_COUNT':
+        case 'search/SET_ALL':
             return {...state, ...action.payload}
         case 'search/CLEAR_FILTERS':
             return {
@@ -96,6 +97,7 @@ export type SearchActionType =
     | ReturnType<typeof setPageCountAC>
     | ReturnType<typeof setSortParamsAC>
     | ReturnType<typeof clearSearchFiltersAC>
+    | ReturnType<typeof setAllAC>
 
 // ACs
 export const searchPacksByNameAC = (packName: string | undefined) => {
@@ -143,6 +145,13 @@ export const setSortParamsAC = (sortName: SortNameType, sortValue: string | unde
 export const clearSearchFiltersAC = () => {
     return {
         type: 'search/CLEAR_FILTERS'
+    } as const
+}
+
+export const setAllAC = (all: any) => {
+    return {
+        type: 'search/SET_ALL',
+        payload: all
     } as const
 }
 

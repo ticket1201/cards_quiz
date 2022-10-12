@@ -5,7 +5,7 @@ import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import IconButton from '@mui/material/IconButton';
-import {Link, useNavigate, useSearchParams} from 'react-router-dom';
+import {Link, useNavigate, useParams, useSearchParams} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../common/hooks/hooks';
 import {getPacksTC} from './pack_reducer';
 import {Search} from '../../common/components/Search/Search';
@@ -25,9 +25,10 @@ import {
     clearSearchFiltersAC, getSearchParams, pageCountDefault,
     searchByRangeAC,
     searchPacksByNameAC,
-    searchPacksByOwnerAC, setPageAC, setPageCountAC
+    searchPacksByOwnerAC, setAllAC, setPageAC, setPageCountAC
 } from "../SearchBar/search-reducer";
 import {convertObjectToSearchParam} from "../../common/utils/convertObjectToSearchParam";
+import {serializeFormQuery} from "../../common/utils/serializeFormQuery";
 
 
 const PacksList = () => {
@@ -96,7 +97,9 @@ const PacksList = () => {
 
     const myOwnSearchParams = useAppSelector(getSearchParams)
     const myQuerySearchParams = convertObjectToSearchParam(myOwnSearchParams)
-    const [searchParam, setSearchParam] = useSearchParams(myQuerySearchParams)
+
+    const [searchParam, setSearchParam] = useSearchParams()
+    // console.log('searchParam = ', serializeFormQuery(searchParam))
 
     // Modal logic
     const closeModal = () => {
@@ -170,6 +173,9 @@ const PacksList = () => {
 
     // just to delete search parameters
     useEffect(() => {
+        const params = serializeFormQuery(searchParam)
+        dispatch(setAllAC(params))
+
         return () => {
             dispatch(clearSearchFiltersAC())
         }
