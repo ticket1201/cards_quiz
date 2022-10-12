@@ -241,7 +241,7 @@ const PackPage = () => {
         return <Preloader/>
 
     return (
-        <div className={`content-wrapper ${s.content}`} style={{paddingTop: '50px'}}>
+        <div className={`content-wrapper ${s.content}`}>
             <div className={c.backToPacks}>
                 <BackToPacksList fromCards/>
             </div>
