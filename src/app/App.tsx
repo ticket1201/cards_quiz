@@ -37,7 +37,8 @@ function App() {
             </Grid>
 
             {/*temp navigation*/}
-            <div className="App-header">
+
+            {/*  <div className="App-header">
                 <Link to={Path.Login}>Login</Link>
                 <Link to={Path.Registration}>Registration</Link>
                 <Link to={Path.Profile}>Profile</Link>
@@ -46,9 +47,10 @@ function App() {
                 <Link to={`${Path.ResetSuccess}/email@example.com`}>Rest success</Link>
                 <Link to={`${Path.NewPassword}/token`}>New pass</Link>
                 <Link to={`${Path.PacksList}`}>Packs list</Link>
-                {/*<Link to={`${Path.PackPage}`}>Pack page</Link>*/}
-                {/*<Link to={`learn/63319bd2ef99210257c3d013`}>Learn page</Link>*/}
+                <Link to={`${Path.PackPage}`}>Pack page</Link>
+                <Link to={`learn/63319bd2ef99210257c3d013`}>Learn page</Link>
             </div>
+            */}
         </div>
     );
 }
