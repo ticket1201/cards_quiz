@@ -111,7 +111,7 @@ export const logoutTC = (): RootThunkType => async (dispatch) => {
 
 export const forgotPassTC = ({email}: { email: string }): RootThunkType<Promise<boolean>> => async (dispatch) => {
     // replace url in href to your gh-page address
-    const message = {'message': '<div style="padding: 15px; font-weight: bold">\n Trouble signing in? <br>\n Resetting your password is easy. <br>\n Just click on link below and follow the instructions. We’ll have you up and running in no time.  <br>\n \n <a href="https://ticket1201.github.io/cards_quiz/#/set-new-password/$token$">Link</a><br>\n If you did not make this request then please ignore this email.\n</div>'}
+    const message = {'message': '<div style="padding: 15px; font-weight: bold">\n Trouble with sign in? <br>\n There is easy way to restore your password. <br>\n Just click on link below and follow the instructions. We’ll have you up and running in no time.  <br>\n \n <a href="https://ticket1201.github.io/cards_quiz/#/set-new-password/$token$">Link</a><br>\n If you did not make this request then please ignore this email.\n</div>'}
 
     dispatch(setAppStatusAC('loading'))
 
