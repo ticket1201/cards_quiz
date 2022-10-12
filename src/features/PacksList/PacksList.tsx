@@ -30,6 +30,7 @@ import {
     searchPacksByNameAC,
     searchPacksByOwnerAC, setPageAC, setPageCountAC
 } from "../SearchBar/search-reducer";
+import {convertObjectToSearchParam} from "../../common/utils/convertObjectToSearchParam";
 
 
 const PacksList = () => {
@@ -92,13 +93,23 @@ const PacksList = () => {
     const loading = useAppSelector(state => state.app.status)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    const [searchParam, setSearchParam] = useSearchParams({})
-    const startParams = serializeFormQuery(searchParam, authId)
-    const [params, setParams] = useState<any>(startParams)
+
+
     const [modalData, setModalData] = useState<CommonModalStateType>(commonModalState)
 
     const myOwnSearchParams = useAppSelector(getSearchParams)
-    console.log(myOwnSearchParams)
+    const myQuerySearchParams = convertObjectToSearchParam(myOwnSearchParams)
+
+    const [searchParam, setSearchParam] = useSearchParams({})
+    const startParams = serializeFormQuery(searchParam, authId)
+
+    console.log('myOwn = ', myOwnSearchParams)
+    console.log('searchParam = ', searchParam)
+    console.log('startParams = ', startParams)
+    // console.log('convertObjectToSearchParam = ', convertObjectToSearchParam({}))
+
+    const [params, setParams] = useState<any>(startParams)
+    // console.log(myOwnSearchParams)
 
     // Modal logic
     const closeModal = () => {
@@ -171,13 +182,6 @@ const PacksList = () => {
     }
 
     const searchHandler = (value: string) => {
-        /*if (!value) {
-            const {packName, ...restParams} = params
-            setParams(restParams)
-            return
-        }
-        setParams({...params, packName: value})*/
-
         dispatch(searchPacksByNameAC(value))
     }
 
@@ -186,45 +190,25 @@ const PacksList = () => {
     }
 
     const packsOwnerHandler = (user_id: string) => {
-        /*if (!user_id) {
-            const {user_id, ...restParams} = params
-            setParams(restParams)
-            return
-        }
-        setParams({...params, user_id})*/
-
         dispatch(searchPacksByOwnerAC(user_id))
     }
 
     const clearFiltersHandler = () => {
-        // setParams({})
         dispatch(clearSearchFiltersAC())
     }
 
     const paginationHandler = (currentPage: number) => {
-        /*if (currentPage === page) {
-            const {page, ...restParams} = params
-            setParams(restParams)
-            return
-        }
-        setParams({...params, page: currentPage.toString()})*/
-
         dispatch(setPageAC(currentPage))
     }
 
     const pagesCountHandler = (newPageCount: string) => {
-        /*if (+newPageCount === 10) {
-            const {pageCount, ...restParams} = params
-            setParams(restParams)
-            return
-        }
-        setParams({...params, pageCount: newPageCount})*/
-
         dispatch(setPageCountAC(+newPageCount))
     }
 
     useEffect(() => {
-        setSearchParam(params)
+        // setSearchParam(params)
+        // setSearchParam(convertObjectToSearchParam({}))
+        setSearchParam(myQuerySearchParams)
 
         let id = setTimeout(() => {
             const sendParams = {...params, pageCount: selectedPagesCount ? +selectedPagesCount : 10}
