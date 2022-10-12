@@ -2,6 +2,7 @@ import {RootStateType} from "../../app/store";
 
 export const pageDefault = 1;
 export const pageCountDefault = 10;
+export type SortNameType = 'sortPacks' | 'sortCards' | undefined
 
 const initialState = {
     packName: undefined as string | undefined,
@@ -43,6 +44,15 @@ export const searchReducer = (state: SearchInitialStateType = initialState, acti
 
             return {...state, min, max}
         }
+        case "search/SET_SORT_PARAMS": {
+            if (action.payload.sortName) {
+                return {
+                    ...state,
+                    [action.payload.sortName]: action.payload.sortValue
+                }
+            }
+            return state
+        }
         case 'search/SET_PAGE':
         case 'search/SET_PAGE_COUNT':
             return {...state, ...action.payload}
@@ -75,6 +85,7 @@ export type SearchActionType =
     | ReturnType<typeof searchByRangeAC>
     | ReturnType<typeof setPageAC>
     | ReturnType<typeof setPageCountAC>
+    | ReturnType<typeof setSortParamsAC>
     | ReturnType<typeof clearSearchFiltersAC>
 
 // ACs
@@ -106,6 +117,12 @@ export const setPageCountAC = (pageCount: number | null) => {
     return {
         type: 'search/SET_PAGE_COUNT',
         payload: {pageCount}
+    } as const
+}
+export const setSortParamsAC = (sortName: SortNameType, sortValue: string | undefined) => {
+    return {
+        type: 'search/SET_SORT_PARAMS',
+        payload: {sortName, sortValue}
     } as const
 }
 export const clearSearchFiltersAC = () => {

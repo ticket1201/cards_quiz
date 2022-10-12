@@ -13,11 +13,9 @@ import {RangeSlider} from '../../common/components/RangeSlider/RangeSlider';
 import {PacksOwnerSort} from '../../common/components/PacksOwnerSort/PacksOwnerSort';
 import {ClearFilters} from '../../common/components/ClearFilters/ClearFilters';
 import {Paginator} from '../../common/components/Paginator/Paginator';
-import {GridSortDirection, GridSortModel} from '@mui/x-data-grid/models/gridSortModel';
 import s from './PacksList.module.css'
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import {GridInitialStateCommunity} from '@mui/x-data-grid/models/gridStateCommunity';
 import {Path} from '../../common/enums/path';
 import {PackModal} from '../Modals/PackModal';
 import {DeleteModal} from '../Modals/DeleteModal';
@@ -30,7 +28,6 @@ import {
     searchPacksByOwnerAC, setPageAC, setPageCountAC
 } from "../SearchBar/search-reducer";
 import {convertObjectToSearchParam} from "../../common/utils/convertObjectToSearchParam";
-import {GetPacksParamsType} from "../../api/api";
 
 
 const PacksList = () => {
@@ -101,7 +98,6 @@ const PacksList = () => {
     const myQuerySearchParams = convertObjectToSearchParam(myOwnSearchParams)
     const [searchParam, setSearchParam] = useSearchParams(myQuerySearchParams)
 
-
     // Modal logic
     const closeModal = () => {
         setModalData(commonModalState)
@@ -132,46 +128,6 @@ const PacksList = () => {
     // Search, filtration, pagination logic
     let selectedPagesCount = myOwnSearchParams.pageCount ?? 10
 
-    // set initial sorting state for the table
-    let initialState: GridInitialStateCommunity = {}
-    if (myOwnSearchParams.hasOwnProperty('sortPacks')) {
-
-        /*const field = myOwnSearchParams.sortPacks.slice(1);
-        const sortQuery = myOwnSearchParams.sortPacks[0];
-        let sort: GridSortDirection = null;
-
-        if (sortQuery === '1')
-            sort = 'asc'
-        if (sortQuery === '0')
-            sort = 'desc'
-
-        initialState = {
-            sorting: {
-                sortModel: [
-                    {field, sort}
-                ]
-            }
-        }*/
-    }
-
-
-    const onSortModelChangeHandler = (model: GridSortModel) => {
-        /*const field = model[0].field;
-        const sort = model[0].sort;
-        let sortQuery = '';
-
-        if (sort === 'asc')
-            sortQuery = '1' + field
-        else if (sort === 'desc')
-            sortQuery = '0' + field
-        else if (!sort) {
-            const {sortPacks, ...restParams} = myOwnSearchParams
-            setParams(restParams)
-            return
-        }
-        setParams({...myOwnSearchParams, sortPacks: sortQuery})*/
-    }
-
     const searchHandler = (value: string) => {
         dispatch(searchPacksByNameAC(value))
     }
@@ -200,11 +156,11 @@ const PacksList = () => {
         setSearchParam(myQuerySearchParams)
 
         let id = setTimeout(() => {
-            let sendParams: GetPacksParamsType = {...myQuerySearchParams, pageCount: selectedPagesCount ?? 10}
+            let sendParams: {}
+            sendParams = {...myQuerySearchParams, pageCount: selectedPagesCount ?? 10}
             if (sendParams.hasOwnProperty('user_id')) {
                 sendParams = {...sendParams, ['user_id']: authId}
             }
-
             dispatch(getPacksTC(sendParams))
         }, 1000)
         return () => clearTimeout(id)
@@ -236,8 +192,10 @@ const PacksList = () => {
                 rows={cardPacks}
                 pageSize={selectedPagesCount ? +selectedPagesCount : 10}
                 loading={loading === 'loading'}
-                onSortModelChange={onSortModelChangeHandler}
-                initialState={initialState}
+                // onSortModelChange={onSortModelChangeHandler}
+                // initialState={initialState}
+                sortParam={myOwnSearchParams.sortPacks}
+                sortName={'sortPacks'}
             />
             <Paginator changePageHandler={paginationHandler} changePagesCountHandler={pagesCountHandler}
                        currentPage={page} itemsOnPage={pageCount}
