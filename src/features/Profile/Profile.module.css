@@ -1,6 +1,6 @@
 .backToPacks {
     position: absolute;
-    top: 0;
+    top: 120px;
     left: 0;
 }
 
@@ -10,7 +10,7 @@
     }
 }
 
-@media screen and (max-height: 650px) {
+@media screen and (max-height: 680px) {
     .backToPacks {
         padding: 25px 0;
         position: relative;
@@ -21,6 +21,7 @@
 
 .title{
     margin: 0 0 30px;
+    text-align: center;
 }
 
 .ava{
