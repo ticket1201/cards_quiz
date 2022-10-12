@@ -165,9 +165,15 @@ const PacksList = () => {
         }, 1000)
         return () => {
             clearTimeout(id)
-            // dispatch(clearSearchFiltersAC())
         }
     }, [dispatch, myOwnSearchParams, isToggled, selectedPagesCount, setSearchParam, authId])
+
+    // just to delete search parameters
+    useEffect(() => {
+        return () => {
+            dispatch(clearSearchFiltersAC())
+        }
+    }, [])
 
     return (
         <div className={`content-wrapper ${s.content}`}>

@@ -24,6 +24,7 @@ import {BackToPacksList} from '../../common/components/BackToPacksList/BackToPac
 import {convertDateFromIso8601} from '../../common/utils/convertDate';
 import {commonModalState, CommonModalStateType} from '../Modals/commonTypes';
 import {
+    clearSearchFiltersAC,
     getSearchParams,
     pageCountDefault, searchCardsByQuestionAC,
     setPageAC,
@@ -187,6 +188,13 @@ const PackPage = () => {
         }, 1000)
         return () => clearTimeout(id)
     }, [dispatch, myOwnSearchParams, isToggled, isPackToggled, selectedPagesCount, setSearchParam, packId])
+
+    // just to delete search parameters
+    useEffect(() => {
+        return () => {
+            dispatch(clearSearchFiltersAC())
+        }
+    }, [])
 
     if (!packUserId)
         return <Preloader/>
