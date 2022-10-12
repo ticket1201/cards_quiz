@@ -1,20 +1,16 @@
 .backToPacks {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 100px;
+    left: 30px;
 }
 
-@media screen and (max-width: 1265px) {
-    .backToPacks {
-        left: 35px;
-    }
-}
 
 .main {
     display: flex;
     align-items: center;
     flex-direction: column;
     gap: 4px;
+    margin: 110px 0 0;
 }
 
 .QA {
