@@ -6,16 +6,16 @@ export const pageCountDefault = 10;
 const initialState = {
     packName: undefined as string | undefined,
     user_id: undefined as string | undefined,
-    min: undefined as number | undefined,
-    max: undefined as number | undefined,
+    min: null as number | null,
+    max: null as number | null,
     sortPacks: undefined as string | undefined,
     cardsPack_id: undefined as string | undefined,
     cardQuestion: undefined as string | undefined,
     cardAnswer: undefined as string | undefined,
     sortCards: undefined as string | undefined,
 
-    page: pageDefault as number | undefined,
-    pageCount: pageCountDefault as number | undefined,
+    page: null as number | null,
+    pageCount: null as number | null,
 }
 
 export  type SearchInitialStateType = typeof initialState
@@ -35,10 +35,10 @@ export const searchReducer = (state: SearchInitialStateType = initialState, acti
         case 'search/SEARCH_BY_RANGE': {
             let {min, max, minCardsCount, maxCardsCount} = action.payload
             if (min === minCardsCount) {
-                min = undefined
+                min = null
             }
             if (max === maxCardsCount) {
-                max = undefined
+                max = null
             }
 
             return {...state, min, max}
@@ -50,15 +50,15 @@ export const searchReducer = (state: SearchInitialStateType = initialState, acti
             return {
                 packName: undefined,
                 user_id: undefined,
-                min: undefined,
-                max: undefined,
+                min: null,
+                max: null,
                 cardAnswer: undefined,
                 cardQuestion: undefined,
                 sortCards: undefined,
                 cardsPack_id: undefined,
                 sortPacks: undefined,
-                page: 1,
-                pageCount: 10
+                page: null,
+                pageCount: null,
             }
         default:
             return state
@@ -90,19 +90,19 @@ export const searchPacksByOwnerAC = (user_id: string | undefined = undefined) =>
         payload: {user_id}
     } as const
 }
-export const searchByRangeAC = (min: number | undefined, max: number | undefined, minCardsCount: number, maxCardsCount: number) => {
+export const searchByRangeAC = (min: number | null, max: number | null, minCardsCount: number, maxCardsCount: number) => {
     return {
         type: 'search/SEARCH_BY_RANGE',
         payload: {min, max, minCardsCount, maxCardsCount}
     } as const
 }
-export const setPageAC = (page: number | undefined) => {
+export const setPageAC = (page: number | null) => {
     return {
         type: 'search/SET_PAGE',
         payload: {page}
     } as const
 }
-export const setPageCountAC = (pageCount: number | undefined) => {
+export const setPageCountAC = (pageCount: number | null) => {
     return {
         type: 'search/SET_PAGE_COUNT',
         payload: {pageCount}

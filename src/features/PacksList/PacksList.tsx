@@ -108,7 +108,7 @@ const PacksList = () => {
     console.log('startParams = ', startParams)
     // console.log('convertObjectToSearchParam = ', convertObjectToSearchParam({}))
 
-    const [params, setParams] = useState<any>(startParams)
+    // const [params, setParams] = useState<any>(startParams)
     // console.log(myOwnSearchParams)
 
     // Modal logic
@@ -139,14 +139,14 @@ const PacksList = () => {
 
 
     // Search, filtration, pagination logic
-    let selectedPagesCount = params.pageCount
+    let selectedPagesCount = myOwnSearchParams.pageCount
 
     // set initial sorting state for the table
     let initialState: GridInitialStateCommunity = {}
-    if (params.hasOwnProperty('sortPacks')) {
+    if (myOwnSearchParams.hasOwnProperty('sortPacks')) {
 
-        const field = params.sortPacks.slice(1);
-        const sortQuery = params.sortPacks[0];
+        /*const field = myOwnSearchParams.sortPacks.slice(1);
+        const sortQuery = myOwnSearchParams.sortPacks[0];
         let sort: GridSortDirection = null;
 
         if (sortQuery === '1')
@@ -160,12 +160,12 @@ const PacksList = () => {
                     {field, sort}
                 ]
             }
-        }
+        }*/
     }
 
 
     const onSortModelChangeHandler = (model: GridSortModel) => {
-        const field = model[0].field;
+        /*const field = model[0].field;
         const sort = model[0].sort;
         let sortQuery = '';
 
@@ -174,11 +174,11 @@ const PacksList = () => {
         else if (sort === 'desc')
             sortQuery = '0' + field
         else if (!sort) {
-            const {sortPacks, ...restParams} = params
+            const {sortPacks, ...restParams} = myOwnSearchParams
             setParams(restParams)
             return
         }
-        setParams({...params, sortPacks: sortQuery})
+        setParams({...myOwnSearchParams, sortPacks: sortQuery})*/
     }
 
     const searchHandler = (value: string) => {
@@ -211,7 +211,7 @@ const PacksList = () => {
         setSearchParam(myQuerySearchParams)
 
         let id = setTimeout(() => {
-            const sendParams = {...params, pageCount: selectedPagesCount ? +selectedPagesCount : 10}
+            const sendParams = {...myOwnSearchParams, pageCount: selectedPagesCount ? +selectedPagesCount : 10}
             if (sendParams.hasOwnProperty('user_id')) {
                 sendParams['user_id'] = authId
             }
@@ -219,7 +219,7 @@ const PacksList = () => {
             dispatch(getPacksTC(sendParams))
         }, 1000)
         return () => clearTimeout(id)
-    }, [dispatch, params, isToggled, selectedPagesCount, setSearchParam, authId])
+    }, [dispatch, myOwnSearchParams, isToggled, selectedPagesCount, setSearchParam, authId])
 
     return (
         <div className={`content-wrapper ${s.content}`}>
@@ -234,10 +234,10 @@ const PacksList = () => {
             </Grid>
 
             <div className={`${s.search}`}>
-                <Search searchHandler={searchHandler} searchValue={params.packName}/>
-                <PacksOwnerSort owner={params.user_id} packsOwnerHandler={packsOwnerHandler}/>
-                <RangeSlider minValue={minCardsCount} maxValue={maxCardsCount} currentMin={params.min}
-                             currentMax={params.max}
+                <Search searchHandler={searchHandler} searchValue={myOwnSearchParams.packName}/>
+                <PacksOwnerSort owner={myOwnSearchParams.user_id} packsOwnerHandler={packsOwnerHandler}/>
+                <RangeSlider minValue={minCardsCount} maxValue={maxCardsCount} currentMin={myOwnSearchParams.min}
+                             currentMax={myOwnSearchParams.max}
                              rangeSliderHandler={rangeHandler}/>
                 <ClearFilters clearHandler={clearFiltersHandler}/>
             </div>
@@ -252,7 +252,7 @@ const PacksList = () => {
             />
             <Paginator changePageHandler={paginationHandler} changePagesCountHandler={pagesCountHandler}
                        currentPage={page} itemsOnPage={pageCount}
-                       itemsTotalCount={cardPacksTotalCount} selectedPagesCount={selectedPagesCount}/>
+                       itemsTotalCount={cardPacksTotalCount} selectedPagesCount={String(selectedPagesCount)}/>
             <PackModal
                 data={modalData}
                 isOpen={!!(modalData.openAddPackModal || modalData.openEditPackModal)}

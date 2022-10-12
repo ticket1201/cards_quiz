@@ -12,8 +12,8 @@ function valuetext(value: number) {
 type RangeSliderType = {
     minValue: number
     maxValue: number
-    currentMin: string | null
-    currentMax: string | null
+    currentMin: number | null
+    currentMax: number | null
     rangeSliderHandler: (min: number, max: number) => void
 }
 
@@ -30,7 +30,7 @@ export const RangeSlider: FC<RangeSliderType> = ({
     useEffect(() => {
         if (currentMin || currentMax) {
             // setValue([+currentMin, +currentMax])
-            setValue([currentMin ? +currentMin : minValue, currentMax ? +currentMax : maxValue])
+            setValue([currentMin ? currentMin : minValue, currentMax ? currentMax : maxValue])
             return
         }
         setValue([minValue, maxValue])
