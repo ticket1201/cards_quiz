@@ -63,7 +63,7 @@ export const RangeSlider: FC<RangeSliderType> = ({
             <h3>Number of cards</h3>
             <div className={s.rangeWrapper}>
                 <Button variant={'outlined'} onClick={resetMinHandler} className={s.button}>{value[0]}</Button>
-                <Box sx={{width: 200}}>
+                <Box sx={{width: 'inherit'}}>
                     <Slider
                         getAriaLabel={() => 'Cards in pack range'}
                         value={value}
