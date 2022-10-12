@@ -19,26 +19,24 @@
 }
 
 .base-wrapper {
-    height: 90vh;
-    max-width: 1200px;
+    min-height: 100vh;
+    max-width: 1250px;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 80px 0 0;
+    padding: 25px;
+}
+div.MuiBox-root{
+   width: 400px;
 }
 
-.content-wrapper {
+.content-wrapper{
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-@media screen and (max-width: 1265px) {
-    .content-wrapper {
-        padding: 0 33px;
-    }
-}
 
 .defaultPop {
     width: 410px;
@@ -49,6 +47,10 @@
     align-items: center;
     padding: 33px;
     background: #ffffff;
+}
+
+.hidden{
+    display: none;
 }
 
 p.MuiTypography-root {
@@ -96,5 +98,18 @@ label.MuiFormLabel-root {
 input.MuiInputBase-input {
     font-family: 'Montserrat', sans-serif;
     font-weight: 500;
+}
+
+
+@media screen and (max-width: 480px){
+    .MuiPagination-ul{
+        justify-content: center;
+    }
+    .defaultPop {
+        width: 340px;
+    }
+    div.MuiBox-root{
+        width: 340px;
+    }
 }
 
