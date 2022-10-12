@@ -45,12 +45,12 @@ const Header = () => {
                       justifyContent="space-between"
                       alignItems="center"
                 >
-                    <NavLink className={s.logo} to={Path.Login}></NavLink>
+                    <NavLink className={s.logo} to={Path.PacksList}></NavLink>
                     {name
                         ? <div className={s.avaWrapper}>
-                            <a onClick={onMenuClickHandler}>{name}</a>
-                            <NavLink className={s.ava} style={{backgroundImage: `url(${avatar || ava})`}}
-                                     to={Path.Profile}></NavLink>
+                            <span className={s.name} onClick={onMenuClickHandler}>{name}</span>
+                            <span className={s.ava} style={{backgroundImage: `url(${avatar || ava})`}}
+                               onClick={onMenuClickHandler}></span>
                             <Menu className={s.menu} open={open} onClose={menuCloseHandler} anchorEl={anchorEl}>
                                 <MenuItem onClick={onProfileClickHandler} className={s.menuItem}><PermIdentityIcon/> Profile</MenuItem>
                                 <MenuItem onClick={onLogoutClickHandler} className={s.menuItem}>
