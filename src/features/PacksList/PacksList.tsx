@@ -17,7 +17,6 @@ import {GridSortDirection, GridSortModel} from '@mui/x-data-grid/models/gridSort
 import s from './PacksList.module.css'
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import {serializeFormQuery} from '../../common/utils/serializeFormQuery';
 import {GridInitialStateCommunity} from '@mui/x-data-grid/models/gridStateCommunity';
 import {Path} from '../../common/enums/path';
 import {PackModal} from '../Modals/PackModal';
@@ -99,17 +98,8 @@ const PacksList = () => {
 
     const myOwnSearchParams = useAppSelector(getSearchParams)
     const myQuerySearchParams = convertObjectToSearchParam(myOwnSearchParams)
+    const [searchParam, setSearchParam] = useSearchParams(myQuerySearchParams)
 
-    const [searchParam, setSearchParam] = useSearchParams({})
-    const startParams = serializeFormQuery(searchParam, authId)
-
-    console.log('myOwn = ', myOwnSearchParams)
-    console.log('searchParam = ', searchParam)
-    console.log('startParams = ', startParams)
-    // console.log('convertObjectToSearchParam = ', convertObjectToSearchParam({}))
-
-    // const [params, setParams] = useState<any>(startParams)
-    // console.log(myOwnSearchParams)
 
     // Modal logic
     const closeModal = () => {
@@ -139,7 +129,7 @@ const PacksList = () => {
 
 
     // Search, filtration, pagination logic
-    let selectedPagesCount = myOwnSearchParams.pageCount
+    let selectedPagesCount = myOwnSearchParams.pageCount ?? 10
 
     // set initial sorting state for the table
     let initialState: GridInitialStateCommunity = {}
@@ -206,14 +196,14 @@ const PacksList = () => {
     }
 
     useEffect(() => {
-        // setSearchParam(params)
-        // setSearchParam(convertObjectToSearchParam({}))
         setSearchParam(myQuerySearchParams)
 
         let id = setTimeout(() => {
-            const sendParams = {...myOwnSearchParams, pageCount: selectedPagesCount ? +selectedPagesCount : 10}
+            let sendParams: {};
+            sendParams = {...myQuerySearchParams, pageCount: selectedPagesCount ?? 10}
+            // sendParams['user_id'] = authId
             if (sendParams.hasOwnProperty('user_id')) {
-                sendParams['user_id'] = authId
+                sendParams = {...sendParams, ['user_id']: authId}
             }
 
             dispatch(getPacksTC(sendParams))

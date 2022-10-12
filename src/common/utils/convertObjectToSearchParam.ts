@@ -1,4 +1,4 @@
-export const convertObjectToSearchParam = (params: Object): URLSearchParams => {
+export const convertObjectToSearchParam = (params: Object) => {
     let res = {}
     Object.entries(params).forEach(entry => {
         const [key, value] = entry;
@@ -7,5 +7,5 @@ export const convertObjectToSearchParam = (params: Object): URLSearchParams => {
         }
     })
 
-    return res as URLSearchParams
+    return res //as URLSearchParams
 }

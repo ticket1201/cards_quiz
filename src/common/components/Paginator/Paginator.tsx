@@ -8,7 +8,7 @@ type PaginatorPropsType = {
     currentPage: number
     itemsOnPage: number
     itemsTotalCount: number
-    selectedPagesCount: string | null
+    selectedPagesCount: string
     changePageHandler: (page: number) => void
     changePagesCountHandler: (pagesCount: string) => void
 }
@@ -45,6 +45,7 @@ export const Paginator: React.FC<PaginatorPropsType> = ({
                     autoWidth
                     size="small"
                     value={selectedPagesCount ? selectedPagesCount : '10'}
+                    // value={selectedPagesCount}
                     onChange={changeSelect}>
                     <MenuItem value={10}>10</MenuItem>
                     <MenuItem value={15}>15</MenuItem>
