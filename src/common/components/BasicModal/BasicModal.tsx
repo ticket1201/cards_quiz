@@ -11,7 +11,6 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
     bgcolor: 'background.paper',
     borderRadius: '10px',
     boxShadow: 24,
@@ -25,9 +24,10 @@ type BasicModalType = {
 }
 
 export const BasicModal: React.FC<BasicModalType> = ({isOpen, onClose, title, children}) => {
+    const wrapperClass = isOpen ? '' : 'hidden';
 
     return (
-        <div>
+        <div className={wrapperClass}>
             <Modal open={isOpen}
                    onClose={() => onClose()}>
                 <Box sx={style}>
