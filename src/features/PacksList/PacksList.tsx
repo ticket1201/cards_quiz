@@ -24,6 +24,12 @@ import {PackModal} from '../Modals/PackModal';
 import {DeleteModal} from '../Modals/DeleteModal';
 import {convertDateFromIso8601} from '../../common/utils/convertDate';
 import {commonModalState, CommonModalStateType} from '../Modals/commonTypes';
+import {
+    clearSearchFiltersAC, getSearchParams,
+    searchByRangeAC,
+    searchPacksByNameAC,
+    searchPacksByOwnerAC, setPageAC
+} from "../SearchBar/search-reducer";
 
 
 const PacksList = () => {
@@ -90,6 +96,9 @@ const PacksList = () => {
     const startParams = serializeFormQuery(searchParam, authId)
     const [params, setParams] = useState<any>(startParams)
     const [modalData, setModalData] = useState<CommonModalStateType>(commonModalState)
+
+    const myOwnSearchParams = useAppSelector(getSearchParams)
+    console.log(myOwnSearchParams)
 
     // Modal logic
     const closeModal = () => {
@@ -162,57 +171,56 @@ const PacksList = () => {
     }
 
     const searchHandler = (value: string) => {
-        if (!value) {
+        /*if (!value) {
             const {packName, ...restParams} = params
             setParams(restParams)
             return
         }
-        setParams({...params, packName: value})
+        setParams({...params, packName: value})*/
+
+        dispatch(searchPacksByNameAC(value))
     }
 
     const rangeHandler = (min: number, max: number) => {
-        let rangeParams = {...params, min: min.toString(), max: max.toString()}
-
-        if (min === minCardsCount) {
-            const {min, ...rest} = rangeParams
-            rangeParams = {...rest}
-        }
-        if (max === maxCardsCount) {
-            const {max, ...rest} = rangeParams
-            rangeParams = {...rest}
-        }
-        setParams(rangeParams)
+        dispatch(searchByRangeAC(min, max, minCardsCount, maxCardsCount))
     }
 
     const packsOwnerHandler = (user_id: string) => {
-        if (!user_id) {
+        /*if (!user_id) {
             const {user_id, ...restParams} = params
             setParams(restParams)
             return
         }
-        setParams({...params, user_id})
+        setParams({...params, user_id})*/
+
+        dispatch(searchPacksByOwnerAC(user_id))
     }
 
     const clearFiltersHandler = () => {
-        setParams({})
+        // setParams({})
+        dispatch(clearSearchFiltersAC())
     }
 
     const paginationHandler = (currentPage: number) => {
-        if (currentPage === page) {
+        /*if (currentPage === page) {
             const {page, ...restParams} = params
             setParams(restParams)
             return
         }
-        setParams({...params, page: currentPage.toString()})
+        setParams({...params, page: currentPage.toString()})*/
+
+        dispatch(setPageAC(currentPage))
     }
 
     const pagesCountHandler = (newPageCount: string) => {
-        if (+newPageCount === 10) {
+        /*if (+newPageCount === 10) {
             const {pageCount, ...restParams} = params
             setParams(restParams)
             return
         }
-        setParams({...params, pageCount: newPageCount})
+        setParams({...params, pageCount: newPageCount})*/
+
+        dispatch(setPageAC(+newPageCount))
     }
 
     useEffect(() => {

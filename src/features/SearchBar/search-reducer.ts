@@ -1,5 +1,8 @@
 import {RootStateType} from "../../app/store";
 
+export const pageDefault = 1;
+export const pageCountDefault = 10;
+
 const initialState = {
     packName: undefined as string | undefined,
     user_id: undefined as string | undefined,
@@ -11,17 +14,29 @@ const initialState = {
     cardAnswer: undefined as string | undefined,
     sortCards: undefined as string | undefined,
 
-    page: 1 as number | undefined,
-    pageCount: 10 as number | undefined,
+    page: pageDefault as number | undefined,
+    pageCount: pageCountDefault as number | undefined,
 }
 
 export  type SearchInitialStateType = typeof initialState
 export const searchReducer = (state: SearchInitialStateType = initialState, action: SearchActionType): SearchInitialStateType => {
     switch (action.type) {
         case 'search/SEARCH_PACKS_BY_NAME':
-        case 'search/SET_PACKS_BY_OWNER':
-        case 'search/SET_RANGE':
+        case 'search/SEARCH_PACKS_BY_OWNER':
+        case 'search/SET_PAGE':
+        case 'search/SET_PAGE_COUNT':
             return {...state, ...action.payload}
+        case 'search/SEARCH_BY_RANGE': {
+            let {min, max, minCardsCount, maxCardsCount} = action.payload
+            if (min === minCardsCount) {
+                min = undefined
+            }
+            if (max === maxCardsCount) {
+                max = undefined
+            }
+
+            return {...state, min, max}
+        }
         case 'search/CLEAR_FILTERS':
             return {
                 packName: undefined,
@@ -47,9 +62,11 @@ export const getSearchParams = (state: RootStateType): SearchInitialStateType =>
 //types
 export type SearchActionType =
     | ReturnType<typeof searchPacksByNameAC>
-    | ReturnType<typeof setPacksByOwnerAC>
-    | ReturnType<typeof setRangeAC>
-    | ReturnType<typeof clearFiltersAC>
+    | ReturnType<typeof searchPacksByOwnerAC>
+    | ReturnType<typeof searchByRangeAC>
+    | ReturnType<typeof setPageAC>
+    | ReturnType<typeof setPageCountAC>
+    | ReturnType<typeof clearSearchFiltersAC>
 
 // ACs
 export const searchPacksByNameAC = (packName: string) => {
@@ -58,20 +75,31 @@ export const searchPacksByNameAC = (packName: string) => {
         payload: {packName}
     } as const
 }
-export const setPacksByOwnerAC = (user_id: string | undefined = undefined) => {
+export const searchPacksByOwnerAC = (user_id: string | undefined = undefined) => {
     return {
-        type: 'search/SET_PACKS_BY_OWNER',
+        type: 'search/SEARCH_PACKS_BY_OWNER',
         payload: {user_id}
     } as const
 }
-export const setRangeAC = (min: number, max: number) => {
+export const searchByRangeAC = (min: number | undefined, max: number | undefined, minCardsCount: number, maxCardsCount: number) => {
     return {
-        type: 'search/SET_RANGE',
-        payload: {min, max}
+        type: 'search/SEARCH_BY_RANGE',
+        payload: {min, max, minCardsCount, maxCardsCount}
     } as const
 }
-
-export const clearFiltersAC = () => {
+export const setPageAC = (page: number) => {
+    return {
+        type: 'search/SET_PAGE',
+        payload: {page}
+    } as const
+}
+export const setPageCountAC = (pageCount: number) => {
+    return {
+        type: 'search/SET_PAGE_COUNT',
+        payload: {pageCount}
+    } as const
+}
+export const clearSearchFiltersAC = () => {
     return {
         type: 'search/CLEAR_FILTERS'
     } as const
