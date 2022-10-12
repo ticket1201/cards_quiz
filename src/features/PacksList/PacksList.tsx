@@ -196,8 +196,9 @@ const PacksList = () => {
             <div className={`${s.search}`}>
                 <Search searchHandler={searchHandler} searchValue={myOwnSearchParams.packName}/>
                 <PacksOwnerSort owner={myOwnSearchParams.user_id} packsOwnerHandler={packsOwnerHandler}/>
-                <RangeSlider minValue={minCardsCount} maxValue={maxCardsCount} currentMin={myOwnSearchParams.min}
-                             currentMax={myOwnSearchParams.max}
+                <RangeSlider minValue={minCardsCount} maxValue={maxCardsCount}
+                             currentMin={Number(myOwnSearchParams.min)}
+                             currentMax={Number(myOwnSearchParams.max)}
                              rangeSliderHandler={rangeHandler}/>
                 <ClearFilters clearHandler={clearFiltersHandler}/>
             </div>
