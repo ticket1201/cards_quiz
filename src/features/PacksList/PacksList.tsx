@@ -28,7 +28,7 @@ import {
     clearSearchFiltersAC, getSearchParams,
     searchByRangeAC,
     searchPacksByNameAC,
-    searchPacksByOwnerAC, setPageAC
+    searchPacksByOwnerAC, setPageAC, setPageCountAC
 } from "../SearchBar/search-reducer";
 
 
@@ -220,7 +220,7 @@ const PacksList = () => {
         }
         setParams({...params, pageCount: newPageCount})*/
 
-        dispatch(setPageAC(+newPageCount))
+        dispatch(setPageCountAC(+newPageCount))
     }
 
     useEffect(() => {

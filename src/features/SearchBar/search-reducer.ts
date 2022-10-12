@@ -21,11 +21,17 @@ const initialState = {
 export  type SearchInitialStateType = typeof initialState
 export const searchReducer = (state: SearchInitialStateType = initialState, action: SearchActionType): SearchInitialStateType => {
     switch (action.type) {
-        case 'search/SEARCH_PACKS_BY_NAME':
-        case 'search/SEARCH_PACKS_BY_OWNER':
-        case 'search/SET_PAGE':
-        case 'search/SET_PAGE_COUNT':
+        case 'search/SEARCH_PACKS_BY_NAME': {
+            let {packName} = action.payload
+            if (!packName) {
+                packName = undefined
+            }
+
+            return {...state, packName}
+        }
+        case 'search/SEARCH_PACKS_BY_OWNER': {
             return {...state, ...action.payload}
+        }
         case 'search/SEARCH_BY_RANGE': {
             let {min, max, minCardsCount, maxCardsCount} = action.payload
             if (min === minCardsCount) {
@@ -37,6 +43,9 @@ export const searchReducer = (state: SearchInitialStateType = initialState, acti
 
             return {...state, min, max}
         }
+        case 'search/SET_PAGE':
+        case 'search/SET_PAGE_COUNT':
+            return {...state, ...action.payload}
         case 'search/CLEAR_FILTERS':
             return {
                 packName: undefined,
@@ -69,7 +78,7 @@ export type SearchActionType =
     | ReturnType<typeof clearSearchFiltersAC>
 
 // ACs
-export const searchPacksByNameAC = (packName: string) => {
+export const searchPacksByNameAC = (packName: string | undefined) => {
     return {
         type: 'search/SEARCH_PACKS_BY_NAME',
         payload: {packName}
@@ -87,13 +96,13 @@ export const searchByRangeAC = (min: number | undefined, max: number | undefined
         payload: {min, max, minCardsCount, maxCardsCount}
     } as const
 }
-export const setPageAC = (page: number) => {
+export const setPageAC = (page: number | undefined) => {
     return {
         type: 'search/SET_PAGE',
         payload: {page}
     } as const
 }
-export const setPageCountAC = (pageCount: number) => {
+export const setPageCountAC = (pageCount: number | undefined) => {
     return {
         type: 'search/SET_PAGE_COUNT',
         payload: {pageCount}
