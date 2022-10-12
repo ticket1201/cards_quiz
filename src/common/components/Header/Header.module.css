@@ -48,11 +48,15 @@ header.bar{
     height: 5px;
 }
 
-a{
+span.name{
     color: black;
     font-weight: 600;
     text-decoration: underline;
     cursor: pointer;
+}
+
+.menu{
+    top: 20px;
 }
 
 .menuItem{
