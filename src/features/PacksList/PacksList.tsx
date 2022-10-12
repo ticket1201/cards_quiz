@@ -30,6 +30,7 @@ import {
     searchPacksByOwnerAC, setPageAC, setPageCountAC
 } from "../SearchBar/search-reducer";
 import {convertObjectToSearchParam} from "../../common/utils/convertObjectToSearchParam";
+import {GetPacksParamsType} from "../../api/api";
 
 
 const PacksList = () => {
@@ -199,9 +200,7 @@ const PacksList = () => {
         setSearchParam(myQuerySearchParams)
 
         let id = setTimeout(() => {
-            let sendParams: {};
-            sendParams = {...myQuerySearchParams, pageCount: selectedPagesCount ?? 10}
-            // sendParams['user_id'] = authId
+            let sendParams: GetPacksParamsType = {...myQuerySearchParams, pageCount: selectedPagesCount ?? 10}
             if (sendParams.hasOwnProperty('user_id')) {
                 sendParams = {...sendParams, ['user_id']: authId}
             }
