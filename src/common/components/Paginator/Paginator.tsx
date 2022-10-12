@@ -3,6 +3,7 @@ import Pagination from '@mui/material/Pagination';
 import MenuItem from '@mui/material/MenuItem';
 import Select, {SelectChangeEvent} from '@mui/material/Select';
 import s from './Paginator.module.css'
+import {pageCountDefault} from "../../../features/SearchBar/search-reducer";
 
 type PaginatorPropsType = {
     currentPage: number
@@ -44,7 +45,7 @@ export const Paginator: React.FC<PaginatorPropsType> = ({
                 <Select
                     autoWidth
                     size="small"
-                    value={selectedPagesCount ? selectedPagesCount : '10'}
+                    value={selectedPagesCount ? selectedPagesCount : pageCountDefault.toString()}
                     // value={selectedPagesCount}
                     onChange={changeSelect}>
                     <MenuItem value={10}>10</MenuItem>

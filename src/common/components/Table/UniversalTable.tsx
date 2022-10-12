@@ -44,7 +44,6 @@ const UniversalTable = ({
         }
     }
 
-
     const onSortModelChangeHandler = (model: GridSortModel) => {
         const field = model[0].field;
         const sort = model[0].sort;

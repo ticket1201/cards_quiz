@@ -22,7 +22,7 @@ import {DeleteModal} from '../Modals/DeleteModal';
 import {convertDateFromIso8601} from '../../common/utils/convertDate';
 import {commonModalState, CommonModalStateType} from '../Modals/commonTypes';
 import {
-    clearSearchFiltersAC, getSearchParams,
+    clearSearchFiltersAC, getSearchParams, pageCountDefault,
     searchByRangeAC,
     searchPacksByNameAC,
     searchPacksByOwnerAC, setPageAC, setPageCountAC
@@ -126,7 +126,7 @@ const PacksList = () => {
 
 
     // Search, filtration, pagination logic
-    let selectedPagesCount = myOwnSearchParams.pageCount ?? 10
+    let selectedPagesCount = myOwnSearchParams.pageCount ?? pageCountDefault
 
     const searchHandler = (value: string) => {
         dispatch(searchPacksByNameAC(value))
@@ -157,7 +157,7 @@ const PacksList = () => {
 
         let id = setTimeout(() => {
             let sendParams: {}
-            sendParams = {...myQuerySearchParams, pageCount: selectedPagesCount ?? 10}
+            sendParams = {...myQuerySearchParams, pageCount: selectedPagesCount}
             if (sendParams.hasOwnProperty('user_id')) {
                 sendParams = {...sendParams, ['user_id']: authId}
             }
@@ -190,10 +190,8 @@ const PacksList = () => {
             <UniversalTable
                 columns={columns}
                 rows={cardPacks}
-                pageSize={selectedPagesCount ? +selectedPagesCount : 10}
+                pageSize={selectedPagesCount}
                 loading={loading === 'loading'}
-                // onSortModelChange={onSortModelChangeHandler}
-                // initialState={initialState}
                 sortParam={myOwnSearchParams.sortPacks}
                 sortName={'sortPacks'}
             />
