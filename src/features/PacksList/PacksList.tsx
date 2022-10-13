@@ -125,7 +125,7 @@ const PacksList = () => {
     }
 
     const startLearningHandler = (packId: string) => {
-        navigate(`${Path.LearnPage}/${packId}`, {state: 'packsList'});
+        navigate(`${Path.LearnPage}/${packId}`);
     }
 
 

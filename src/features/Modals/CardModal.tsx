@@ -20,9 +20,11 @@ type CardModalType = {
     onClose: () => void
 }
 
-type CardModalFormData = {
+type CardModalFormType = {
     question: string
     answer: string
+    questionFile: FileList
+    answerFile: FileList
 }
 
 export const CardModal: React.FC<CardModalType> = ({data, isOpen, onClose}) => {
@@ -39,8 +41,9 @@ export const CardModal: React.FC<CardModalType> = ({data, isOpen, onClose}) => {
         handleSubmit,
         reset,
         resetField,
+        clearErrors,
         formState: {errors}
-    } = useForm<CardModalFormData>({
+    } = useForm<CardModalFormType>({
         defaultValues: {
             question: inputValues[0],
             answer: inputValues[1]
@@ -48,17 +51,20 @@ export const CardModal: React.FC<CardModalType> = ({data, isOpen, onClose}) => {
         mode: 'onSubmit'
     });
 
-    const onSubmit: SubmitHandler<CardModalFormData> = data => {
-        if (_id && (data.question !== question || data.answer !== answer || questionImg !== questionURL || answerImg !== answerURL)) {
-            dispatch(updateCardTC({_id, ...data, questionImg, answerImg}))
+    const onSubmit: SubmitHandler<CardModalFormType> = data => {
+        const {questionFile, answerFile, ...restData} = data
+        if (_id && (restData.question !== question || restData.answer !== answer || questionImg !== questionURL || answerImg !== answerURL)) {
+            dispatch(updateCardTC({_id, ...restData, questionImg, answerImg}))
         } else if (!_id) {
-            dispatch(createCardTC({cardsPack_id, ...data, questionImg, answerImg}))
+            dispatch(createCardTC({cardsPack_id, ...restData, questionImg, answerImg}))
         }
         closeHandler()
     }
     const closeHandler = () => {
         resetField('question')
         resetField('answer')
+        resetField('questionFile')
+        resetField('answerFile')
         onClose()
         setInputValues(['', ''])
         setQuestionImg('')
@@ -67,11 +73,20 @@ export const CardModal: React.FC<CardModalType> = ({data, isOpen, onClose}) => {
 
     const onQuestionChangeHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setInputValues([e.currentTarget.value, inputValues[1]])
+        clearErrors('question')
     }
     const onAnswerChangeHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setInputValues([inputValues[0], e.currentTarget.value])
+        clearErrors('answer')
     }
-
+    const onQuestionImgChangeHandler = (imgURL: string) => {
+        setQuestionImg(imgURL)
+        clearErrors('questionFile')
+    }
+    const onAnswerImgChangeHandler = (imgURL: string) => {
+        setAnswerImg(imgURL)
+        clearErrors('answerFile')
+    }
     const handleChange = (event: SelectChangeEvent) => {
         setQuestionType(event.target.value as string);
     };
@@ -125,12 +140,21 @@ export const CardModal: React.FC<CardModalType> = ({data, isOpen, onClose}) => {
                             {errors.answer && <div style={{color: 'red'}}>{errors.answer.message}</div>}</>
                         : <><UploadButton title={'Upload question image'}
                                           label={'Question:'}
+                                          name={'questionFile'}
                                           imgURL={questionImg}
-                                          saveImgUrl={setQuestionImg}/>
+                                          register={register}
+                                          options={questionImg ? undefined : {required: 'Question is required'}}
+                                          saveImgUrl={onQuestionImgChangeHandler}/>
+                            {errors.questionFile && <div style={{color: 'red'}}>{errors.questionFile.message}</div>}
                             <UploadButton title={'Upload answer image'}
                                           label={'Answer:'}
+                                          name={'answerFile'}
                                           imgURL={answerImg}
-                                          saveImgUrl={setAnswerImg}/></>}
+                                          register={register}
+                                          options={answerImg ? undefined : {required: 'Answer is required'}}
+                                          saveImgUrl={onAnswerImgChangeHandler}/>
+                            {errors.answerFile && <div style={{color: 'red'}}>{errors.answerFile.message}</div>}</>}
+
 
                     <Stack spacing={2} direction={'row'} justifyContent={'space-between'} sx={{marginTop: '35px'}}>
                         <Button variant={'outlined'}

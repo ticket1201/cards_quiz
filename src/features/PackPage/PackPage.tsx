@@ -102,6 +102,8 @@ const PackPage = () => {
     const [searchParam, setSearchParam] = useSearchParams()
 
     const isOwner = authId === packUserId
+    const someFilters = Object.keys(myQuerySearchParams).length > 0
+
     let renderColumns = columns
     if (!isOwner) {
         renderColumns = columns.filter(e => e.field !== 'actions')
@@ -166,7 +168,7 @@ const PackPage = () => {
     }
 
     const startLearningHandler = () => {
-        navigate(`${Path.LearnPage}/${packId}`, {state: 'packPage'});
+        navigate(`${Path.LearnPage}/${packId}`);
     }
 
     const ownerBar = isOwner
@@ -208,9 +210,9 @@ const PackPage = () => {
     return (
         <div className={`content-wrapper ${s.content}`}>
             <div className={c.backToPacks}>
-                <BackToPacksList fromCards/>
+                <BackToPacksList/>
             </div>
-            {cardsTotalCount
+            {cardsTotalCount || someFilters
                 ? <>
                     <Grid flexDirection={'row'} justifyContent={'space-between'} className={s.title}>
                         {ownerBar}
@@ -229,7 +231,7 @@ const PackPage = () => {
                     <UniversalTable
                         columns={renderColumns}
                         rows={cards}
-                        pageSize={selectedPagesCount}
+                        pageSize={+selectedPagesCount}
                         loading={loading === 'loading'}
                         sortParam={myOwnSearchParams.sortCards}
                         sortName={'sortCards'}
