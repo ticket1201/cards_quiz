@@ -1,4 +1,4 @@
-import {RootStateType} from "../../app/store";
+// import {RootStateType} from "../../app/store";
 import {SortNameType} from "./search-constants";
 
 const initialState = {
@@ -82,7 +82,7 @@ export const searchReducer = (state: SearchInitialStateType = initialState, acti
 }
 
 // selector
-export const selectSearchParams = (state: RootStateType): SearchInitialStateType => state.search;
+// export const selectSearchParams = (state: RootStateType): SearchInitialStateType => state.search;
 
 //types
 export type SearchActionType =

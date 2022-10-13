@@ -4,7 +4,7 @@ import {appReducer} from './app_reducer';
 import thunk, {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {packReducer} from '../features/PacksList/pack_reducer';
 import {cardsReducer} from '../features/PackPage/cards_reducer';
-import {searchReducer} from '../features/SearchBar/search-reducer';
+// import {searchReducer} from '../features/SearchBar/search-reducer';
 import {modalReducer} from '../features/Modals/modal_reducer';
 import {packSearchReducer} from "../features/PacksList/pack-search-reducer";
 import {cardSearchReducer} from "../features/PackPage/card-search-reducer";
@@ -14,7 +14,7 @@ const rootReducer = combineReducers({
     app: appReducer,
     packs: packReducer,
     cards: cardsReducer,
-    search: searchReducer,
+    // search: searchReducer,
     cardSearch: cardSearchReducer,
     packSearch: packSearchReducer,
     modals: modalReducer
