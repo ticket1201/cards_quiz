@@ -66,7 +66,7 @@ export const packSearchReducer = (state: SearchPackInitialStateType = initialSta
 }
 
 // selector
-export const selectPackSearchParams = (state: RootStateType): SearchPackInitialStateType => state.packSearch;
+export const selectSearchPackParams = (state: RootStateType): SearchPackInitialStateType => state.packSearch;
 
 //types
 export type SearchActionType =

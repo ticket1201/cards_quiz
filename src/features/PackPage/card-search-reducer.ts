@@ -54,7 +54,7 @@ export const cardSearchReducer = (state: SearchCardInitialStateType = initialSta
 }
 
 // selector
-export const selectCardSearchParams = (state: RootStateType): SearchCardInitialStateType => state.cardSearch;
+export const selectSearchCardParams = (state: RootStateType): SearchCardInitialStateType => state.cardSearch;
 
 //types
 export type SearchActionType =
