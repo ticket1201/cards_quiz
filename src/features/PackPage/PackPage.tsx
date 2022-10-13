@@ -25,7 +25,7 @@ import {convertDateFromIso8601} from '../../common/utils/convertDate';
 import {commonModalState, CommonModalStateType} from '../Modals/commonTypes';
 import {
     clearSearchFiltersAC,
-    getSearchParams,
+    selectSearchParams,
     pageCountDefault, searchCardsByQuestionAC,
     setPageAC,
     setPageCountAC
@@ -92,7 +92,7 @@ const PackPage = () => {
     const navigate = useNavigate()
     const {packId} = useParams()
 
-    const myOwnSearchParams = useAppSelector(getSearchParams)
+    const myOwnSearchParams = useAppSelector(selectSearchParams)
     const myQuerySearchParams = convertObjectToSearchParam(myOwnSearchParams)
     const [searchParam, setSearchParam] = useSearchParams(myQuerySearchParams)
 

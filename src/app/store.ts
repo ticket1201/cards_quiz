@@ -6,6 +6,8 @@ import {packReducer} from '../features/PacksList/pack_reducer';
 import {cardsReducer} from '../features/PackPage/cards_reducer';
 import {searchReducer} from '../features/SearchBar/search-reducer';
 import {modalReducer} from '../features/Modals/modal_reducer';
+import {packSearchReducer} from "../features/PacksList/pack-search-reducer";
+import {cardSearchReducer} from "../features/PackPage/card-search-reducer";
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -13,6 +15,8 @@ const rootReducer = combineReducers({
     packs: packReducer,
     cards: cardsReducer,
     search: searchReducer,
+    cardSearch: cardSearchReducer,
+    packSearch: packSearchReducer,
     modals: modalReducer
     /// add your reducer here
 })

@@ -22,7 +22,7 @@ import {DeleteModal} from '../Modals/DeleteModal';
 import {convertDateFromIso8601} from '../../common/utils/convertDate';
 import {commonModalState, CommonModalStateType} from '../Modals/commonTypes';
 import {
-    clearSearchFiltersAC, getSearchParams, pageCountDefault,
+    clearSearchFiltersAC, selectSearchParams, pageCountDefault,
     searchByRangeAC,
     searchPacksByNameAC,
     searchPacksByOwnerAC, setAllAC, setPageAC, setPageCountAC
@@ -95,7 +95,7 @@ const PacksList = () => {
 
     const [modalData, setModalData] = useState<CommonModalStateType>(commonModalState)
 
-    const myOwnSearchParams = useAppSelector(getSearchParams)
+    const myOwnSearchParams = useAppSelector(selectSearchParams)
     const myQuerySearchParams = convertObjectToSearchParam(myOwnSearchParams)
 
     const [searchParam, setSearchParam] = useSearchParams()

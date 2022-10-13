@@ -20,7 +20,7 @@ const initialState = {
 }
 
 export  type SearchInitialStateType = typeof initialState
-export const searchReducer = (state: SearchInitialStateType = initialState, action: SearchActionType): SearchInitialStateType => {
+export const cardSearchReducer = (state: SearchInitialStateType = initialState, action: SearchActionType): SearchInitialStateType => {
     switch (action.type) {
         case 'search/SEARCH_PACKS_BY_NAME': {
             let {packName} = action.payload
@@ -85,7 +85,7 @@ export const searchReducer = (state: SearchInitialStateType = initialState, acti
 }
 
 // selector
-export const selectSearchParams = (state: RootStateType): SearchInitialStateType => state.search;
+export const selectCardSearchParams = (state: RootStateType): SearchInitialStateType => state.cardSearch;
 
 //types
 export type SearchActionType =
