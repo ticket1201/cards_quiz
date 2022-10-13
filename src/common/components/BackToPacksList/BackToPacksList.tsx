@@ -5,22 +5,12 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import s from './BackToPacksList.module.css';
 import Typography from '@mui/material/Typography';
 
-type BackToPacksListType = {
-    fromPacks?: boolean
-    fromCards?: boolean
-}
 
-export const BackToPacksList: React.FC<BackToPacksListType> = ({fromPacks, fromCards}) => {
+export const BackToPacksList = () => {
 
     const navigate = useNavigate()
     const navigationHandler = () => {
-        if (fromPacks) {
-            navigate(-1)
-        } else if (fromCards) {
-            navigate(-3)
-        } else {
-            navigate(`/${Path.PacksList}`)
-        }
+        navigate(`/${Path.PacksList}`)
     }
 
     return (
