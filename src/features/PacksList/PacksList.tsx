@@ -21,15 +21,16 @@ import {PackModal} from '../Modals/PackModal';
 import {DeleteModal} from '../Modals/DeleteModal';
 import {convertDateFromIso8601} from '../../common/utils/convertDate';
 import {commonModalState, CommonModalStateType} from '../Modals/commonTypes';
-import {
-    clearSearchFiltersAC, selectSearchParams,
-    searchByRangeAC,
-    searchPacksByNameAC,
-    searchPacksByOwnerAC, setAllAC, setPageAC, setPageCountAC
-} from "../SearchBar/search-reducer";
 import {convertObjectToSearchParam} from "../../common/utils/convertObjectToSearchParam";
 import {serializeFormQuery} from "../../common/utils/serializeFormQuery";
 import {pageCountDefault} from "../SearchBar/search-constants";
+import {
+    clearPackSearchFiltersAC,
+    searchPacksByNameAC,
+    searchPacksByOwnerAC,
+    searchPacksByRangeAC,
+    selectSearchPackParams, setPackAllAC, setPackPageAC, setPackPageCountAC
+} from "./pack-search-reducer";
 
 
 const PacksList = () => {
@@ -96,7 +97,7 @@ const PacksList = () => {
 
     const [modalData, setModalData] = useState<CommonModalStateType>(commonModalState)
 
-    const myOwnSearchParams = useAppSelector(selectSearchParams)
+    const myOwnSearchParams = useAppSelector(selectSearchPackParams)
     const myQuerySearchParams = convertObjectToSearchParam(myOwnSearchParams)
 
     const [searchParam, setSearchParam] = useSearchParams()
@@ -137,7 +138,7 @@ const PacksList = () => {
     }
 
     const rangeHandler = (min: number, max: number) => {
-        dispatch(searchByRangeAC(min, max, minCardsCount, maxCardsCount))
+        dispatch(searchPacksByRangeAC(min, max, minCardsCount, maxCardsCount))
     }
 
     const packsOwnerHandler = (user_id: string) => {
@@ -145,15 +146,15 @@ const PacksList = () => {
     }
 
     const clearFiltersHandler = () => {
-        dispatch(clearSearchFiltersAC())
+        dispatch(clearPackSearchFiltersAC())
     }
 
     const paginationHandler = (currentPage: number) => {
-        dispatch(setPageAC(currentPage))
+        dispatch(setPackPageAC(currentPage))
     }
 
     const pagesCountHandler = (newPageCount: string) => {
-        dispatch(setPageCountAC(+newPageCount))
+        dispatch(setPackPageCountAC(+newPageCount))
     }
 
     useEffect(() => {
@@ -175,11 +176,11 @@ const PacksList = () => {
     // just to delete search parameters
     useEffect(() => {
         const params = serializeFormQuery(searchParam)
-        dispatch(setAllAC(params))
+        dispatch(setPackAllAC(params))
 
-        return () => {
-            dispatch(clearSearchFiltersAC())
-        }
+        /*return () => {
+            dispatch(clearPackSearchFiltersAC())
+        }*/
     }, [])
 
     return (

@@ -72,12 +72,12 @@ export const selectSearchPackParams = (state: RootStateType): SearchPackInitialS
 export type SearchActionType =
     | ReturnType<typeof searchPacksByNameAC>
     | ReturnType<typeof searchPacksByOwnerAC>
-    | ReturnType<typeof searchByRangeAC>
-    | ReturnType<typeof setPageAC>
-    | ReturnType<typeof setPageCountAC>
-    | ReturnType<typeof setSortParamsAC>
-    | ReturnType<typeof clearSearchFiltersAC>
-    | ReturnType<typeof setAllAC>
+    | ReturnType<typeof searchPacksByRangeAC>
+    | ReturnType<typeof setPackPageAC>
+    | ReturnType<typeof setPackPageCountAC>
+    | ReturnType<typeof setPackSortParamsAC>
+    | ReturnType<typeof clearPackSearchFiltersAC>
+    | ReturnType<typeof setPackAllAC>
 
 // ACs
 export const searchPacksByNameAC = (packName: string | undefined) => {
@@ -92,36 +92,36 @@ export const searchPacksByOwnerAC = (user_id: string | undefined = undefined) =>
         payload: {user_id}
     } as const
 }
-export const searchByRangeAC = (min: number | null, max: number | null, minCardsCount: number, maxCardsCount: number) => {
+export const searchPacksByRangeAC = (min: number | null, max: number | null, minCardsCount: number, maxCardsCount: number) => {
     return {
         type: 'searchPack/SEARCH_BY_RANGE',
         payload: {min, max, minCardsCount, maxCardsCount}
     } as const
 }
-export const setPageAC = (page: number | null) => {
+export const setPackPageAC = (page: number | null) => {
     return {
         type: 'searchPack/SET_PAGE',
         payload: {page}
     } as const
 }
-export const setPageCountAC = (pageCount: number | null) => {
+export const setPackPageCountAC = (pageCount: number | null) => {
     return {
         type: 'searchPack/SET_PAGE_COUNT',
         payload: {pageCount}
     } as const
 }
-export const setSortParamsAC = (sortName: SortNameType, sortValue: string | undefined) => {
+export const setPackSortParamsAC = (sortName: SortNameType, sortValue: string | undefined) => {
     return {
         type: 'searchPack/SET_SORT_PARAMS',
         payload: {sortName, sortValue}
     } as const
 }
-export const clearSearchFiltersAC = () => {
+export const clearPackSearchFiltersAC = () => {
     return {
         type: 'searchPack/CLEAR_FILTERS'
     } as const
 }
-export const setAllAC = (all: any) => {
+export const setPackAllAC = (all: any) => {
     return {
         type: 'searchPack/SET_ALL',
         payload: all
