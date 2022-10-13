@@ -23,15 +23,16 @@ import {PackModal} from '../Modals/PackModal';
 import {BackToPacksList} from '../../common/components/BackToPacksList/BackToPacksList';
 import {convertDateFromIso8601} from '../../common/utils/convertDate';
 import {commonModalState, CommonModalStateType} from '../Modals/commonTypes';
-import {
-    clearSearchFiltersAC,
-    selectSearchParams,
-    searchCardsByQuestionAC,
-    setPageAC,
-    setPageCountAC
-} from "../SearchBar/search-reducer";
 import {convertObjectToSearchParam} from "../../common/utils/convertObjectToSearchParam";
 import {pageCountDefault} from "../SearchBar/search-constants";
+import {serializeFormQuery} from "../../common/utils/serializeFormQuery";
+import {
+    searchCardsByQuestionAC,
+    selectSearchCardParams,
+    setCardAllAC,
+    setCardPageAC,
+    setCardPageCountAC
+} from "./card-search-reducer";
 
 const PackPage = () => {
 
@@ -93,11 +94,12 @@ const PackPage = () => {
     const navigate = useNavigate()
     const {packId} = useParams()
 
-    const myOwnSearchParams = useAppSelector(selectSearchParams)
-    const myQuerySearchParams = convertObjectToSearchParam(myOwnSearchParams)
-    const [searchParam, setSearchParam] = useSearchParams(myQuerySearchParams)
-
     const [modalData, setModalData] = useState<CommonModalStateType>(commonModalState)
+
+    const myOwnSearchParams = useAppSelector(selectSearchCardParams)
+    const myQuerySearchParams = convertObjectToSearchParam(myOwnSearchParams)
+
+    const [searchParam, setSearchParam] = useSearchParams()
 
     const isOwner = authId === packUserId
     let renderColumns = columns
@@ -156,11 +158,11 @@ const PackPage = () => {
     }
 
     const paginationHandler = (currentPage: number) => {
-        dispatch(setPageAC(currentPage))
+        dispatch(setCardPageAC(currentPage))
     }
 
     const pagesCountHandler = (newPageCount: string) => {
-        dispatch(setPageCountAC(+newPageCount))
+        dispatch(setCardPageCountAC(+newPageCount))
     }
 
     const startLearningHandler = () => {
@@ -192,9 +194,12 @@ const PackPage = () => {
 
     // just to delete search parameters
     useEffect(() => {
-        return () => {
-            dispatch(clearSearchFiltersAC())
-        }
+        const params = serializeFormQuery(searchParam)
+        dispatch(setCardAllAC(params))
+
+        /*return () => {
+            dispatch(clearCardSearchFiltersAC())
+        }*/
     }, [])
 
     if (!packUserId)

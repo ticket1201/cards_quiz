@@ -93,8 +93,7 @@ const PacksList = () => {
     const loading = useAppSelector(state => state.app.status)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
-
-
+    
     const [modalData, setModalData] = useState<CommonModalStateType>(commonModalState)
 
     const myOwnSearchParams = useAppSelector(selectSearchPackParams)

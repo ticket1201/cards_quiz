@@ -37,7 +37,7 @@ export const cardSearchReducer = (state: SearchCardInitialStateType = initialSta
         case 'searchCard/SET_PAGE_COUNT':
         case 'searchCard/SET_ALL':
             return {...state, ...action.payload}
-        case 'searchCard/CLEAR_FILTERS':
+        /*case 'searchCard/CLEAR_FILTERS':
             return {
                 // min: null,
                 // max: null,
@@ -47,7 +47,7 @@ export const cardSearchReducer = (state: SearchCardInitialStateType = initialSta
                 cardsPack_id: undefined,
                 page: null,
                 pageCount: null,
-            }
+            }*/
         default:
             return state
     }
@@ -60,11 +60,11 @@ export const selectSearchCardParams = (state: RootStateType): SearchCardInitialS
 export type SearchActionType =
     | ReturnType<typeof searchCardsByQuestionAC>
     // | ReturnType<typeof searchByRangeAC>
-    | ReturnType<typeof setPageAC>
-    | ReturnType<typeof setPageCountAC>
-    | ReturnType<typeof setSortParamsAC>
-    | ReturnType<typeof clearSearchFiltersAC>
-    | ReturnType<typeof setAllAC>
+    | ReturnType<typeof setCardPageAC>
+    | ReturnType<typeof setCardPageCountAC>
+    | ReturnType<typeof setCardSortParamsAC>
+    // | ReturnType<typeof clearCardSearchFiltersAC>
+    | ReturnType<typeof setCardAllAC>
 
 // ACs
 export const searchCardsByQuestionAC = (cardQuestion: string | undefined) => {
@@ -79,30 +79,30 @@ export const searchCardsByQuestionAC = (cardQuestion: string | undefined) => {
         payload: {min, max, minCardsCount, maxCardsCount}
     } as const
 }*/
-export const setPageAC = (page: number | null) => {
+export const setCardPageAC = (page: number | null) => {
     return {
         type: 'searchCard/SET_PAGE',
         payload: {page}
     } as const
 }
-export const setPageCountAC = (pageCount: number | null) => {
+export const setCardPageCountAC = (pageCount: number | null) => {
     return {
         type: 'searchCard/SET_PAGE_COUNT',
         payload: {pageCount}
     } as const
 }
-export const setSortParamsAC = (sortName: SortNameType, sortValue: string | undefined) => {
+export const setCardSortParamsAC = (sortName: SortNameType, sortValue: string | undefined) => {
     return {
         type: 'searchCard/SET_SORT_PARAMS',
         payload: {sortName, sortValue}
     } as const
 }
-export const clearSearchFiltersAC = () => {
+/*export const clearCardSearchFiltersAC = () => {
     return {
         type: 'searchCard/CLEAR_FILTERS'
     } as const
-}
-export const setAllAC = (all: any) => {
+}*/
+export const setCardAllAC = (all: any) => {
     return {
         type: 'searchCard/SET_ALL',
         payload: all
