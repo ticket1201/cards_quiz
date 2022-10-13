@@ -24,6 +24,11 @@
     align-items: center;
 }
 
+.cover {
+    max-width: 90%;
+    max-height: 90%;
+}
+
 @media screen and (max-width: 1000px) {
     .search {
         flex-direction: column;

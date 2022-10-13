@@ -31,11 +31,20 @@ import {
     searchPacksByRangeAC,
     selectSearchPackParams, setPackAllAC, setPackPageAC, setPackPageCountAC
 } from "./pack-search-reducer";
-
+import deckCoverDefault from '../../assets/images/deckCoverDefault.png'
 
 const PacksList = () => {
 
     const columns: GridColDef[] = [
+        {
+            field: 'deckCover',
+            headerName: 'Cover',
+            // flex: 1,
+            renderCell: (params) => (params.row.deckCover
+                    ? <img className={s.cover} src={params.row.deckCover} alt={'deck cover'}/>
+                    : <img className={s.cover} src={deckCoverDefault} alt={'deck cover'}/>
+            )
+        },
         {
             field: 'name',
             headerName: 'Name',
@@ -93,7 +102,7 @@ const PacksList = () => {
     const loading = useAppSelector(state => state.app.status)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    
+
     const [modalData, setModalData] = useState<CommonModalStateType>(commonModalState)
 
     const myOwnSearchParams = useAppSelector(selectSearchPackParams)
