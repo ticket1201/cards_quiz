@@ -14,6 +14,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import Button from '@mui/material/Button';
 import {Preloader} from '../../common/components/Preloader/Preloader';
 import {BackToPacksList} from '../../common/components/BackToPacksList/BackToPacksList';
+import c from "../PackPage/PackPage.module.css";
 
 const grades = ['Did not know', 'Forgot', 'A lot of thought', 'Confused', 'Knew the answer'];
 
@@ -125,7 +126,9 @@ const Learn = () => {
             <Card sx={{minWidth: 300}}>
                 <CardContent>
                     <div>
-                        <span className={styles.QA}>Question: </span>{card.question}
+                        <span className={styles.QA}>Question: </span>{card.questionImg
+                        ? <img className={c.imageQA} src={card.questionImg} alt={'question image'}/>
+                        : card.question}
                     </div>
                     <div className={styles.shots}>
                         Count of tries: <span className={styles.shotsNumber}>{card.shots}</span>
@@ -143,7 +146,9 @@ const Learn = () => {
                     {showAnswer && (
                         <div>
                             <div className={styles.answer}>
-                                <span className={styles.QA}>Answer: </span>{card.answer}
+                                <span className={styles.QA}>Answer: </span>{card.answerImg
+                                ? <img className={c.imageQA} src={card.answerImg} alt={'question image'}/>
+                                : card.answer}
                             </div>
                             <FormControl>
                                 <FormLabel>Rate yourself</FormLabel>
