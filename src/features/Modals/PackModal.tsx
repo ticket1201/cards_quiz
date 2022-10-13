@@ -21,6 +21,7 @@ type PackModalType = {
 type PackModalFormType = {
     name: string
     private: boolean
+    coverFile: FileList
 }
 
 export const PackModal: React.FC<PackModalType> = ({data, isOpen, onClose}) => {
@@ -48,10 +49,11 @@ export const PackModal: React.FC<PackModalType> = ({data, isOpen, onClose}) => {
     });
 
     const onSubmit: SubmitHandler<PackModalFormType> = data => {
-        if (_id && (data.name !== name || data.private !== isPrivate || deckCover !== packCover)) {
-            dispatch(updatePackTC({_id, ...data, deckCover}))
+        const {coverFile, ...restData} = data
+        if (_id && (restData.name !== name || restData.private !== isPrivate || deckCover !== packCover)) {
+            dispatch(updatePackTC({_id, ...restData, deckCover}))
         } else if (!_id) {
-            dispatch(createPackTC({...data, deckCover}))
+            dispatch(createPackTC({...restData, deckCover}))
         }
         closeHandler()
     }
@@ -90,7 +92,11 @@ export const PackModal: React.FC<PackModalType> = ({data, isOpen, onClose}) => {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FormGroup>
 
-                    <UploadButton title={'Upload pack cover'} imgURL={deckCover} saveImgUrl={setDeckCover}/>
+                    <UploadButton title={'Upload pack cover'}
+                                  imgURL={deckCover}
+                                  name={'coverFile'}
+                                  register={register}
+                                  saveImgUrl={setDeckCover}/>
 
                     <TextField label="Pack name"
                                variant="standard"
