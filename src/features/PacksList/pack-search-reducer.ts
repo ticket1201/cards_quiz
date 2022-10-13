@@ -15,7 +15,7 @@ const initialState = {
 export  type SearchPackInitialStateType = typeof initialState
 export const packSearchReducer = (state: SearchPackInitialStateType = initialState, action: SearchActionType): SearchPackInitialStateType => {
     switch (action.type) {
-        case 'search/SEARCH_PACKS_BY_NAME': {
+        case 'searchPack/SEARCH_PACKS_BY_NAME': {
             let {packName} = action.payload
             if (!packName) {
                 packName = undefined
@@ -23,10 +23,10 @@ export const packSearchReducer = (state: SearchPackInitialStateType = initialSta
 
             return {...state, packName}
         }
-        case 'search/SEARCH_PACKS_BY_OWNER': {
+        case 'searchPack/SEARCH_PACKS_BY_OWNER': {
             return {...state, ...action.payload}
         }
-        case 'search/SEARCH_BY_RANGE': {
+        case 'searchPack/SEARCH_BY_RANGE': {
             let {min, max, minCardsCount, maxCardsCount} = action.payload
             if (min === minCardsCount) {
                 min = null
@@ -37,7 +37,7 @@ export const packSearchReducer = (state: SearchPackInitialStateType = initialSta
 
             return {...state, min, max}
         }
-        case "search/SET_SORT_PARAMS": {
+        case "searchPack/SET_SORT_PARAMS": {
             if (action.payload.sortName) {
                 return {
                     ...state,
@@ -46,11 +46,11 @@ export const packSearchReducer = (state: SearchPackInitialStateType = initialSta
             }
             return state
         }
-        case 'search/SET_PAGE':
-        case 'search/SET_PAGE_COUNT':
-        case 'search/SET_ALL':
+        case 'searchPack/SET_PAGE':
+        case 'searchPack/SET_PAGE_COUNT':
+        case 'searchPack/SET_ALL':
             return {...state, ...action.payload}
-        case 'search/CLEAR_FILTERS':
+        case 'searchPack/CLEAR_FILTERS':
             return {
                 packName: undefined,
                 user_id: undefined,
@@ -82,48 +82,48 @@ export type SearchActionType =
 // ACs
 export const searchPacksByNameAC = (packName: string | undefined) => {
     return {
-        type: 'search/SEARCH_PACKS_BY_NAME',
+        type: 'searchPack/SEARCH_PACKS_BY_NAME',
         payload: {packName}
     } as const
 }
 export const searchPacksByOwnerAC = (user_id: string | undefined = undefined) => {
     return {
-        type: 'search/SEARCH_PACKS_BY_OWNER',
+        type: 'searchPack/SEARCH_PACKS_BY_OWNER',
         payload: {user_id}
     } as const
 }
 export const searchByRangeAC = (min: number | null, max: number | null, minCardsCount: number, maxCardsCount: number) => {
     return {
-        type: 'search/SEARCH_BY_RANGE',
+        type: 'searchPack/SEARCH_BY_RANGE',
         payload: {min, max, minCardsCount, maxCardsCount}
     } as const
 }
 export const setPageAC = (page: number | null) => {
     return {
-        type: 'search/SET_PAGE',
+        type: 'searchPack/SET_PAGE',
         payload: {page}
     } as const
 }
 export const setPageCountAC = (pageCount: number | null) => {
     return {
-        type: 'search/SET_PAGE_COUNT',
+        type: 'searchPack/SET_PAGE_COUNT',
         payload: {pageCount}
     } as const
 }
 export const setSortParamsAC = (sortName: SortNameType, sortValue: string | undefined) => {
     return {
-        type: 'search/SET_SORT_PARAMS',
+        type: 'searchPack/SET_SORT_PARAMS',
         payload: {sortName, sortValue}
     } as const
 }
 export const clearSearchFiltersAC = () => {
     return {
-        type: 'search/CLEAR_FILTERS'
+        type: 'searchPack/CLEAR_FILTERS'
     } as const
 }
 export const setAllAC = (all: any) => {
     return {
-        type: 'search/SET_ALL',
+        type: 'searchPack/SET_ALL',
         payload: all
     } as const
 }
