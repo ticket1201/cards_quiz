@@ -1,8 +1,5 @@
 import {RootStateType} from "../../app/store";
-
-export const pageDefault = 1;
-export const pageCountDefault = 10;
-export type SortNameType = 'sortPacks' | 'sortCards' | undefined
+import {SortNameType} from "../SearchBar/search-constants";
 
 const initialState = {
     packName: undefined as string | undefined,
