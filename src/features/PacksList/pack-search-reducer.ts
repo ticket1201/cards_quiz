@@ -7,17 +7,13 @@ const initialState = {
     min: null as number | null,
     max: null as number | null,
     sortPacks: undefined as string | undefined,
-    cardsPack_id: undefined as string | undefined,
-    cardQuestion: undefined as string | undefined,
-    cardAnswer: undefined as string | undefined,
-    sortCards: undefined as string | undefined,
 
     page: null as number | null,
     pageCount: null as number | null,
 }
 
-export  type SearchInitialStateType = typeof initialState
-export const packSearchReducer = (state: SearchInitialStateType = initialState, action: SearchActionType): SearchInitialStateType => {
+export  type SearchPackInitialStateType = typeof initialState
+export const packSearchReducer = (state: SearchPackInitialStateType = initialState, action: SearchActionType): SearchPackInitialStateType => {
     switch (action.type) {
         case 'search/SEARCH_PACKS_BY_NAME': {
             let {packName} = action.payload
@@ -26,14 +22,6 @@ export const packSearchReducer = (state: SearchInitialStateType = initialState, 
             }
 
             return {...state, packName}
-        }
-        case 'search/SEARCH_CARDS_BY_QUESTION': {
-            let {cardQuestion} = action.payload
-            if (!cardQuestion) {
-                cardQuestion = undefined
-            }
-
-            return {...state, cardQuestion}
         }
         case 'search/SEARCH_PACKS_BY_OWNER': {
             return {...state, ...action.payload}
@@ -68,10 +56,6 @@ export const packSearchReducer = (state: SearchInitialStateType = initialState, 
                 user_id: undefined,
                 min: null,
                 max: null,
-                cardAnswer: undefined,
-                cardQuestion: undefined,
-                sortCards: undefined,
-                cardsPack_id: undefined,
                 sortPacks: undefined,
                 page: null,
                 pageCount: null,
@@ -82,12 +66,11 @@ export const packSearchReducer = (state: SearchInitialStateType = initialState, 
 }
 
 // selector
-export const selectPackSearchParams = (state: RootStateType): SearchInitialStateType => state.packSearch;
+export const selectPackSearchParams = (state: RootStateType): SearchPackInitialStateType => state.packSearch;
 
 //types
 export type SearchActionType =
     | ReturnType<typeof searchPacksByNameAC>
-    | ReturnType<typeof searchCardsByQuestionAC>
     | ReturnType<typeof searchPacksByOwnerAC>
     | ReturnType<typeof searchByRangeAC>
     | ReturnType<typeof setPageAC>
@@ -101,12 +84,6 @@ export const searchPacksByNameAC = (packName: string | undefined) => {
     return {
         type: 'search/SEARCH_PACKS_BY_NAME',
         payload: {packName}
-    } as const
-}
-export const searchCardsByQuestionAC = (cardQuestion: string | undefined) => {
-    return {
-        type: 'search/SEARCH_CARDS_BY_QUESTION',
-        payload: {cardQuestion}
     } as const
 }
 export const searchPacksByOwnerAC = (user_id: string | undefined = undefined) => {
@@ -144,7 +121,6 @@ export const clearSearchFiltersAC = () => {
         type: 'search/CLEAR_FILTERS'
     } as const
 }
-
 export const setAllAC = (all: any) => {
     return {
         type: 'search/SET_ALL',
