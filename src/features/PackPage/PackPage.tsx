@@ -212,7 +212,7 @@ const PackPage = () => {
             <div className={c.backToPacks}>
                 <BackToPacksList/>
             </div>
-            {cardsTotalCount || someFilters
+            {cardsTotalCount || someFilters || !isOwner
                 ? <>
                     <Grid flexDirection={'row'} justifyContent={'space-between'} className={s.title}>
                         {ownerBar}
