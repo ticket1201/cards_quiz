@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {CardDataType} from '../../api/api';
-import {useLocation, useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import styles from './Learn.module.css'
 import {useAppDispatch, useAppSelector} from '../../common/hooks/hooks';
 import {getCardsTC, setCardsAC, updateGradeCardTC} from '../PackPage/cards_reducer';
@@ -68,7 +68,6 @@ const Learn = () => {
     const allCards = useAppSelector((store) => store.cards)
 
     const dispatch = useAppDispatch()
-    const location = useLocation()
 
     useEffect(() => {
         // get all cards
@@ -119,7 +118,7 @@ const Learn = () => {
 
     return (<div className={styles.main}>
             <div className={styles.backToPacks}>
-                <BackToPacksList fromCards={location.state === 'packPage'} fromPacks={location.state === 'packsList'}/>
+                <BackToPacksList/>
             </div>
             <h3>Learn "{allCards.packName}"</h3>
             <Card sx={{minWidth: 300}}>
