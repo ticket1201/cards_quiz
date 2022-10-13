@@ -38,6 +38,7 @@ export const PackModal: React.FC<PackModalType> = ({data, isOpen, onClose}) => {
         handleSubmit,
         reset,
         resetField,
+        clearErrors,
         formState,
         formState: {errors, isSubmitSuccessful}
     } = useForm<PackModalFormType>({
@@ -67,6 +68,7 @@ export const PackModal: React.FC<PackModalType> = ({data, isOpen, onClose}) => {
 
     const onPackNameChangeHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setPackName(e.currentTarget.value)
+        clearErrors('name')
     }
 
 
