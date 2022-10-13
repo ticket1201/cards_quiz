@@ -27,3 +27,8 @@
     line-height: 20px;
     opacity: 0.5;
 }
+
+.imageQA {
+    max-width: 90%;
+    max-height: 90%;
+}

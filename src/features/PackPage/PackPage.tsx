@@ -40,9 +40,21 @@ const PackPage = () => {
         {
             field: 'question',
             headerName: 'Question',
-            flex: 1
+            // flex: 1,
+            renderCell: (params) => (params.row.questionImg
+                    ? <img className={c.imageQA} src={params.row.questionImg} alt={'deck cover'}/>
+                    : params.row.question
+            )
         },
-        {field: 'answer', headerName: 'Answer', flex: 1},
+        {
+            field: 'answer',
+            headerName: 'Answer',
+            // flex: 1
+            renderCell: (params) => (params.row.answerImg
+                    ? <img className={c.imageQA} src={params.row.answerImg} alt={'deck cover'}/>
+                    : params.row.answer
+            )
+        },
         {
             field: 'updated',
             headerName: 'Last updated',
