@@ -22,13 +22,14 @@ import {DeleteModal} from '../Modals/DeleteModal';
 import {convertDateFromIso8601} from '../../common/utils/convertDate';
 import {commonModalState, CommonModalStateType} from '../Modals/commonTypes';
 import {
-    clearSearchFiltersAC, selectSearchParams, pageCountDefault,
+    clearSearchFiltersAC, selectSearchParams,
     searchByRangeAC,
     searchPacksByNameAC,
     searchPacksByOwnerAC, setAllAC, setPageAC, setPageCountAC
 } from "../SearchBar/search-reducer";
 import {convertObjectToSearchParam} from "../../common/utils/convertObjectToSearchParam";
 import {serializeFormQuery} from "../../common/utils/serializeFormQuery";
+import {pageCountDefault} from "../SearchBar/search-constants";
 
 
 const PacksList = () => {

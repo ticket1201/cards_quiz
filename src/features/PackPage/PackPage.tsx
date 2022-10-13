@@ -26,11 +26,12 @@ import {commonModalState, CommonModalStateType} from '../Modals/commonTypes';
 import {
     clearSearchFiltersAC,
     selectSearchParams,
-    pageCountDefault, searchCardsByQuestionAC,
+    searchCardsByQuestionAC,
     setPageAC,
     setPageCountAC
 } from "../SearchBar/search-reducer";
 import {convertObjectToSearchParam} from "../../common/utils/convertObjectToSearchParam";
+import {pageCountDefault} from "../SearchBar/search-constants";
 
 const PackPage = () => {
 
