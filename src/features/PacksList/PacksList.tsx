@@ -13,17 +13,24 @@ import {RangeSlider} from '../../common/components/RangeSlider/RangeSlider';
 import {PacksOwnerSort} from '../../common/components/PacksOwnerSort/PacksOwnerSort';
 import {ClearFilters} from '../../common/components/ClearFilters/ClearFilters';
 import {Paginator} from '../../common/components/Paginator/Paginator';
-import {GridSortDirection, GridSortModel} from '@mui/x-data-grid/models/gridSortModel';
 import s from './PacksList.module.css'
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import {serializeFormQuery} from '../../common/utils/serializeFormQuery';
-import {GridInitialStateCommunity} from '@mui/x-data-grid/models/gridStateCommunity';
 import {Path} from '../../common/enums/path';
 import {PackModal} from '../Modals/PackModal';
 import {DeleteModal} from '../Modals/DeleteModal';
 import {convertDateFromIso8601} from '../../common/utils/convertDate';
 import {commonModalState, CommonModalStateType} from '../Modals/commonTypes';
+import {convertObjectToSearchParam} from "../../common/utils/convertObjectToSearchParam";
+import {serializeFormQuery} from "../../common/utils/serializeFormQuery";
+import {pageCountDefault} from "../SearchBar/search-constants";
+import {
+    clearPackSearchFiltersAC,
+    searchPacksByNameAC,
+    searchPacksByOwnerAC,
+    searchPacksByRangeAC,
+    selectSearchPackParams, setPackAllAC, setPackPageAC, setPackPageCountAC
+} from "./pack-search-reducer";
 
 
 const PacksList = () => {
@@ -86,10 +93,14 @@ const PacksList = () => {
     const loading = useAppSelector(state => state.app.status)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    const [searchParam, setSearchParam] = useSearchParams({})
-    const startParams = serializeFormQuery(searchParam, authId)
-    const [params, setParams] = useState<any>(startParams)
+    
     const [modalData, setModalData] = useState<CommonModalStateType>(commonModalState)
+
+    const myOwnSearchParams = useAppSelector(selectSearchPackParams)
+    const myQuerySearchParams = convertObjectToSearchParam(myOwnSearchParams)
+
+    const [searchParam, setSearchParam] = useSearchParams()
+    // console.log('searchParam = ', serializeFormQuery(searchParam))
 
     // Modal logic
     const closeModal = () => {
@@ -119,115 +130,57 @@ const PacksList = () => {
 
 
     // Search, filtration, pagination logic
-    let selectedPagesCount = params.pageCount
-
-    // set initial sorting state for the table
-    let initialState: GridInitialStateCommunity = {}
-    if (params.hasOwnProperty('sortPacks')) {
-
-        const field = params.sortPacks.slice(1);
-        const sortQuery = params.sortPacks[0];
-        let sort: GridSortDirection = null;
-
-        if (sortQuery === '1')
-            sort = 'asc'
-        if (sortQuery === '0')
-            sort = 'desc'
-
-        initialState = {
-            sorting: {
-                sortModel: [
-                    {field, sort}
-                ]
-            }
-        }
-    }
-
-
-    const onSortModelChangeHandler = (model: GridSortModel) => {
-        const field = model[0].field;
-        const sort = model[0].sort;
-        let sortQuery = '';
-
-        if (sort === 'asc')
-            sortQuery = '1' + field
-        else if (sort === 'desc')
-            sortQuery = '0' + field
-        else if (!sort) {
-            const {sortPacks, ...restParams} = params
-            setParams(restParams)
-            return
-        }
-        setParams({...params, sortPacks: sortQuery})
-    }
+    let selectedPagesCount = myOwnSearchParams.pageCount ?? pageCountDefault
 
     const searchHandler = (value: string) => {
-        if (!value) {
-            const {packName, ...restParams} = params
-            setParams(restParams)
-            return
-        }
-        setParams({...params, packName: value})
+        dispatch(searchPacksByNameAC(value))
     }
 
     const rangeHandler = (min: number, max: number) => {
-        let rangeParams = {...params, min: min.toString(), max: max.toString()}
-
-        if (min === minCardsCount) {
-            const {min, ...rest} = rangeParams
-            rangeParams = {...rest}
-        }
-        if (max === maxCardsCount) {
-            const {max, ...rest} = rangeParams
-            rangeParams = {...rest}
-        }
-        setParams(rangeParams)
+        dispatch(searchPacksByRangeAC(min, max, minCardsCount, maxCardsCount))
     }
 
     const packsOwnerHandler = (user_id: string) => {
-        if (!user_id) {
-            const {user_id, ...restParams} = params
-            setParams(restParams)
-            return
-        }
-        setParams({...params, user_id})
+        dispatch(searchPacksByOwnerAC(user_id))
     }
 
     const clearFiltersHandler = () => {
-        setParams({})
+        dispatch(clearPackSearchFiltersAC())
     }
 
     const paginationHandler = (currentPage: number) => {
-        if (currentPage === page) {
-            const {page, ...restParams} = params
-            setParams(restParams)
-            return
-        }
-        setParams({...params, page: currentPage.toString()})
+        dispatch(setPackPageAC(currentPage))
     }
 
     const pagesCountHandler = (newPageCount: string) => {
-        if (+newPageCount === 10) {
-            const {pageCount, ...restParams} = params
-            setParams(restParams)
-            return
-        }
-        setParams({...params, pageCount: newPageCount})
+        dispatch(setPackPageCountAC(+newPageCount))
     }
 
     useEffect(() => {
-        setSearchParam(params)
+        setSearchParam(myQuerySearchParams)
 
         let id = setTimeout(() => {
-            const sendParams = {...params, pageCount: selectedPagesCount ? +selectedPagesCount : 10}
+            let sendParams: {}
+            sendParams = {...myQuerySearchParams, pageCount: selectedPagesCount}
             if (sendParams.hasOwnProperty('user_id')) {
-                sendParams['user_id'] = authId
+                sendParams = {...sendParams, ['user_id']: authId}
             }
-
             dispatch(getPacksTC(sendParams))
         }, 1000)
-        return () => clearTimeout(id)
-    }, [dispatch, params, isToggled, selectedPagesCount, setSearchParam, authId])
+        return () => {
+            clearTimeout(id)
+        }
+    }, [dispatch, myOwnSearchParams, isToggled, selectedPagesCount, setSearchParam, authId])
+
+    // just to delete search parameters
+    useEffect(() => {
+        const params = serializeFormQuery(searchParam)
+        dispatch(setPackAllAC(params))
+
+        /*return () => {
+            dispatch(clearPackSearchFiltersAC())
+        }*/
+    }, [])
 
     return (
         <div className={`content-wrapper ${s.content}`}>
@@ -242,10 +195,11 @@ const PacksList = () => {
             </Grid>
 
             <div className={`${s.search}`}>
-                <Search searchHandler={searchHandler} searchValue={params.packName}/>
-                <PacksOwnerSort owner={params.user_id} packsOwnerHandler={packsOwnerHandler}/>
-                <RangeSlider minValue={minCardsCount} maxValue={maxCardsCount} currentMin={params.min}
-                             currentMax={params.max}
+                <Search searchHandler={searchHandler} searchValue={myOwnSearchParams.packName}/>
+                <PacksOwnerSort owner={myOwnSearchParams.user_id} packsOwnerHandler={packsOwnerHandler}/>
+                <RangeSlider minValue={minCardsCount} maxValue={maxCardsCount}
+                             currentMin={Number(myOwnSearchParams.min)}
+                             currentMax={Number(myOwnSearchParams.max)}
                              rangeSliderHandler={rangeHandler}/>
                 <ClearFilters clearHandler={clearFiltersHandler}/>
             </div>
@@ -253,14 +207,14 @@ const PacksList = () => {
             <UniversalTable
                 columns={columns}
                 rows={cardPacks}
-                pageSize={selectedPagesCount ? +selectedPagesCount : 10}
+                pageSize={selectedPagesCount}
                 loading={loading === 'loading'}
-                onSortModelChange={onSortModelChangeHandler}
-                initialState={initialState}
+                sortParam={myOwnSearchParams.sortPacks}
+                sortName={'sortPacks'}
             />
             <Paginator changePageHandler={paginationHandler} changePagesCountHandler={pagesCountHandler}
                        currentPage={page} itemsOnPage={pageCount}
-                       itemsTotalCount={cardPacksTotalCount} selectedPagesCount={selectedPagesCount}/>
+                       itemsTotalCount={cardPacksTotalCount} selectedPagesCount={String(selectedPagesCount)}/>
             <PackModal
                 data={modalData}
                 isOpen={!!(modalData.openAddPackModal || modalData.openEditPackModal)}

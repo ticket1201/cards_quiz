@@ -27,9 +27,11 @@ export const packReducer = (state: PacksInitialStateType = initialState, action:
         case 'PACK/SET_CHANGED':
             return {...state, isToggled: !state.isToggled}
         case 'PACK/SET_PACKS':
-            return {...state, ...action.payload, cardPacks: action.payload.cardPacks.map(el => ({
+            return {
+                ...state, ...action.payload, cardPacks: action.payload.cardPacks.map(el => ({
                     ...el, id: el._id, actions: el.user_id === action.authId
-                }))}
+                }))
+            }
         default :
             return state
     }
@@ -42,7 +44,7 @@ export type PacksActionType =
     | ReturnType<typeof setPacksIsChangedAC>
 
 // ACs
-export const setPacksAC = (payload: getPacksResponseType, authId?:string) => {
+export const setPacksAC = (payload: getPacksResponseType, authId?: string) => {
     return {
         type: 'PACK/SET_PACKS',
         payload, authId
@@ -55,7 +57,7 @@ export const setPacksIsChangedAC = () => {
 }
 
 //TCs
-export const getPacksTC = (data: GetPacksParamsType): RootThunkType => async (dispatch, getState:()=>RootStateType) => {
+export const getPacksTC = (data: GetPacksParamsType): RootThunkType => async (dispatch, getState: () => RootStateType) => {
     dispatch(setAppStatusAC('loading'))
     try {
         const res = await cardsAPI.getPacks(data)
