@@ -3,7 +3,7 @@ import Pagination from '@mui/material/Pagination';
 import MenuItem from '@mui/material/MenuItem';
 import Select, {SelectChangeEvent} from '@mui/material/Select';
 import s from './Paginator.module.css'
-import {pageCountDefault} from "../../../features/SearchBar/search-reducer";
+import {pageCountDefault} from "../../../features/SearchBar/search-constants";
 
 type PaginatorPropsType = {
     currentPage: number

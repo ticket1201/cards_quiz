@@ -3,7 +3,8 @@ import {DataGrid, DataGridProps} from '@mui/x-data-grid';
 import {GridInitialStateCommunity} from "@mui/x-data-grid/models/gridStateCommunity";
 import {GridSortDirection, GridSortModel} from "@mui/x-data-grid/models/gridSortModel";
 import {useAppDispatch} from "../../hooks/hooks";
-import {setSortParamsAC, SortNameType} from "../../../features/SearchBar/search-reducer";
+import {setSortParamsAC} from "../../../features/SearchBar/search-reducer";
+import {SortNameType} from "../../../features/SearchBar/search-constants";
 
 type UniversalTablePropsType = DataGridProps & {
     sortName?: SortNameType
