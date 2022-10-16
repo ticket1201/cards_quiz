@@ -40,9 +40,22 @@ const PackPage = () => {
         {
             field: 'question',
             headerName: 'Question',
-            flex: 1
+            flex: 1,
+            renderCell: (params) => (params.row.questionImg
+                    ? <img className={c.imageQA} src={params.row.questionImg}
+                           alt={'deck cover'}/>
+                    : params.row.question
+            )
         },
-        {field: 'answer', headerName: 'Answer', flex: 1},
+        {
+            field: 'answer',
+            headerName: 'Answer',
+            flex: 1,
+            renderCell: (params) => (params.row.answerImg
+                    ? <img className={c.imageQA} src={params.row.answerImg} alt={'deck cover'}/>
+                    : params.row.answer
+            )
+        },
         {
             field: 'updated',
             headerName: 'Last updated',
@@ -208,7 +221,7 @@ const PackPage = () => {
         return <Preloader/>
 
     return (
-        <div className={`content-wrapper ${s.content}`}>
+        <div className={`content-wrapper ${s.content} ${c.content}`}>
             <div className={c.backToPacks}>
                 <BackToPacksList/>
             </div>
@@ -226,6 +239,7 @@ const PackPage = () => {
                             {isOwner ? 'Add new card' : 'Learn pack'}
                         </Button>
                     </Grid>
+                    <img className={c.packDeckCover} src={packDeckCover} alt={'deck cover'}/>
                     <Search isFullWidth={true} searchValue={myOwnSearchParams.cardQuestion}
                             searchHandler={searchHandler}/>
                     <UniversalTable

@@ -1,3 +1,9 @@
+.content {
+    /*added this for the image*/
+    align-items: flex-start;
+    /**/
+}
+
 .ownerBar {
     display: flex;
     flex-direction: row;
@@ -26,4 +32,17 @@
     font-size: 16px;
     line-height: 20px;
     opacity: 0.5;
+}
+
+.imageQA {
+    max-width: 100px;
+    max-height: 60px;
+    /*word-wrap: break-word;*/
+    object-fit: contain;
+}
+
+.packDeckCover {
+    max-width: 150px;
+    max-height: 150px;
+    object-fit: contain;
 }
