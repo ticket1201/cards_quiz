@@ -39,7 +39,8 @@ const PacksList = () => {
         {
             field: 'deckCover',
             headerName: 'Cover',
-            // flex: 1,
+            sortable: false,
+            flex: 1,
             renderCell: (params) => (params.row.deckCover
                     ? <img className={s.cover} src={params.row.deckCover} alt={'deck cover'}/>
                     : <img className={s.cover} src={deckCoverDefault} alt={'deck cover'}/>
