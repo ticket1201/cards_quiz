@@ -239,7 +239,7 @@ const PackPage = () => {
                             {isOwner ? 'Add new card' : 'Learn pack'}
                         </Button>
                     </Grid>
-                    <img className={c.packDeckCover} src={packDeckCover} alt={'deck cover'}/>
+                    {packDeckCover && <img className={c.packDeckCover} src={packDeckCover} alt={'deck cover'}/>}
                     <Search isFullWidth={true} searchValue={myOwnSearchParams.cardQuestion}
                             searchHandler={searchHandler}/>
                     <UniversalTable
