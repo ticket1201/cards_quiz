@@ -13,10 +13,12 @@ import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import LinearProgress from '@mui/material/LinearProgress';
 
 const Header = () => {
     const navigate = useNavigate()
     const {name, avatar} = useAppSelector(state => state.auth)
+    let status = useAppSelector(state => state.app.status)
     const dispatch = useAppDispatch()
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -39,7 +41,7 @@ const Header = () => {
 
     return (
         <AppBar position={'absolute'} className={s.bar} style={{backgroundColor: '#FCFCFC'}}>
-            <Toolbar className={`${s.toolbar}`}>
+            <Toolbar className={`${s.toolbar}`} style={{position:'relative'}}>
                 <Grid container
                       direction="row"
                       justifyContent="space-between"
@@ -60,7 +62,10 @@ const Header = () => {
                         </div>
                         : <Button variant={'contained'} onClick={() => navigate(Path.Login)}>Sign in</Button>}
                 </Grid>
+
             </Toolbar>
+            {status === 'loading' &&
+            <LinearProgress color={'primary'} sx={{bottom:0, left: '0', right: '0', position: 'absolute'}}/>}
         </AppBar>
     );
 };
