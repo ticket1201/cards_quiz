@@ -124,7 +124,7 @@ const Learn = () => {
             <h3>Learn "{allCards.packName}"</h3>
             <Card sx={{minWidth: 300}}>
                 <CardContent>
-                    <div>
+                    <div className={card.questionImg ? styles.withImg : ''}>
                         <span className={styles.QA}>Question: </span>{card.questionImg
                         ? <img className={c.imageQA} src={card.questionImg} alt={'question image'}/>
                         : card.question}
@@ -144,7 +144,7 @@ const Learn = () => {
 
                     {showAnswer && (
                         <div>
-                            <div className={styles.answer}>
+                            <div className={card.answerImg ? `${styles.withImg} ${styles.answer}` : styles.answer}>
                                 <span className={styles.QA}>Answer: </span>{card.answerImg
                                 ? <img className={c.imageQA} src={card.answerImg} alt={'question image'}/>
                                 : card.answer}

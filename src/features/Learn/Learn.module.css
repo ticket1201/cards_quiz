@@ -11,6 +11,7 @@
     flex-direction: column;
     gap: 4px;
     margin: 110px 0 0;
+    max-width: 430px;
 }
 
 .QA {
@@ -29,4 +30,13 @@
 
 .shotsNumber {
     font-weight: bold;
+}
+
+.withImg{
+    display: flex;
+    flex-direction: column;
+}
+
+.withImg img{
+    align-self: center;
 }
